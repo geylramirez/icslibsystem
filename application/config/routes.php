@@ -43,6 +43,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $route['404_override'] = '';
 $route['default_controller'] = 'borrower';
+$route['admin/reservation'] = 'admin/reservation_queue';
+$route['admin/notification'] = 'admin/notification';
+$route['admin/inventory'] = 'admin/print_inventory';
+$route['admin/login'] = 'admin/login';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
