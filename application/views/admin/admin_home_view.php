@@ -70,6 +70,13 @@
 						<canvas id="bargraph" height="350" width="500"></canvas>
 						<br />
 						<br />
+
+						<?php 
+ 							foreach ($stats as $row) {
+ 								echo "Library Material Count:".$row->libmatcount." Borrowed Material Count: ".$row->bormatcount." Not Borrowed Material Count: ".$row->diffcount;
+ 								//echo "<br/>";
+ 							}
+ 						?>
 					</div>
 				</div>
 			</div>
