@@ -16,17 +16,25 @@ class Admin extends CI_Controller {
 	*	Controls the view of reservations in the system
 	*/
 	public function reservation_queue() { 
-		// loads the model php file which will interact with the database
-		$this->load->model('admin/reservation_queue_model'); 
-		// calls the function get_reservation_array(), and store it to the data array
-		//$array['reservation']=$this->reservation_queue_model->get_reservation_array();
-		$array['reservations'] = $this->reservation_queue_model->get_reservations();
 		// views the result by passing the data to the view php file
-		//if($array['reservations'] != null){
-			$this->load->view('admin/reservation_queue_view', $array);
-		//}
-		//header('Content-Type: application/json', true);
-		//echo json_encode($array['reservations']);
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){
+			redirect('/admin/login', 'refresh');
+		} else {
+			$this->no_cache();
+			$data['user'] = $is_logged_in;
+			// loads the model php file which will interact with the database
+			$this->load->model('admin/reservation_queue_model'); 
+			// calls the function get_reservation_array(), and store it to the data array
+			$data['reservations'] = $this->reservation_queue_model->get_reservations();	
+			$this->load->view('admin/reservation_queue_view', $data);
+		}
+	}
+
+	public function search_reservations(){
+		$this->load->model('admin/reservation_queue_model'); 
+		header('Content-Type: application/json', true);
+		echo json_encode($this->reservation_queue_model->search_reservations());			
 	}
 
 	/*
@@ -35,16 +43,11 @@ class Admin extends CI_Controller {
 	public function notification(){
 		// loads the model php file which will interact with the database
         $this->load->model('admin/notification_model'); 
-		//calls function get_idnumber, add and stores it to the data array
-		//$data['groups'] = $this->notification_model->get_idnumber();
-		// views the result by passing the data to the view php file
-        //$this->load->view('admin/notification_view', $data);
 		//calls function save(), to save or to insert the data that has been processed
-		//$this->save();
+		
 		$materialid = $this->input->post('materialid');
 		$idnumber = $this->input->post('idnumber');
-		$message = $this->input->post('message');
-    	$this->notification_model->notify( $materialid, $idnumber, $message );
+		$this->notification_model->notify( $materialid, $idnumber );
     }
 
 	
@@ -67,7 +70,13 @@ class Admin extends CI_Controller {
 	*/
 
 	public function login(){
-		$this->load->view("admin/login_view");
+		$is_logged_in = $this->is_logged_in();
+		$this->no_cache();
+		if( $is_logged_in ){
+			redirect('/admin/home', 'refresh');
+		} else {
+			$this->load->view('admin/login_view');
+		}
 	}
 
 	/**
@@ -114,7 +123,6 @@ class Admin extends CI_Controller {
 	}
 
 
-
 	/**
 	* function for displaying the home page
 	* of the administrator logged in
@@ -148,7 +156,7 @@ class Admin extends CI_Controller {
 	public function no_cache(){
 		$this->output->set_header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		$this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate');
-		$this->output->set_header('Cache-Control: post-check=0, pre-check=0', false);
+		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
 		$this->output->set_header('Pragma: no-cache');
 	}
 
@@ -231,14 +239,37 @@ class Admin extends CI_Controller {
 	public function borrowed_books() { 
 		// loads the model php file which will interact with the database
 		$this->load->model('admin/borrowed_books_model'); 
+		if($this->input->post('search_borrowed_books')){
+			$word = $this->input->post('search');
+			$array['borrowed_books'] = $this->borrowed_books_model->get_searched_book($word);
+			//$array['flag'] = $array['borrowed_books'];
+			if($array['borrowed_books']->num_rows==0){
+				$array['borrowed_books'] = $this->borrowed_books_model->get_borrowed_books();
+			}
+		}else{
 		// calls the function get_reservation_array(), and store it to the data array
-		//$array['reservation']=$this->reservation_queue_model->get_reservation_array();
-		$array['borrowed_books'] = $this->borrowed_books_model->get_borrowed_books();
+			$array['borrowed_books'] = $this->borrowed_books_model->get_borrowed_books();
+			$array['flag'] = $array['borrowed_books'];
 		// views the result by passing the data to the view php file
-		if($array['borrowed_books'] != null){
-			$this->load->view('admin/borrowed_books_view', $array);
 		}
+			$this->load->view('admin/borrowed_books_view', $array);
+
 	}
+	
+	public function material_returned(){
+		// loads the model php file which will interact with the database
+        $this->load->model('admin/material_returned_model'); 
+		//calls function get_idnumber, add and stores it to the data array
+		//$data['groups'] = $this->notification_model->get_idnumber();
+		// views the result by passing the data to the view php file
+        //$this->load->view('admin/notification_view', $data);
+		//calls function save(), to save or to insert the data that has been processed
+		//$this->save();
+		$materialid = $this->input->post('materialid');
+		$idnumber = $this->input->post('idnumber');
+		$message = $this->input->post('message');
+    	$this->notification_model->notify( $materialid, $idnumber, $message );
+    }
 
 	public function admin_search() {
 
@@ -261,50 +292,113 @@ class Admin extends CI_Controller {
 		}
 		
 		if($this->input->post('insert') != ''){
-			$materialid = $this->input->post('materialid');
-			$course = $this->input->post('course');
-			$type = $this->input->post('type');
-			$name = $this->input->post('name');
-			$year = $this->input->post('year');
-			$edvol = $this->input->post('edvol');
-			$access = $this->input->post('access');
-			$available = $this->input->post('available');
-			$requirement = $this->input->post('requirement');
+			$numberOfAuthors = $this->input->post('numberOfAuthors');
+			
+			if($numberOfAuthors > 1){
+				$materialid = $this->input->post('materialid');
+				$course = $this->input->post('course');
+				$type = $this->input->post('type');
+				$name = $this->input->post('name');
+				$year = $this->input->post('year');
+				$edvol = $this->input->post('edvol');
+				$access = $this->input->post('access');
+				$available = $this->input->post('available');
+				$requirement = $this->input->post('requirement');
+				
+				$query = $this->db->get_where('librarymaterial', array('materialid' => $materialid));
 
-			$fname = $this->input->post('fname');
-			$mname = $this->input->post('mname');
-			$lname = $this->input->post('lname');
+				if( $query->num_rows() > 0 ) {
+					header('location:/icslibsystem/index.php/admin/add_material');
+				} 
+				else {
+					$data_libmaterial = array(
+						'materialid' => $materialid,
+						'course' => $course,
+						'type' => $type,
+						'name' => $name,
+						'year' => $year,
+						'edvol' => $edvol,
+						'access' => $access,
+						'available' => $available,
+						'requirement' => $requirement,
+					);
 			
-			$query = $this->db->get_where('librarymaterial', array('materialid' => $materialid));
+					$this->load->model('admin/add_material_model');
+					$this->add_material_model->insert_material($data_libmaterial);
+				}
+				
+				for($i=$numberOfAuthors; $i>0; $i--){
+					if($i == 1){
+						$fname = $this->input->post('fname');
+						$mname = $this->input->post('mname');
+						$lname = $this->input->post('lname');
+					}
+					else{
+						$k = 'fname' . $i;
+						$s = 'mname' . $i;
+						$p = 'lname' . $i;
+						$fname = $this->input->post($k);
+						$mname = $this->input->post($s);
+						$lname = $this->input->post($p);
+					}
+					
+					$data_author = array(
+						'materialid' => $materialid,
+						'fname' => $fname,
+						'mname' => $mname,
+						'lname' => $lname,
+					);	
+					
+					$this->load->model('admin/add_material_model');
+					$this->add_material_model->insert_author($data_author);
+				}
+			}	
+			else{
+				$materialid = $this->input->post('materialid');
+				$course = $this->input->post('course');
+				$type = $this->input->post('type');
+				$name = $this->input->post('name');
+				$year = $this->input->post('year');
+				$edvol = $this->input->post('edvol');
+				$access = $this->input->post('access');
+				$available = $this->input->post('available');
+				$requirement = $this->input->post('requirement');
+			
+				$fname = $this->input->post('fname');
+				$mname = $this->input->post('mname');
+				$lname = $this->input->post('lname');
+			
+				$query = $this->db->get_where('librarymaterial', array('materialid' => $materialid));
 
-			if( $query->num_rows() > 0 ) {
-			} 
-			else {
-				$data_libmaterial = array(
-					'materialid' => $materialid,
-					'course' => $course,
-					'type' => $type,
-					'name' => $name,
-					'year' => $year,
-					'edvol' => $edvol,
-					'access' => $access,
-					'available' => $available,
-					'requirement' => $requirement,
-				);
+				if( $query->num_rows() > 0 ) {
+					header('location:/icslibsystem/index.php/admin/add_material');
+				} 
+				else {
+					$data_libmaterial = array(
+						'materialid' => $materialid,
+						'course' => $course,
+						'type' => $type,
+						'name' => $name,
+						'year' => $year,
+						'edvol' => $edvol,
+						'access' => $access,
+						'available' => $available,
+						'requirement' => $requirement,
+					);
 			
-				$this->load->model('admin/add_material_model');
-				$this->add_material_model->insert_material($data_libmaterial);
+					$this->load->model('admin/add_material_model');
+					$this->add_material_model->insert_material($data_libmaterial);
 			
-				$data_author = array(
-					'materialid' => $materialid,
-					'fname' => $fname,
-					'mname' => $mname,
-					'lname' => $lname,
-				);
-			
-			
-				$this->load->model('admin/add_material_model');
-				$this->add_material_model->insert_author($data_author);
+					$data_author = array(
+						'materialid' => $materialid,
+						'fname' => $fname,
+						'mname' => $mname,
+						'lname' => $lname,
+					);	
+					
+					$this->load->model('admin/add_material_model');
+					$this->add_material_model->insert_author($data_author);
+				}
 			}	
 		}
 	}
@@ -320,11 +414,45 @@ class Admin extends CI_Controller {
 	public function update_page($data)
 	{	
 		$this->load->helper('url');
-		$data = $this->input->post(NULL, TRUE);
-		$this->load->model('admin/admin_model');
-		$this->admin_model->book_update($data);
-		header('location:/icslibsystem/admin/admin_search');
-		
+		$data = $this->input->post(NULL, TRUE);				
+		if($this->input->post('submit')){
+			$this->load->model('admin/admin_model');
+			
+			//get form variable
+			$materialid = $this->input->post('materialid');
+			$name = $this->input->post('name');
+			$type = $this->input->post('type');
+			$course = $this->input->post('course');
+			$lname = $this->input->post('lname');
+			$fname = $this->input->post('fname');
+			$mname = $this->input->post('mname');
+			$available = $this->input->post('available');
+			$access = $this->input->post('access');
+			$year = $this->input->post('year');
+			$requirement = $this->input->post('requirement');
+			$quantity = $this->input->post('quantity');
+			
+			$data1 = array(
+            'name' => $name,
+			'type' => $type,
+			'course' => $course,
+			'available' => $available,
+			'access' => $access,
+			'year' => $year,
+			'requirement' => $requirement,
+			'quantity' => $quantity,
+			);
+							
+			$data2 = array(
+			'lname' => $lname,
+			'fname' => $fname,
+			'mname' => $mname,
+			);
+			
+			$this->admin_model->book_update($data,$data1);
+			$this->admin_model->author_update($data,$data2);
+		}
+		header('location:/icslibsystem/admin/admin_search');		
 	}
 	public function delete(){	
 		
@@ -334,8 +462,20 @@ class Admin extends CI_Controller {
 		$this->admin_search();
 	}
 	
-		public function add_material() {
+	public function add_material() {
 		$this->load->view('admin/add_material_view');
+		
+	}
+	
+	public function claim_reservation(){
+		$this->load->model('admin/reservation_queue_model');
+		$materialid = $this->input->post('materialid');
+		$idnumber = $this->input->post('idnumber');
+		date_default_timezone_set("Asia/Manila");
+		$start_date = date('Y-m-d');
+		 
+		$expectedreturn = $this->reservation_queue_model->update_claimed_date( $materialid, $idnumber, $start_date );
+		$this->reservation_queue_model->do_claim( $materialid, $idnumber, $start_date, $expectedreturn );
 		
 	}
 }
