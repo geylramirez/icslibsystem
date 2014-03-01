@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php include 'admin_header.php';?>
 	<script type="text/javascript">
 		function claim( thisDiv ){
@@ -29,6 +30,9 @@
 								// remove row
 								//alert("Student has been notified");
 								document.getElementById("success_notify").style.display='none';
+=======
+<?php include 'admin_header.php'?>
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 
 								$("#success_claim").show();
 								$("#success_claim").html("Successfully claimed!");
@@ -201,14 +205,24 @@
 										if( $row['started'] == 0 ){
 											echo "<td align='center'><span class='table-text'> Not yet notified </span></td>";
 											echo "<td align='center'><span class='table-text'> ${row['queue']}/${row['total']}</span> </td>";
+<<<<<<< HEAD
 											echo "<td align='center'><button onclick='notify($(this))' class='sendNotif btn btn-primary' name='notify' value='${row['id']}'>Notify</button>";
 											echo "<button onclick='claim($(this))' class='sendClaim btn btn-primary' name='claim' value='${row['id']}'  disabled>Claim</button>";
+=======
+											echo "<td align='center'><button class='sendNotif btn btn-primary' name='notify' value='${row['id']}'>Notify</button>";
+											echo "<button class='sendClaim btn btn-primary' name='claim' value='${row['id']}'  disabled>Claim</button>";
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 											echo "</td>";
 										} else {
 											echo "<td><span class='table-text'> ${row['startdate']}</span> </td>";
 											echo "<td><span class='table-text'>${row['queue']}/${row['total']}</span> </td>";
+<<<<<<< HEAD
 											echo "<td><button onclick= 'notify($(this))' class='sendNotif btn btn-primary' name='notify' value='${row['id']}' disabled>Notify</button>";
 											echo "<button onclick='claim($(this))' class='sendClaim btn btn-primary' name='claim' value='${row['id']}'>Claim</button>";
+=======
+											echo "<td><button class='sendNotif btn btn-primary' name='notify' value='${row['id']}' disabled>Notify</button>";
+											echo "<button class='sendClaim btn btn-primary' name='claim' value='${row['id']}'>Claim</button>";
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 											echo "</td>";
 										}
 										echo "</tr>";
@@ -320,6 +334,7 @@
 			// class added to arrows when at the extremes (i.e. prev/first arrows are "disabled" when on the first page)
 			cssDisabled: 'disabled', // Note there is no period "." in front of this class name
 			cssErrorRow: 'tablesorter-errorRow' // ajax error information row
+<<<<<<< HEAD
 
 			};
 
@@ -330,6 +345,18 @@
 						widgets: ['zebra']
 					})
 
+=======
+
+			};
+
+			$("table")
+				.tablesorter({
+						theme: 'blue',
+						widthFixed: true,
+						widgets: ['zebra']
+					})
+
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 			.bind('pagerChange pagerComplete pagerInitialized pageMoved', function(e, c){
 				var msg = '"</span> event triggered, ' + (e.type === 'pagerChange' ? 'going to' : 'now on') + ' page <span class="typ">' + (c.page + 1) + '/' + c.totalPages + '</span>';
 				$('#display')
@@ -353,6 +380,17 @@
 				var currentData = <?php echo json_encode($reservations); ?>;
 
 			
+				function printAuthor( data ){
+					var ret = "";
+					for( var i = 0; i < data.length; i++ ){
+						ret += "<span>" + data[i].lname +  ",";
+						ret += data[i].fname;
+						ret += data[i].mname +  " </span> <br />";
+					}
+
+					return ret;
+				}
+
 				function printAuthor( data ){
 					var ret = "";
 					for( var i = 0; i < data.length; i++ ){
@@ -389,8 +427,13 @@
 					if( condition == 0 ){
 						return "<td><button  onclick='notify($(this))' class='sendNotif btn btn-primary' name='notify' value='${row['id']}'>Notify</button> <button  onclick='claim($(this))' class='sendClaim btn btn-primary' name='claim' value='${row['id']}' disabled>Claim</button> </td>";
 					} else {
+<<<<<<< HEAD
 						return "<td><button  onclick='notify($(this))' class='sendNotif btn btn-primary' name='notify' value='${row['id']}' disabled>Notify</button> <button  onclick='claim($(this))' class='sendClaim btn btn-primary' name='claim' value='${row['id']}'>Claim</button> </td>";
 					}				
+=======
+						return "<td><button click class='sendNotif btn btn-primary' name='notify' value='${row['id']}' disabled>Notify</button> <button click class='sendClaim btn btn-primary' name='claim' value='${row['id']}'>Claim</button> </td>";
+					}					
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 				}
 
 
@@ -413,14 +456,26 @@
 						},
 
 						success: function( result ){
+<<<<<<< HEAD
+=======
+								
+							$('#error').html(result);
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 							if( result != "" ){
 								$('tbody').html("");
 								//alert(result.length);
 								for( i = 0; i < result.length; i++ ){
+<<<<<<< HEAD
 									$('tbody').append("<tr id ='" + result[i].materialid + "-" + result[i].idnumber + "' > <td class = 'materialid' > " + result[i].materialid + "  </td> <td class = 'isbn' > " + result[i].isbn + "  </td><td class = 'type' > " + result[i].type + " </td> <td class = 'idnumber' > " + result[i].idnumber + "  </td> <td>" + "<span class = 'name' > <strong> " + result[i].name + " </strong> </span>" + printAuthor(result[i].author) + "<span class = 'year' > " + result[i].year + " </span>." + printEdition( result[i].edvol ) + "<span>  <br /> ( " + result[i].type + " )</span> </td>" + printDate( result[i].started, result[i].claimdate ) + "<td> " + result[i].queue + " </td> " + printButton( result[i].started ) + "</tr>");
 									
 								}
 							//	$('table').trigger('update');
+=======
+									$('tbody').append("<tr id ='" + result[i].materialid + "' > <td class = 'materialid' > " + result[i].materialid + "  </td> <td class = 'isbn' > " + result[i].isbn + "  </td><td class = 'type' > " + result[i].type + " </td> <td class = 'idnumber' > " + result[i].idnumber + "  </td> <td>" + "<span class = 'name' > <strong> " + result[i].name + " </strong> </span>" + printAuthor(result[i].author) + "<span class = 'year' > " + result[i].year + " </span>." + printEdition( result[i].edvol ) + "<span>  <br /> ( " + result[i].type + " )</span> </td>" + printDate( result[i].started, result[i].claimdate ) + "<td> " + result[i].queue + " </td> " + printButton( result[i].started ) + "</tr>");
+									
+								}
+								$('table').trigger('update');
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 							} else {
 								$('tbody').html(" no result ");
 								//alert("Failed to notify");
@@ -439,6 +494,52 @@
 				});
 				
 				
+<<<<<<< HEAD
+=======
+				$(".sendNotif").click( function(){
+					var thisButton = $(this);
+					var parent = $(this).parent();
+					var idnumber = $.trim(parent.siblings('.idnumber').text());
+					var materialid = $.trim(parent.siblings('.materialid').text());
+					var isbn = $.trim(parent.siblings('.isbn').text());
+
+					$.ajax({
+						type: "POST",
+						url: "<?php echo base_url();?>admin/notification",
+						data: { materialid : materialid, idnumber : idnumber, isbn : isbn }, 
+
+						beforeSend: function() {
+							//$("#con").html('<img src="/function-demos/functions/ajax/images/loading.gif" />');
+							$("#error_message").html("loading...");
+						},
+
+						error: function(xhr, textStatus, errorThrown) {
+								$('#error_message').html(textStatus);
+						},
+
+						success: function( result ){
+							// show that notification is successful
+							$('#error').html(result);
+							if( result != "1" ){
+
+								// alert here if success
+								thisButton.attr('disabled', true);
+								thisButton.next().removeAttr('disabled');
+
+								//alert("Success!")
+								$("#success_notify").show();
+								$("#success_notify").html("Successfully notified!");
+								$("#success_notify").fadeIn('slow');
+								document.body.scrollTop = document.documentElement.scrollTop = 0;
+								setTimeout(function() { $('#success_notify').fadeOut('slow') }, 5000);
+
+							} else {
+								//alert("Fail!");
+							}
+						}
+					});
+				});
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 			});
 		</script>
 	</body>

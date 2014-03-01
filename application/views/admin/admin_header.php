@@ -11,11 +11,20 @@
 
 	<title>ICS-iLS</title>
 
+<<<<<<< HEAD
 	<link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet" />
 	<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet" />
 	<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet" />
 	<link href="<?php echo base_url();?>dist/css/style.css" rel="stylesheet" />
 	<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet" />
+=======
+	<link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>dist/css/style.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 	<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" /> <!--for chart -->
 
 	<style type="text/css" id="holderjs-style"></style></head>

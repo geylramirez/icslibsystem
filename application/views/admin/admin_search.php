@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <?php include 'admin_header.php';?></div>
+=======
+<?php include 'admin_header.php'?></div>
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
         <div class="mainBody">
             <!-- Nav tabs -->
             <div class="sidebarMain">
@@ -119,6 +123,7 @@
                                             <th style='width:1%;' scope='col'><center>Req.</center></th>
                                             <th style='width:1%;' scope='col' ><center>Available Copies</center></td>
                                             <td style='width:1%;' scope='col'><b><center>Action</center></b></td>
+<<<<<<< HEAD
                                             </tr>
                                             </thead>
                                             <tfoot>
@@ -131,6 +136,20 @@
                                             <th style='width:1%;' scope='col' ><center>Available Copies</center></td>
                                             <td style='width:1%;' scope='col'><b><center>Action</center></b></td>
                                             </tr>
+=======
+                                            </tr>
+                                            </thead>
+                                            <tfoot>
+                                            <tr class='info'>
+											<td style='width:1%;' scope='col'><b><center>ISBN</center></b></th>
+                                            <th style='width:10%;' scope='col'><center>Library Material ID</center></th>
+                                            <td style='width:1%;' scope='col'><b><center>Type</center></b></th>
+                                            <th style='width:45%;' scope='col' ><center>Library Information</center></th>
+                                            <th style='width:1%;' scope='col'><center>Req.</center></th>
+                                            <th style='width:1%;' scope='col' ><center>Available Copies</center></td>
+                                            <td style='width:1%;' scope='col'><b><center>Action</center></b></td>
+                                            </tr>
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
                                             </tfoot>";
                                         echo "<tbody>";
 										$prevMat = (object) array(
@@ -459,6 +478,7 @@
 
 		<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
 		<script src="<?php echo base_url();?>dist/js/holder.js"></script>
+<<<<<<< HEAD
 		<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
     	<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.js"></script>
 		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.pager.js"></script>
@@ -552,6 +572,10 @@
 		});
 	
 	</script>
+=======
+		<script src="<?php echo base_url();  ?>js/jquery.tablesorter.js" type="text/javascript"></script>
+		<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
     <script>
         $(document).ready(function() { 
             $("#myTable").tablesorter();

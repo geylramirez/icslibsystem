@@ -12,7 +12,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 ?>
 
+<<<<<<< HEAD
 <?php include 'admin_header.php';?></div>
+=======
+<?php include 'admin_header.php'?></div>
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
         <div class="mainBody">
             <!-- Nav tabs -->
             <div class="sidebarMain">
@@ -268,8 +272,13 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 			
 			window.onload = function() {
 				add.materialid.onblur = validateMaterialID;
+<<<<<<< HEAD
 				add.type.onchange = disableFeatures;
 				add.isbn.onchange = validateISBN;
+=======
+				add.type.onblur = disableFeatures;
+				add.isbn.onblur = validateISBN;
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 				add.name.onblur = validateName;
 				add.fname.onblur = validateAuthorF;
 				add.mname.onblur = validateAuthorM;

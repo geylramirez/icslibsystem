@@ -102,15 +102,23 @@
 									echo "<td><span class='table-text'>". $row->expectedreturn. "</span></td>";
 									$date2 = strtotime($row->expectedreturn);
 									$days = $date-$date2;
+<<<<<<< HEAD
 									if(floor($days/(60*60*24))*$fine < 0)
 										$total_days = 0;
 									else $total_days = floor($days/(60*60*24))*$fine;
 									echo "<td><span class='table-text'>". $total_days . ".00" . "</span></td>";
+=======
+									echo "<td><span class='table-text'>". floor($days/(60*60*24))*$fine . ".00" . "</span></td>";
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 									echo "<td><form method='post' id='return' action='material_returned'>
 											<input type='hidden' value='".$row->materialid."' name='materialid'/>
 											<input type='hidden' value='".$row->isbn."' name='isbn'/>
 											<input type='hidden' value='".$row->idnumber."' name='idnumber'/>
+<<<<<<< HEAD
 											<input type='hidden' value='".$total_days."' name='fine'/>";
+=======
+											<input type='hidden' value='".floor($days/(60*60*24))*$fine."' name='fine'/>";
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 											
 									echo "<button type='button' data-toggle='modal' data-target='#container1' class='sendNotif btn btn-primary'>Return</button>";
 									echo "</td></tr>";

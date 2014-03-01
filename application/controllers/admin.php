@@ -533,6 +533,7 @@ class Admin extends CI_Controller {
 	
 	public function settings(){
 	
+<<<<<<< HEAD
 		$this->load->view('admin/settings');
 	
 	}
@@ -551,6 +552,12 @@ class Admin extends CI_Controller {
 		
 	}
 	
+=======
+		$this->load->helper('url');
+		$this->load->view('admin/settings');
+	
+	}
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
 }
 
 ?>

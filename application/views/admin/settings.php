@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <?php include 'admin_header.php'; ?></div>
+=======
+<?php include 'admin_header.php'?></div>
+>>>>>>> 5fd38ac4c3936aaa9fac9514aa9af01f2f8cbe62
         <div class="mainBody">
             <!-- Nav tabs -->
             <div class="sidebarMain">
