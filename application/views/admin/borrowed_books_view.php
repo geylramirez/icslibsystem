@@ -14,10 +14,13 @@
 	<link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/style.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" /> <!--for chart -->
+	<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
+
+	<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
+	<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
+	<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>	
 
 	<style type="text/css" id="holderjs-style"></style></head>
 
@@ -31,30 +34,21 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="30px"></a>
+                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="40px"></a>
                 </div>
-				<!--<div class="alert alert-success" id="returned">
-					<a href="#" class="close" data-dismiss="alert" id="boton_cerrar">&times;</a> 
-					<strong>Successfully returned material!</strong>     
-				</div>-->
-                <form class="navbar-form navbar-right" role="form">
-                    <!-- Split button -->
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-cog"></span>
-				  </button>
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
-                  </ul>
-                </div>
-                </form>
+
+            <div class="navbar-collapse collapse">
+			  <ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+				  <a class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-cog" ></span></a>
+				  
+				  <ul class="dropdown-menu">
+					<li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
+					<li><a href="#">Help</a></li>
+					<li class="divider"></li>
+					<li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
+				  </ul>
+            </div>
 
             </div>
         </div>
@@ -62,7 +56,7 @@
 			<!-- Nav tabs -->
 			<div class="sidebarMain">
 				<ul class="nav nav-pills nav-stacked">
-					<li id = "reserved-nav" >
+					<li id = "reserved-nav" ><br />
 						<a href="<?php echo base_url();?>admin/reservation"><span class="glyphicon glyphicon-import"></span> &nbsp;Reserved Books</a>
 					</li>
 					<li id = "borrowed-nav" class="active">
@@ -91,7 +85,7 @@
                         </form>
                          <br/>
 
-						<table class="tablesorter" border = "1" cellspacing='5' cellpadding='5' align = 'center'>
+						<table class="table table-hover tablesorter" border = "1" cellspacing='5' cellpadding='5' align = 'center'>
 							
 						<?php
 						  if($this->input->post('returnButton') != ''){
@@ -101,8 +95,8 @@
                          		 echo "<center>No search results found. </center>";
                          	}
 
-								echo"<table border = '1' id='myTable' class='tablesorter'>
-								<thead>
+								echo"<table border = '1' id='myTable' class='table table-hover tablesorter'>
+								<thead class = 'grayish'>
 									<tr>
 										<th title='ISBN' width='10%'><center>ISBN</center></th>
 										<th title='Library Material ID' width='10%'><center>Library Material ID</center></th>
@@ -115,7 +109,18 @@
 										<th title='Action' width='5%'><center>Action</center></th>
 									</tr>
 								</thead>
-								<tfoot>
+								<tfoot class = 'grayish'>
+									<tr>
+										<th title='ISBN' width='10%'><center>ISBN</center></th>
+										<th title='Library Material ID' width='10%'><center>Library Material ID</center></th>
+										<th title='Type' width='5%'><center>Type</center></th>
+										<th title='Library Information' width='41%'><center>Library Information</center></th>
+										<th title='Borrower' width='8%'><center>Borrower</center></th>
+										<th title='Start date' width='8%'><center>Start Date</center></th>
+										<th title='Due Date' width='8%'><center>Due Date</center></th>
+										<th title='Fine' width='5%'><center>Fine</center></th>
+										<th title='Action' width='5%'><center>Action</center></th>
+									</tr>
 								</tfoot>";
 					
 
@@ -157,7 +162,7 @@
 											<input type='hidden' value='".$row->idnumber."' name='idnumber'/>
 											<input type='hidden' value='".floor($days/(60*60*24))*$fine."' name='fine'/>";
 											
-									echo "<button type='button' data-toggle='modal' data-target='#container1' class='sendNotif btn btn-primary'>Return</button>";
+									echo "<button type='button' data-toggle='modal' data-target='#container1' class='sendNotif btn btn-primary'><span class='glyphicon glyphicon-circle-arrow-up'></span></button>";
 									echo "</td></tr>";
 								}
 								echo "</table>";
@@ -203,6 +208,7 @@
 		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.widgets.js"></script>
 		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/widget-pager.js"></script>
 		
+
 		<!--script src="<?php echo base_url();?>dist/js/dynamic.js"></script-->
 		<!--script src="<?php echo base_url();?>dist/js/modernizr.js"></script-->
 		

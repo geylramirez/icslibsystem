@@ -14,7 +14,6 @@
     <link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet">
     <link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
     <link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>dist/css/style.css" rel="stylesheet">
     <link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
     <link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
     <link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" /> <!--for chart -->
@@ -31,30 +30,21 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="30px"></a>
+                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="40px"></a>
                 </div>
-                <!--<div class="alert alert-success" id="returned">
-                    <a href="#" class="close" data-dismiss="alert" id="boton_cerrar">&times;</a> 
-                    <strong>Successfully returned material!</strong>     
-                </div>-->
-                <form class="navbar-form navbar-right" role="form">
-                    <!-- Split button -->
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-cog"></span>
-                  </button>
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
-                  </ul>
-                </div>
-                </form>
+
+                <div class="navbar-collapse collapse">
+			  <ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+				  <a class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-cog" ></span></a>
+				  
+				  <ul class="dropdown-menu">
+					<li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
+					<li><a href="#">Help</a></li>
+					<li class="divider"></li>
+					<li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
+				  </ul>
+            </div>
 
             </div>
         </div>
@@ -62,7 +52,7 @@
             <!-- Nav tabs -->
             <div class="sidebarMain">
 				<ul class="nav nav-pills nav-stacked">
-					<li id = "reserved-nav">
+					<li id = "reserved-nav"><br />
 						<a href="<?php echo base_url();?>admin/reservation"><span class="glyphicon glyphicon-import"></span> &nbsp;Reserved Books</a>
 					</li>
 					<li id = "borrowed-nav" >
@@ -167,19 +157,28 @@
                                     echo "No library material available";
                                     echo "<a href='admin_search'> Back </a><br>";
                                 }else{
-                                        echo "<table id='myTable' class='tablesorter' summary='Results' border='1' cellspacing='5' cellpadding='5' align = 'center'>
-                                            <thead>
-                                            <tr class='info'>
-											<td width='10%' scope='col'><b><center>ISBN</center></b></th>
-                                            <th width='10%' scope='col'><center>Library Material ID</center></th>
-                                            <td width='3%' scope='col'><b><center>Type</center></b></th>
-                                            <th width='54%' scope='col' ><center>Library Information</center></th>
-                                            <th width='7%' scope='col'><center>Req.</center></th>
-                                            <th width='3%' scope='col' ><center>Available Copies</center></td>
-                                            <td width='13%'scope='col'><b><center>Action</center></b></td>
-                                            </tr>
+                                        echo "<table id='myTable' class='table table-hover tablesorter' summary='Results' border='1' cellspacing='5' cellpadding='5' align = 'center'>
+                                            <thead class='grayish'>
+                                                <tr class='info'>
+        											<td width='10%' scope='col'><b><center>ISBN</center></b></th>
+                                                    <th width='10%' scope='col'><center>Library Material ID</center></th>
+                                                    <td width='3%' scope='col'><b><center>Type</center></b></th>
+                                                    <th width='54%' scope='col' ><center>Library Information</center></th>
+                                                    <th width='7%' scope='col'><center>Req.</center></th>
+                                                    <th width='3%' scope='col' ><center>Available Copies</center></td>
+                                                    <td width='13%'scope='col'><b><center>Action</center></b></td>
+                                                </tr>
                                             </thead>
                                             <tfoot>
+                                                <tr class='info'>
+                                                    <td width='10%' scope='col'><b><center>ISBN</center></b></th>
+                                                    <th width='10%' scope='col'><center>Library Material ID</center></th>
+                                                    <td width='3%' scope='col'><b><center>Type</center></b></th>
+                                                    <th width='54%' scope='col' ><center>Library Information</center></th>
+                                                    <th width='7%' scope='col'><center>Req.</center></th>
+                                                    <th width='3%' scope='col' ><center>Available Copies</center></td>
+                                                    <td width='13%'scope='col'><b><center>Action</center></b></td>
+                                                </tr>
                                             </tfoot>";
                                         echo "<tbody>";    
                                         foreach ($sql2->result() as $q){
