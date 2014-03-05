@@ -19,41 +19,34 @@
 						<a href="<?php echo base_url();?>admin/home">Overview</a>
 					</li>
                 </ul>
+			</div>   
 
-
-
-				</div>   
-
-        <div class="leftMain">
-        <div id="main-page">
-        <div id = "main-content">
-		<div id="settings_container">
-		
-		<h2>Admin Settings</h2><br />
-		<div class="alert alert-success alert-dismissable" id="info_succ" style="display:none;">
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<strong>Update successful!</strong> Information successfully updated.
-		</div>
-			<table id="settingsForm">
-				<tr>
-					<td><label>*Fine: </label></td>
-					<td><input type="text" value="3.00" name="fine" pattern="[0-9]+" id="fine" disabled required></td>
-				</tr>
-				<tr>
-					<td><label>*Start of Semester: </label></td>
-					<td><input type="date" value="2013-11-11" name="start_sem" id="start_sem" disabled required></td>
-				</tr>
-				<tr>
-					<td><label>*End of Semester: </label></td>
-					<td><input type="date" value="2014-03-29" name="end_sem" id="end_sem" disabled required></td>
-					
-				</tr>
+		<div class="leftMain">
+			<div id="main-page">
+				<div id = "main-content">
+					<div id="alert" > </div>
 				
-				<tr>
-				<td><br /></td>
-				</tr>
-				
-				</table>
+					<h2>Admin Settings</h2><br />
+
+					<table id="settingsForm">
+						<tr>
+						<td><label>*Fine: </label></td>
+						<td><input type="text" value="3.00" name="fine" pattern="[0-9]+" id="fine" disabled required></td>
+						</tr>
+						<tr>
+						<td><label>*Start of Semester: </label></td>
+						<td><input type="date" value="2013-11-11" name="start_sem" id="start_sem" disabled required></td>
+						</tr>
+						<tr>
+						<td><label>*End of Semester: </label></td>
+						<td><input type="date" value="2014-03-29" name="end_sem" id="end_sem" disabled required></td>
+
+						</tr>
+
+						<tr>
+						<td><br /></td>
+						</tr>
+					</table>
 					
 					<input type="submit" id="cancel_1" name="insert" class="btn" value="Cancel" style="display: none;" onclick="cancel1()">
 					<input type="button" id="save_1" name="insert" class="btn btn-primary" value="Update" onclick="validate_info()" style="display: none;">
@@ -69,10 +62,8 @@
 				<tr>
 						
 				</table>
-					<div class="alert alert-success alert-dismissable" id="pword_succ" style="display:none;">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						<strong>Update successful!</strong> Password successfully updated.
-					</div>
+				
+				<div id = "alert"> </div>
 				<table>
 				<tr>
 					<td><label>Current Password:</label></td>
@@ -94,13 +85,15 @@
 				<tr>
 				<td><br /></td>
 				</tr>
+
+
 				
 		</table>
 		<input type="submit" id="cancel_2" name="insert" class="btn" value="Cancel" style="display: none;" onclick="cancel2()">
 		<input type="button" id="save_2" name="insert" class="btn btn-primary" value="Save" style="display: none;" onclick="valPword()">
 		<input type="submit" id="upd_pword" name="insert" class="btn btn-primary" value="Update Password" onclick="update2()">
 		<br/>
-		
+		<button type="button" class="btn btn-default" id= "clearButton" >Clear Reservations</button>&nbsp;&nbsp;
 		</div>
 		</div>
 		</div>
@@ -113,8 +106,50 @@
 
 	<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
     <script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
+	<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>
     <script src="<?php echo base_url();?>dist/js/holder.js"></script>
-	<script>		
+	<script>
+
+		$('#clearButton').click(function(){
+			bootbox.dialog({
+				message: "Are you sure you want to clear the reservations of materials?",
+				title: "Confirm clear reservations",
+				buttons: {
+					yes: {
+						label: "Yes, continue.",
+						className: "btn-primary",
+						callback: function() {
+							
+							$.ajax({
+								type: "POST",
+								url: "<?php echo base_url();?>admin/clear_reservation",
+								
+								beforeSend: function() {
+									//$("#con").html('<img src="/function-demos/functions/ajax/images/loading.gif" />');
+									$("#error_message").html("loading...");
+								},
+
+								error: function(xhr, textStatus, errorThrown) {
+										$('#error_message').html(textStatus);
+								},
+
+								success: function( result ){
+									$('#alert').addClass("alert alert-success alert-dismissable")
+												.html("Reservations were now cleared.")
+												.fadeIn('slow');
+								}
+							});
+						}
+					},
+					no: {
+						label: "No.",
+						className: "btn-default"
+					}
+				}
+			});
+
+		});
+
 		function update1(){
 		
 			var fine = document.getElementById('fine');
@@ -342,7 +377,7 @@
 					});
 		
 		}
-	</script>
+		</script>
 
 	</body>
 </html>

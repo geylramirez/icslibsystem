@@ -28,6 +28,7 @@ class Admin extends CI_Controller {
 			// calls the function get_reservation_array(), and store it to the data array
 			$data['reservations'] = $this->reservation_queue_model->get_reservations();	
 			$this->load->view('admin/reservation_queue_view', $data);
+			
 		}
 	}
 
@@ -557,6 +558,12 @@ class Admin extends CI_Controller {
 		$this->load->model('admin/check_input_model');
 		$materialid = $this->input->post('materialid');
 		echo $this->check_input_model->check_materialid($materialid);
+	}
+
+	public function clear_reservation(){
+		$this->load->model('admin/clear_reservation_model');
+		$this->clear_reservation_model->clear();
+		
 	}
 }
 
