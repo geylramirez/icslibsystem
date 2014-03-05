@@ -210,7 +210,6 @@
 					<div id = "main-content">
 						<br />
 						<br />
-						
 						<?php
 							if( count($reservations) != 0 ){
 						?>
@@ -236,14 +235,14 @@
 								</thead>
 								<tbody>
 									<?php
-										
 										$rank = 0;
 										$i = 0;
 									
 										foreach($reservations as $row){
 											echo "<tr id = '${row['materialid']}-${row['idnumber']}'>";
 											echo "<td class = 'isbn' ><center><span class='table-text'>${row['isbn']}</span></center> </td>";
-											echo "<td class = 'materialid' ><center><span class='table-text'>${row['materialid']} </span></center></td>";											
+											echo "<td class = 'materialid' ><center><span class='table-text'>${row['materialid']} </span></center></td>";
+											
 											
 											if($row['type']== 'Book')
 												$type = "<span class='glyphicon glyphicon-book'></span>";
@@ -321,9 +320,9 @@
 								<span>Go to: </span>
 								<select class="gotoPage" title="Select page number"></select>
 							</div>
-						<?php
+						<?php 
 							} else {
-								echo "<h3> No Reservations </h3>";
+								echo "<h3> No reservations to be accepted </h3>";
 							}
 						?>
 					</div>
@@ -553,7 +552,7 @@
 								}
 								$('table').trigger('update');
 							} else {
-								$('tbody').html("<td colspan = '8' ><span style = 'center' > No Results found </span></td>");
+								$('tbody').html("<td colspan = '8'><span style = 'center' > No results found </span> </td>");
 								$("table").tablesorter();
 							}
 							$('table').trigger('update');
