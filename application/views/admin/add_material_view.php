@@ -30,7 +30,6 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/style.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" /> <!--for chart -->
 
 	<style type="text/css" id="holderjs-style"></style></head>
@@ -45,30 +44,20 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="30px"></a>
+                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="40px"></a>
                 </div>
-				<!--<div class="alert alert-success" id="returned">
-					<a href="#" class="close" data-dismiss="alert" id="boton_cerrar">&times;</a> 
-					<strong>Successfully returned material!</strong>     
-				</div>-->
-                <form class="navbar-form navbar-right" role="form">
-                    <!-- Split button -->
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-cog"></span>
-				  </button>
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
-                  </ul>
-                </div>
-                </form>
+               <div class="navbar-collapse collapse">
+			  <ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+				  <a class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-cog" ></span></a>
+				  
+				  <ul class="dropdown-menu">
+					<li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
+					<li><a href="#">Help</a></li>
+					<li class="divider"></li>
+					<li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
+				  </ul>
+            </div>
 
             </div>
         </div>
@@ -76,7 +65,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             <!-- Nav tabs -->
             <div class="sidebarMain">
 				<ul class="nav nav-pills nav-stacked">
-					<li id = "reserved-nav">
+					<li id = "reserved-nav"><br />
 						<a href="<?php echo base_url();?>admin/reservation"><span class="glyphicon glyphicon-import"></span> &nbsp;Reserved Books</a>
 					</li>
 					<li id = "borrowed-nav" >
@@ -99,7 +88,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         <div id = "main-content">
 		<div id="container">
 		<form name="add" id="add" method="post" action="admin_search" onsubmit="return showModal()" class="form-horizontal">
-		<h2 class="form-signin-heading">Fill up the necessary info: </h2>
+		<h3>&nbsp;Fill up the necessary information: </h3>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Library Material ID</label>
 			<div class="col-sm-5">
@@ -212,8 +201,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 					<td><input type="text" name="fname" class="form-control" placeholder="First Name" name="materialid" pattern="[A-Za-z]+" required></td>
 					<td><input type="text" name="mname" class="form-control" placeholder="Middle Name" name="materialid" pattern="[A-Za-z]+" required></td>
 					<td><input type="text" name="lname" class="form-control" placeholder="Last Name" name="materialid" pattern="[A-Za-z]+" required></td>
-					<td><input type="button" value="+" onClick="addRow()"></td>
-					<td><input type="button" value="x" onclick="deleteRow(this)" disabled ></td></td>
+					<td><input class="btn btn-primary btn-sm" type="button" value="+" onClick="addRow()"></td>
+					<td><input class="btn btn-delete btn-sm" type="button" value="x" onclick="deleteRow(this)" disabled ></td></td>
 					<td><span style="color: red;" name="helpauthor"></td>
 					<td><input type="hidden" name="numberOfAuthors" value="1"/></td>
 				</tr>
