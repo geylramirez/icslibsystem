@@ -202,7 +202,11 @@
 					<div id = "main-content">
 						<br />
 						<br />
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> a10dff419e7ad12326b4e740775129afe181f300
 						<?php
 							if( count($reservations) != 0 ){
 						?>
@@ -265,26 +269,101 @@
 												$type = "<span class='glyphicon glyphicon-bookmark'></span>";
 												
 											echo "<td class = 'type' align='center'>". $type ."</td>";
+=======
+						<form method="post"  style="width: 600px ; margin-left: auto; margin-right: auto;" role="form">
+							<input type="text" id = "searchReservedBooks" name ="search"  size="80"/>
+							<input class = "btn btn-primary" type="button" id = "searchReservedButton" value="Search"/> 
+							<div id = "alert"> </div><br /><br />
+                        </form>
+						
+						<table class="table table-hover tablesorter" border = "1" cellspacing='5' cellpadding='5' align = 'center'>
+							<thead>
+								<tr>
+									<th width="5%"><center>ISBN/ISSN</center></th>
+									<th width="5%"><center>Library Material ID</center></th>
+									<td width="5%"><center><b>Type</center></b></td>
+									<th width="45%"><center>Library Information</center></th>
+									<th width="5%"><center>Borrower</center></th>
+									<th width="8%"><center>Start Date</center></th>
+									<th width="5%"><center>Rank</center></th>
+									<th width="22%"><center>Action</center></th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th width="5%"><center>ISBN/ISSN</center></th>
+									<th width="5%"><center>Library Material ID</center></th>
+									<td width="5%"><center><b>Type</center></b></td>
+									<th width="45%"><center>Library Information</center></th>
+									<th width="5%"><center>Borrower</center></th>
+									<th width="8%"><center>Start Date</center></th>
+									<th width="5%"><center>Rank</center></th>
+									<th width="22%"><center>Action</center></th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<?php
+									$rank = 0;
+									$i = 0;
+								
+									foreach($reservations as $row){
+										echo "<tr id = '${row['materialid']}-${row['idnumber']}'>";
+										echo "<td class = 'isbn' ><center><span class='table-text'>${row['isbn']}</span></center> </td>";
+										echo "<td class = 'materialid' ><center><span class='table-text'>${row['materialid']} </span></center></td>";
+										
+										
+										if($row['type']== 'Book')
+											$type = "<span class='glyphicon glyphicon-book'></span>";
+										else if($row['type'] == 'CD')
+											$type = "<span class='glyphicon glyphicon-headphones'></span>";
+										else if($row['type'] == 'SP')
+											$type = "<span class='glyphicon glyphicon-file'></span>";
+										else if($row['type'] == 'Reference')
+											$type = "<span class='glyphicon glyphicon-paperclip'></span>";
+										else if($row['type']== 'Journals')
+											$type = "<span class='glyphicon glyphicon-pencil'></span>";
+										else if($row['type']== 'Magazines')
+											$type = "<span class='glyphicon glyphicon-picture'></span>";
+										else if($row['type'] == 'Thesis')
+											$type = "<span class='glyphicon glyphicon-bookmark'></span>";
+>>>>>>> d46b1a09546313e455662d9c9723c57ec1246f38
 											
+										echo "<td class = 'type' align='center'>". $type ."</td>";
+										
 
-											echo "<td>";
-											echo "<b><span class ='title'>${row['name']}.</b></span><br />";									
-											foreach ($row['author'] as $name) {
-												$name = (array)$name;
-												echo "<span class ='author'> ${name['lname']}, ${name['fname']} ${name['mname']}.</span>";
-											}
-											echo "<span class ='author' > ${row['year']}</span>" . ".";
-											if( $row['edvol'] != NULL ){
-												if( $row['edvol'] % 10 == 1 )
-													echo "<span class ='author'> ${row['edvol']}st Edition </span>" . "."; 
-												if( $row['edvol'] % 10 == 2 )
-													echo "<span class ='author'> ${row['edvol']}nd Edition </span>" . "."; 
-												if( $row['edvol'] % 10 == 3 )
-													echo "<span class ='author'> ${row['edvol']}rd Edition </span>" . "."; 
-												else 
-													echo "<span class ='author'> ${row['edvol']}th Edition </span>" . ".";
-											}
+										echo "<td>";
+										echo "<b><span class ='title'>${row['name']}.</b></span><br />";									
+										foreach ($row['author'] as $name) {
+											$name = (array)$name;
+											echo "<span class ='author'> ${name['lname']}, ${name['fname']} ${name['mname']}.</span>";
+										}
+										echo "<span class ='author' > ${row['year']}</span>" . ".";
+										if( $row['edvol'] != NULL ){
+											if( $row['edvol'] % 10 == 1 )
+												echo "<span class ='author'> ${row['edvol']}st Edition </span>" . "."; 
+											if( $row['edvol'] % 10 == 2 )
+												echo "<span class ='author'> ${row['edvol']}nd Edition </span>" . "."; 
+											if( $row['edvol'] % 10 == 3 )
+												echo "<span class ='author'> ${row['edvol']}rd Edition </span>" . "."; 
+											else 
+												echo "<span class ='author'> ${row['edvol']}th Edition </span>" . ".";
+										}
+										echo "</td>";
+										echo "<td class = 'idnumber' ><center><span class='table-text'>${row['idnumber']}</span></center> </td>";
+										
+										if( $row['started'] == 0 ){
+											echo "<td align='center'><span class='table-text'> Not yet notified </span></td>";
+											echo "<td align='center'><span class='table-text'> ${row['queue']}/${row['total']}</span> </td>";
+											echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' ><span class='glyphicon glyphicon-bullhorn'></button>";
+											echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled><span class='glyphicon glyphicon-download'></button>";
 											echo "</td>";
+										} else {
+											echo "<td><span class='table-text'> ${row['startdate']}</span> </td>";
+											echo "<td align='center'><span class='table-text'>${row['queue']}/${row['total']}</span> </td>";
+											echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' disabled><span class='glyphicon glyphicon-bullhorn'></button> ";
+											echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim'><span class='glyphicon glyphicon-download'></button>";
+											echo "</td>";
+<<<<<<< HEAD
 											echo "<td class = 'idnumber' ><center><span class='table-text'>${row['idnumber']}</span></center> </td>";
 											
 											if( $row['started'] == 0 ){
@@ -323,13 +402,70 @@
 									<span>Go to: </span>
 									<select class="gotoPage" title="Select page number"></select>
 								</div>
+=======
+										}
+<<<<<<< HEAD
+									
+									?>
+								</tbody>
+							</table>
+							<div class="pager">
+								<!--<img src="../addons/pager/icons/first.png" class="first" alt="First" />
+								<img src="../addons/pager/icons/prev.png" class="prev" alt="Prev" />-->
+								<span class="first" style="cursor:pointer">First</span>
+								<span class="prev" style="cursor:pointer">Prev</span>
+								<strong> <span class="pagedisplay"></span></strong> <!--this can be any element, including an input-->
+								<span class="next" style="cursor:pointer">Next</span>
+								<span class="last" style="cursor:pointer">Last</span>
+								<br/>
+								<span>Page size: </span>
+								<select class="pagesize" title="Select page size">
+									<option value="10">10</option>
+									<option value="20">20</option>
+									<option value="30">30</option>
+									<option value="40">40</option>
+								</select>
+								<span>Go to: </span>
+								<select class="gotoPage" title="Select page number"></select>
+							</div>
+>>>>>>> a10dff419e7ad12326b4e740775129afe181f300
 						<?php 
 	
 							} else {
 								echo "<h3> No reservations to be accepted </h3>";
 							}
 						?>
+<<<<<<< HEAD
 						
+=======
+=======
+										echo "</tr>";
+									}
+								
+								?>
+							</tbody>
+						</table>
+						<div class="pager">
+							<!--<img src="../addons/pager/icons/first.png" class="first" alt="First" />
+							<img src="../addons/pager/icons/prev.png" class="prev" alt="Prev" />-->
+							<span class="first" style="cursor:pointer">First</span>
+							<span class="prev" style="cursor:pointer">Prev</span>
+							<strong> <span class="pagedisplay"></span></strong> <!--this can be any element, including an input-->
+							<span class="next" style="cursor:pointer">Next</span>
+							<span class="last" style="cursor:pointer">Last</span>
+							<br/>
+							<span>Page size: </span>
+							<select class="pagesize" title="Select page size">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+							</select>
+							<span>Go to: </span>
+							<select class="gotoPage" title="Select page number"></select>
+						</div>
+>>>>>>> d46b1a09546313e455662d9c9723c57ec1246f38
+>>>>>>> a10dff419e7ad12326b4e740775129afe181f300
 					</div>
 				</div>
 				
@@ -562,8 +698,16 @@
 								}
 								$('table').trigger('update');
 							} else {
+<<<<<<< HEAD
 								$('tbody').html("<td colspan = '8'><span style = 'center' > No results found </span> </td>");
+<<<<<<< HEAD
 
+=======
+=======
+								$('tbody').html(" no result ");
+								//alert("Failed to notify");
+>>>>>>> d46b1a09546313e455662d9c9723c57ec1246f38
+>>>>>>> a10dff419e7ad12326b4e740775129afe181f300
 								$("table").tablesorter();
 
 
