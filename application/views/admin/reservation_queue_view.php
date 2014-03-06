@@ -89,13 +89,13 @@
 											if( result != "1" ){
 												thisButton.attr('disabled', 'disabled');
 												// remove row
-												//alert("Student has been notified");
-												document.getElementById("success_notify").style.display='none';
-
-												$('#alert').addClass("alert alert-danger");
+												
+												$('#alert').addClass("alert alert-success");
 												$("#alert").html("Successfully claimed!");
 												$("#alert").fadeIn('slow');
-												$("#"+materialid+"-"+idnumber).html("");
+												$("#"+materialid+"-"+idnumber).remove();
+												$('table').tablesorter();
+												$('table').trigger('update');
 												document.body.scrollTop = document.documentElement.scrollTop = 0;
 												setTimeout(function() { $('#alert').fadeOut('slow') }, 5000);	
 											} else {
@@ -152,7 +152,7 @@
 												thisButton.next().removeAttr('disabled');
 
 												//alert("Success!")
-												$('#alert').addClass("alert alert-danger");
+												$('#alert').addClass("alert alert-success");
 												$("#alert").html("The material can now be claimed!");
 												$("#alert").fadeIn('slow');
 												document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -202,6 +202,11 @@
 					<div id = "main-content">
 						<br />
 						<br />
+
+						<?php
+							if( count($reservations) != 0 ){
+						?>
+
 						<form method="post"  style="width: 600px ; margin-left: auto; margin-right: auto;" role="form">
 							<input type="text" id = "searchReservedBooks" name ="search"  size="80"/>
 							<input class = "btn btn-primary" type="button" id = "searchReservedButton" value="Search"/> 
@@ -282,43 +287,50 @@
 										echo "</td>";
 										echo "<td class = 'idnumber' ><center><span class='table-text'>${row['idnumber']}</span></center> </td>";
 										
-										if( $row['started'] == 0 ){
-											echo "<td align='center'><span class='table-text'> Not yet notified </span></td>";
-											echo "<td align='center'><span class='table-text'> ${row['queue']}/${row['total']}</span> </td>";
-											echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' ><span class='glyphicon glyphicon-bullhorn'></button>";
-											echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled><span class='glyphicon glyphicon-download'></button>";
-											echo "</td>";
-										} else {
-											echo "<td><span class='table-text'> ${row['startdate']}</span> </td>";
-											echo "<td align='center'><span class='table-text'>${row['queue']}/${row['total']}</span> </td>";
-											echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' disabled><span class='glyphicon glyphicon-bullhorn'></button> ";
-											echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim'><span class='glyphicon glyphicon-download'></button>";
-											echo "</td>";
+											if( $row['started'] == 0 ){
+												echo "<td align='center'><span class='table-text'> Not yet notified </span></td>";
+												echo "<td align='center'><span class='table-text'> ${row['queue']}/${row['total']}</span> </td>";
+												echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' ><span class='glyphicon glyphicon-bullhorn'></button>";
+												echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled><span class='glyphicon glyphicon-download'></button>";
+												echo "</td>";
+											} else {
+												echo "<td><span class='table-text'> ${row['startdate']}</span> </td>";
+												echo "<td align='center'><span class='table-text'>${row['queue']}/${row['total']}</span> </td>";
+												echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' disabled><span class='glyphicon glyphicon-bullhorn'></button> ";
+												echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim'><span class='glyphicon glyphicon-download'></button>";
+												echo "</td>";
+											}
+										
 										}
-										echo "</tr>";
-									}
-								
-								?>
-							</tbody>
-						</table>
-						<div class="pager">
-							<!--<img src="../addons/pager/icons/first.png" class="first" alt="First" />
-							<img src="../addons/pager/icons/prev.png" class="prev" alt="Prev" />-->
-							<span class="first" style="cursor:pointer">First</span>
-							<span class="prev" style="cursor:pointer">Prev</span>
-							<strong> <span class="pagedisplay"></span></strong> <!--this can be any element, including an input-->
-							<span class="next" style="cursor:pointer">Next</span>
-							<span class="last" style="cursor:pointer">Last</span>
-							<br/>
-							<span>Page size: </span>
-							<select class="pagesize" title="Select page size">
-								<option value="10">10</option>
-								<option value="20">20</option>
-								<option value="30">30</option>
-								<option value="40">40</option>
-							</select>
-							<span>Go to: </span>
-							<select class="gotoPage" title="Select page number"></select>
+										?>
+									</tbody>
+								</table>
+								<div class="pager">
+									<!--<img src="../addons/pager/icons/first.png" class="first" alt="First" />
+									<img src="../addons/pager/icons/prev.png" class="prev" alt="Prev" />-->
+									<span class="first" style="cursor:pointer">First</span>
+									<span class="prev" style="cursor:pointer">Prev</span>
+									<strong> <span class="pagedisplay"></span></strong> <!--this can be any element, including an input-->
+									<span class="next" style="cursor:pointer">Next</span>
+									<span class="last" style="cursor:pointer">Last</span>
+									<br/>
+									<span>Page size: </span>
+									<select class="pagesize" title="Select page size">
+										<option value="10">10</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+									</select>
+									<span>Go to: </span>
+									<select class="gotoPage" title="Select page number"></select>
+								</div>
+						<?php 
+	
+							} else {
+								echo "<h3> No reservations to be accepted </h3>";
+							}
+						?>
+						
 						</div>
 					</div>
 				</div>
@@ -425,9 +437,6 @@
 
 		<script>
 			
-			
-			document.getElementById("success_notify").style.display='none';
-			document.getElementById("success_claim").style.display='none';
 			$(document).ready(function(){		
 				function printAuthor( data ){
 					var ret = "";
@@ -551,8 +560,7 @@
 								}
 								$('table').trigger('update');
 							} else {
-								$('tbody').html(" no result ");
-								//alert("Failed to notify");
+								$('tbody').html("<td colspan = '8'><span style = 'center' > No results found </span> </td>");
 								$("table").tablesorter();
 
 

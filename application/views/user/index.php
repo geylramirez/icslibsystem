@@ -37,4 +37,4 @@
       </div><!-- /.row -->
       <br/>
       <!-- /END THE FEATURETTES -->
-      <?php include "homepage_footer.php"; ?>
+  <?php include "homepage_footer.php"; ?>

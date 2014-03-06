@@ -72,7 +72,6 @@
 	?>			  
 </table>
 
-<script src="<?php echo base_url();?>dist/js/jquery-2.1.0.min.js"></script>
 <script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>
 <script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.js"></script>
 <script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.pager.js"></script>

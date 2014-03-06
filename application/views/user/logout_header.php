@@ -80,13 +80,19 @@
 
                  </a></li>
                  <li class="divider"></li>
-                 <li class="dropdown-header">Ready to claim</li>
+                 <li id = "message" class="dropdown-header">Ready to claim</li>
                   <?php
                     
                     if(!$readytoclaim){  echo "<li><a><i> None </i></a></li>"; }
                     else{
                       foreach ($readytoclaim as $temps) {
-                        echo "<li><a>"; echo $temps['materialid'];  echo " until "; echo"<b>"; echo $temps['claimdate'];  echo"</b>"; echo "</a></li>"; 
+                        echo "<li><a>"; 
+                        echo $temps['materialid'];  
+                        echo " until "; 
+                        echo"<b>"; 
+                        echo $temps['claimdate'];  
+                        echo"</b>"; 
+                        echo "</a></li>"; 
                       } 
                     }
                   ?>
@@ -101,3 +107,13 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
+ <script src="<?php echo base_url(); ?>dist/js/jquery.js"></script>
+    <script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
+    <script src="<?php echo base_url(); ?>dist/js/holder.js"></script>
+
+    <script type="text/javascript">
+      $("#message").click(function(){
+          $(this).html("hello");
+          alert(1);
+      });
+    </script>
