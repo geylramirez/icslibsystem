@@ -40,7 +40,7 @@
 				  
 				  <ul class="dropdown-menu">
 					<li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
-					<li><a href="#">Help</a></li>
+					<li><a href="<?php echo base_url();?>dist/pdfs/man_admin.pdf" target="_blank">Help</a></li>
 					<li class="divider"></li>
 					<li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
 				  </ul>
@@ -70,7 +70,7 @@
 				</ul>
 			</div>   
 
-        <div class="leftMain">
+        <div class="tableMain">
                 <br />
                 <br />
                 <div id="main-page">

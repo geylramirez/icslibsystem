@@ -44,7 +44,7 @@
 				  
 				  <ul class="dropdown-menu">
 					<li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
-					<li><a href="#">Help</a></li>
+					<li><a href="<?php echo base_url();?>dist/pdfs/man_admin.pdf" target="_blank">Help</a></li>
 					<li class="divider"></li>
 					<li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
 				  </ul>
@@ -74,7 +74,7 @@
 				</ul>
 			</div>
 			
-			<div class="leftMain">
+			<div class="tableMain">
 				<div id="main-page">
 					<div id = "main-content">
 						<br /><br />
@@ -191,9 +191,8 @@
             </div>
     </div>
 		
-		<!-- FOOTER -->
+		<!-- back to top -->
 		<footer> <a href="#" class="back-to-top"><span class='glyphicon glyphicon-chevron-up'></span></a>
-			<center><p id="small">2013 CMSC 128 AB-6L. All Rights Reserved. <a href="#">Privacy</a> | <a href="#">Terms</a> | <a href="#">About</a> | <a href="#">Contact</a> </p></center>
 		</footer>
 		
 		<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
