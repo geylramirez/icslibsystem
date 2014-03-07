@@ -58,6 +58,7 @@
 					bootbox.dialog({
 						message: "Are you sure that this material will now be claimed?",
 						title: "Claim of material confirmation",
+						onEscape: function() {},
 						buttons: {
 							yes: {
 								label: "Yes, continue.",
@@ -65,10 +66,14 @@
 								callback: function() {
 									var thisButton = thisDiv;
 									var parent = thisDiv.parent();
-									var idnumber = $.trim(parent.siblings('.idnumber').text());
-									var materialid = $.trim(parent.siblings('.materialid').text());
-									var isbn = $.trim(parent.siblings('.isbn').text());
-							
+									var idnumber = parent.siblings('.idnumber').text().trim();
+									var materialid = parent.siblings('.materialid').text().trim();
+									var isbn = parent.siblings('.isbn').text().trim();
+									if( isbn == "---" ) isbn = "+" + materialid;
+									
+									console.log(idnumber);
+									console.log(materialid);
+									console.log(isbn);
 									$.ajax({
 										type: "POST",
 										url: "<?php echo base_url();?>admin/claim_reservation",
@@ -117,6 +122,7 @@
 					bootbox.dialog({
 						message: "Are you sure that this material will now be claimed?",
 						title: "Claim of material confirmation",
+						onEscape: function() {},
 						buttons: {
 							yes: {
 								label: "Yes, continue.",
@@ -124,10 +130,17 @@
 								callback: function() {
 									var thisButton = thisDiv;
 									var parent = thisDiv.parent();
-									var idnumber = $.trim(parent.siblings('.idnumber').text());
-									var materialid = $.trim(parent.siblings('.materialid').text());
-									var isbn = $.trim(parent.siblings('.isbn').text());
+									
+									var idnumber = parent.siblings('.idnumber').text().trim();
+									var materialid = parent.siblings('.materialid').text().trim();
+									var isbn = parent.siblings('.isbn').text().trim();
+									
+									if( isbn == "---" ) isbn = "+" + materialid;
 
+									console.log(idnumber);
+									console.log(isbn);
+									console.log(materialid);
+									
 									$.ajax({
 										type: "POST",
 										url: "<?php echo base_url();?>admin/notification",
@@ -144,7 +157,7 @@
 
 										success: function( result ){
 											// show that notification is successful
-											$('#error').html(result);
+											//$('#error').html(result);
 											if( result != "1" ){
 
 												// alert here if success
@@ -246,9 +259,9 @@
 									foreach($reservations as $row){
 										echo "<tr id = '${row['materialid']}-${row['idnumber']}'>";
 										if($row['type'] == 'Book' || $row['type'] == 'Reference'){											
-												echo "<td><span class='table-text'><center>" . $row['isbn'] ."</center></span></td>";
+												echo "<td class = 'isbn'><span class='table-text'><center>" . $row['isbn'] ."</center></span></td>";
 											}
-											else echo "<td align='center'>---</td>";
+											else echo "<td class = 'isbn' align='center'>---</td>";
 										echo "<td class = 'materialid' ><center><span class='table-text'>${row['materialid']} </span></center></td>";
 										
 										
@@ -540,7 +553,7 @@
 								for( i = 0; i < result.length; i++ ){
 									var content = "";
 									content = content + "<tr id ='"+ result[i].materialid + "-" + result[i].idnumber +"' > ";
-									content = content + "<td class = 'isbn' ><center><span class='table-text'> " + printISBN( result[i].isbn, result[i].type ) + "  </span></center></td>";
+									content = content + "<td class = 'isbn' ><span class='table-text'> " + printISBN( result[i].isbn, result[i].type ) + "  </span></center></td>";
 									content = content + "<td class = 'materialid' ><center><span class='table-text'> " + result[i].materialid + " </span></center></td>"; 
 									content = content + "<td class = 'type' > " + printType(result[i].type) + " </td>";
 									content = content + "<td><span class = 'title' > <strong> " + result[i].name + ".</strong> </span><br />" + printAuthor(result[i].author) + "<span class = 'author' > " + result[i].year + ".</span>" + printEdition( result[i].edvol ) + " </td>";

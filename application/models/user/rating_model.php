@@ -57,11 +57,15 @@ class Rating_model extends CI_Model{
 	}
 
 	public function check_rating( $materialid, $idnumber, $isbn, $rating ){
+		$materialid = trim($materialid);
+		$idnumber = trim($idnumber);
+		$isbn = trim($isbn);
+		$rating = trim($rating);
 
 		$sql="SELECT COUNT(*) AS count from rating WHERE materialid LIKE '${materialid}' AND idnumber LIKE '${idnumber}'";
 		$result = $this->db->query($sql);
 		$count = $result->row()->count;
-		var_dump($count);
+		
 		if($count == 0){
 			$this->insert_rating($materialid, $idnumber, $isbn, $rating);
 		}

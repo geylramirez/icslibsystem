@@ -52,28 +52,28 @@ class Borrower extends CI_Controller {
 	}
 	
 
-public function cancel_reservation(){
-		$this->load->library("session");
-		$this->load->helper('url');
-		$matid = $this->input->post('materialid');
-		$this->load->model('user/reservation_model');
-		$this->reservation_model->cancel_res($matid);
-//		$this->reserved_materials_view();
-	}	
+	public function cancel_reservation(){
+			$this->load->library("session");
+			$this->load->helper('url');
+			$matid = $this->input->post('materialid');
+			$this->load->model('user/reservation_model');
+			$this->reservation_model->cancel_res($matid);
+	//		$this->reserved_materials_view();
+		}	
 
 
-public function check_logout(){
-		$is_logged_in = $this->is_logged_in();
-		$this->no_cache();
-		if( $is_logged_in ){
-			redirect('/borrower/borrowed_materials', 'refresh');
-		} else {
-			$this->load->view('borrower/forgot_pword');
-		}
-	
-}
-	
-public function home(){
+	public function check_logout(){
+			$is_logged_in = $this->is_logged_in();
+			$this->no_cache();
+			if( $is_logged_in ){
+				redirect('/borrower/borrowed_materials', 'refresh');
+			} else {
+				$this->load->view('borrower/forgot_pword');
+			}
+		
+	}
+		
+	public function home(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
 			redirect('/borrower/login/null', 'refresh');
@@ -99,7 +99,7 @@ public function home(){
 			$this->load->view('user/profile', $data);	
 		}
 	}
-	
+		
 	public function login($message){
 		$is_logged_in = $this->is_logged_in();
 		$this->no_cache();
@@ -157,7 +157,7 @@ public function home(){
 	
 	}
 	
-public function logout()
+	public function logout()
 	{
 		$this->session->sess_destroy();
 		$this->index();
@@ -674,13 +674,12 @@ public function new_search(){
 
 	public function insert_rating(){
 		$this->load->model('user/rating_model');
-
 		$idnumber = $this->session->userdata('idnumber');
 		$isbn = $this->input->post('isbn');
 		$materialid = $this->input->post('materialid');
 		$rating = $this->input->post('rating');
 
-		$this->rating_model->check_rating(trim($materialid),trim($idnumber),trim($isbn),$rating);
+		$this->rating_model->check_rating(trim($materialid), trim($idnumber), trim($isbn),$rating);
 	}
 }
 

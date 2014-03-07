@@ -10,7 +10,6 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="<?php echo base_url(); ?>dist/js/jquery-1.js"></script>
     <script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
     <script src="<?php echo base_url(); ?>dist/js/holder.js"></script>
   

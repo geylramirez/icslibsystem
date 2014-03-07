@@ -48,10 +48,11 @@ class Admin extends CI_Controller {
 		// loads the model php file which will interact with the database
         $this->load->model('admin/notification_model'); 
 		//calls function save(), to save or to insert the data that has been processed
-		
+
 		$materialid = $this->input->post('materialid');
 		$idnumber = $this->input->post('idnumber');
 		$isbn = $this->input->post('isbn');
+
 		$this->notification_model->notify( $materialid, $idnumber, $isbn );
     }
 
@@ -592,9 +593,7 @@ class Admin extends CI_Controller {
 		$end_sem = $this->input->post('end_sem');
 
 		//$expectedreturn = $this->reservation_queue_model->update_claimed_date( $materialid, $isbn, $idnumber, $start_date );
-		$this->settings_model->set_info( $fine, $start_sem, $end_sem );
-		
-		
+		$this->settings_model->set_info( $fine, $start_sem, $end_sem );		
 	}
 	
 	public function settings_for_password(){

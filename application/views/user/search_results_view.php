@@ -348,23 +348,23 @@
 		$("a.tooltipLink").tooltip();
 		
 		$(".rating").change( function(){
-			rating = $(this).val();
-			materialid = $(this).parent().siblings('.matID').text();
-			isbn = $(this).parent().siblings('.isbn').text();				
-					$.ajax({
-						type: "POST",
-						url: "<?php echo site_url('borrower/insert_rating');?>",
-						data: {materialid: materialid, isbn: isbn, rating: rating},
+			var rating = $(this).val();
+			var materialid = $(this).parent().siblings('.matID').text().trim();
+			var isbn = $(this).parent().siblings('.isbn').text().trim();
+			if( isbn == "---" ) isbn = "+" + materialid.trim();	
+					
+			$.ajax({
+				type: "post",
+				url: "<?php echo base_url();?>borrower/insert_rating",
+				data: { materialid: materialid, isbn: isbn, rating: rating },
+				success: function(data){
 
-						success: function(data)
-						{
-
-						},
-						error: function()
-						{
-							alert('Reservation failed. Try again.');
-						}
-					});
+				},
+				error: function()
+				{
+					alert('Reservation failed. Try again.');
+				}
+			});
 		});
 
 		$(".reserve_button").click( function(){
