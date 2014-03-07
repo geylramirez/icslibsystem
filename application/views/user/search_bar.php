@@ -36,13 +36,15 @@
 							</tr>
 							<tr>
 								<td align="left" id="s_checkbox"><b>Filter: &nbsp;&nbsp;&nbsp;</b>
-									<input type="checkbox" name="type[]" value="Book" />&nbsp;Book&nbsp;&nbsp;
-									<input type="checkbox" name="type[]" value="Journal"/>&nbsp;Journal&nbsp;&nbsp;
-									<input type="checkbox" name="type[]" value="SP"/>&nbsp;SP&nbsp;&nbsp;
-									<input type="checkbox" name="type[]" value="Thesis"/>&nbsp;Thesis&nbsp;&nbsp;
-									<input type="checkbox" name="type[]" value="CD"/>&nbsp;CD&nbsp;&nbsp;
-									<input type="checkbox" name="type[]" value="Magazine"/>&nbsp;Magazine&nbsp;&nbsp;
-									<input type="checkbox" name="type[]" value="Reference"/>&nbsp;Reference&nbsp;&nbsp;
+									<!--//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+										<input type="checkbox" id="bookCheckbox" name="type[]" value="Book" />&nbsp;Book&nbsp;&nbsp;
+										<input type="checkbox" id="journalCheckbox" name="type[]" value="Journal"/>&nbsp;Journal&nbsp;&nbsp;
+										<input type="checkbox" id="spCheckbox" name="type[]" value="SP"/>&nbsp;SP&nbsp;&nbsp;
+										<input type="checkbox" id="thesisCheckbox" name="type[]" value="Thesis"/>&nbsp;Thesis&nbsp;&nbsp;
+										<input type="checkbox" id="cdCheckbox" name="type[]" value="CD"/>&nbsp;CD&nbsp;&nbsp;
+										<input type="checkbox" id="magazineCheckbox" name="type[]" value="Magazine"/>&nbsp;Magazine&nbsp;&nbsp;
+										<input type="checkbox" id="referenceCheckbox" name="type[]" value="Reference"/>&nbsp;Reference&nbsp;&nbsp;
+										<!--//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 								</td>
 							</tr>			
 						</form>	

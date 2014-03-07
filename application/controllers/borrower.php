@@ -100,6 +100,7 @@ public function home(){
 		}
 	}
 	
+	//7am update
 	public function login($message){
 		$is_logged_in = $this->is_logged_in();
 		$this->no_cache();
@@ -108,16 +109,25 @@ public function home(){
 		} else {
 		
 		if($message != null){
-			if($message =='dne') $message = 'Username does not exist!';
-			else if($message =='dnm') $message = 'Password does not match with the username!';
-		
+			if($message != 'dne' && $message != 'dnm' && $message !='done' && $message !='verified' ){
+					$this->load->model('user/log_model');
+					$em = $this->input->post('email');
+					$borrower_info = $this->log_model->get_password($message);
+					$data['idnumber'] = $borrower_info[0]->idnumber ;
+					$data['password'] =$borrower_info[0] ->password;
+					$data['email'] = $borrower_info[0]->email ;
+			}
+			else{
+			$data['idnumber'] =null;
+			$data['password'] =null;
+			$data['email'] = null;
+			}
 			$data['message'] = $message;
-		
 			$this->load->view('user/forgot_pword',$data);
 		}
 		
 		}
-	}	
+	}	//7am update
 	
 	public function check_user(){
 		$this->load->model('user/check_user_model');
@@ -128,31 +138,39 @@ public function home(){
 		if( $user_count != 1 ){
 			echo "0";
 		}else {
-			$pass_count =  $this->check_user_model->check_password();
 
-			//user exists but pword does not match
-			if( $pass_count != 1 ){
-				echo "2";
-			} 
-			//password and email match
-			else {
-				$this->load->model('user/log_model');
-				$borrower_info = $this->log_model->get_borrower($this->input->post('email'), $this->input->post('pword'));
-				$this->session->set_userdata('idnumber',$borrower_info[0]->idnumber);
-				$this->session->set_userdata('email',$borrower_info[0]->email);
-				$this->session->set_userdata('password',$this->input->post('pword'));
-				$this->session->set_userdata('bookcount',$borrower_info[0]->bookcount);
+			$active = $this->check_user_model->check_email_activation();
 
-				$b_info = $this->log_model->get_info($borrower_info[0]->idnumber);
-				$this->session->set_userdata('college',$b_info[0]->college);
-				$this->session->set_userdata('course',$b_info[0]->course);
-				$this->session->set_userdata('sex',$b_info[0]->sex);
-				$this->session->set_userdata('classification',$b_info[0]->classification);
-				$this->session->set_userdata('fname',$b_info[0]->fname);
-				$this->session->set_userdata('mname',$b_info[0]->mname);
-				$this->session->set_userdata('lname',$b_info[0]->lname);
-				echo "1";
+			if($active == 1){
+				echo "3";
+			}else{//activated
+				$pass_count =  $this->check_user_model->check_password();
+
+				//user exists but pword does not match
+				if( $pass_count != 1 ){
+					echo "2";
+				} 
+				//password and email match
+				else {
+					$this->load->model('user/log_model');
+					$borrower_info = $this->log_model->get_borrower($this->input->post('email'), $this->input->post('pword'));
+					$this->session->set_userdata('idnumber',$borrower_info[0]->idnumber);
+					$this->session->set_userdata('email',$borrower_info[0]->email);
+					$this->session->set_userdata('password',$this->input->post('pword'));
+					$this->session->set_userdata('bookcount',$borrower_info[0]->bookcount);
+
+					$b_info = $this->log_model->get_info($borrower_info[0]->idnumber);
+					$this->session->set_userdata('college',$b_info[0]->college);
+					$this->session->set_userdata('course',$b_info[0]->course);
+					$this->session->set_userdata('sex',$b_info[0]->sex);
+					$this->session->set_userdata('classification',$b_info[0]->classification);
+					$this->session->set_userdata('fname',$b_info[0]->fname);
+					$this->session->set_userdata('mname',$b_info[0]->mname);
+					$this->session->set_userdata('lname',$b_info[0]->lname);
+					echo "1";
+				}
 			}
+			
 		}
 	
 	}
@@ -230,6 +248,16 @@ public function load_profile(){
 			
 	}
 
+public function resend_mail(){
+	$this->load->model('user/verification_model');
+
+	$email = $this->input->post('email');
+	$idnumber = $this->input->post('idnumber');
+	$password = SHA1($this->input->post('password'));
+
+	$this->verification_model->send_verification_email($idnumber, $email, $password);
+}
+
 
 public function registration(){
 
@@ -255,10 +283,11 @@ public function validate_email($idnumber, $verification_code){
 			$validated = $this->verification_model->validate_email($idnumber, $verification_code);
 			
 			if($validated === true){
-				echo 'YOUR ACCOUNT HAS BEEN VERIFIED YEY';
+				//echo 'YOUR ACCOUNT HAS BEEN VERIFIED YEY';
+				$this->login('verified');
 			}
 			else{
-				echo 'error';
+				$this->login('done');
 			}
 	}
 
@@ -394,36 +423,44 @@ public function resend_email_verification(){
 			}
 }
 
+
+
 public function forgot_password()
-	{
+	{	
 		$action = $this->input->post('action');
 		
 		
 		if($action == 'verify_email')
 		{
+
 			$email = $this->input->post('email');
 			$this->load->model('user/forgot_model');
+			$name = $this->forgot_model->get_name($email);
+			$name = $name[0]->fname;
 			$result = $this->forgot_model->verify_email($email);
 				if($result)
 				{
+
 					$verfied_email = $result[0]->email;
 					$verification_code = $result[0]->password;
 					$config = array(
 						'protocol' => 'smtp',
 						'smtp_host' => 'ssl://smtp.googlemail.com',
     					'smtp_port' => 465,
+    					//'smtp_user' => 'icslibsystem@gmail.com',
+    					//'smtp_pass' => 'computerscience128'
     					'smtp_user' => 'icslibsystem.dummy@gmail.com',
     					'smtp_pass' => 'codeigniter'
 					);
 					$this->load->library('email',$config);
 					$this->email->set_newline("\r\n");
 
-					$this->email->from('icslibsystem.dummy@gmail.com', 'ICS Library');
+					$this->email->from('icslibsystem@gmail.com', 'ICS Library');
 					$this->email->to($verfied_email); 
 	
 	
 					$this->email->subject('Password Reset');
-					$this->email->message("Hello, Below is the code you need for password reset {$verification_code} ");
+					$this->email->message("Hello {$name}, Below is the code you need for password reset {$verification_code} ");
 	
 						if($this->email->send())
 						{
@@ -564,8 +601,9 @@ public function updatePassword(){
 	echo "1";
 }
 
+
 public function getPassword()
-{
+	{
 	$opassword = $this->input->post('opassword');
 	$idnumber = $this->input->post('idnumber');
 
@@ -578,7 +616,10 @@ public function getPassword()
 	echo json_encode($ret_val);
 	
 
-}
+	}
+
+
+
 
 public function outside_search(){
 			
@@ -665,6 +706,8 @@ public function new_search(){
 
 		echo json_encode($data);
 	}
+
+	
 }
 
 ?> 

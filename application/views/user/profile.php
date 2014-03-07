@@ -71,13 +71,15 @@
 								<table id="tabelTemp" bgcolor="#ffffff" cellspacing="0" cellpadding="2" border="0" style=" width:100%; border-collapse: collapse; bordercolor: #111111">
 								<tr>
 									<td align="left" id="s_checkbox"><b>Filter: &nbsp;&nbsp;&nbsp;</b>
-										<input type="checkbox" name="type[]" value="Book" />&nbsp;Book&nbsp;&nbsp;
-										<input type="checkbox" name="type[]" value="Journal"/>&nbsp;Journal&nbsp;&nbsp;
-										<input type="checkbox" name="type[]" value="SP"/>&nbsp;SP&nbsp;&nbsp;
-										<input type="checkbox" name="type[]" value="Thesis"/>&nbsp;Thesis&nbsp;&nbsp;
-										<input type="checkbox" name="type[]" value="CD"/>&nbsp;CD&nbsp;&nbsp;
-										<input type="checkbox" name="type[]" value="Magazine"/>&nbsp;Magazine&nbsp;&nbsp;
-										<input type="checkbox" name="type[]" value="Reference"/>&nbsp;Reference&nbsp;&nbsp;
+										<!--//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+										<input type="checkbox" id="bookCheckbox" name="type[]" value="Book" />&nbsp;Book&nbsp;&nbsp;
+										<input type="checkbox" id="journalCheckbox" name="type[]" value="Journal"/>&nbsp;Journal&nbsp;&nbsp;
+										<input type="checkbox" id="spCheckbox" name="type[]" value="SP"/>&nbsp;SP&nbsp;&nbsp;
+										<input type="checkbox" id="thesisCheckbox" name="type[]" value="Thesis"/>&nbsp;Thesis&nbsp;&nbsp;
+										<input type="checkbox" id="cdCheckbox" name="type[]" value="CD"/>&nbsp;CD&nbsp;&nbsp;
+										<input type="checkbox" id="magazineCheckbox" name="type[]" value="Magazine"/>&nbsp;Magazine&nbsp;&nbsp;
+										<input type="checkbox" id="referenceCheckbox" name="type[]" value="Reference"/>&nbsp;Reference&nbsp;&nbsp;
+										<!--//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 									</td>
 								</tr>			
 								</form>	
@@ -105,7 +107,7 @@
 		$('#s_checkbox').show();
 		$('#s_basic').show();
 		$('#s_advance').hide();
-
+		
 	});
 
 	$('#s_basic').click(function(){
@@ -115,6 +117,16 @@
 		$('#s_advance').show();
 		$('#s_basic').hide();
 
+		//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		$('#bookCheckbox').prop('checked', false);
+		$('#journalCheckbox').prop('checked', false);
+		$('#spCheckbox').prop('checked', false);
+		$('#thesisCheckbox').prop('checked', false);
+		$('#cdCheckbox').prop('checked', false);
+		$('#magazineCheckbox').prop('checked', false);
+		$('#referenceCheckbox').prop('checked', false);
+		//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		
 	});
 
 	</script>
@@ -130,80 +142,100 @@
 		<!--library inventory tabs-->
 		<div class="nav">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#onhand-link" data-toggle="tab">BOOKS ON HAND</a></li>
-				<li><a href="#reserved_link" data-toggle="tab">RESERVED BOOKS</a></li>
+				<li class="active"><a href="#onhand" data-toggle="tab">BOOKS ON HAND</a></li>
+				<li><a href="#reserved" data-toggle="tab">RESERVED BOOKS</a></li>
 			</ul>
 
 			<!--tab-content-->
 			<div class="tab-content">
-				<div id="onhand-link" class="tab-pane active">
+				<div id="onhand" class="tab-pane active">
 					
-					<table class="table table-hover" id="onhand-table" summary="Results" border="1" cellspacing="5" cellpadding="5" align = "center">
-						<thead>
-							<tr>
-								<th width="5%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN/ISSN</th>
-								<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Library Material ID</th>
-								<th width="5%" abbr="type" scope="col" title="Type">Type</th>
-								<th width="75%" abbr="CourseClassification" scope="col" title="Description">Description</th>
-								<th width="5%" abbr="ISBN" scope="col" title="Fine">Fine</th>
-							</tr>
-						</thead>
-
-						<?php foreach($borrowed as $row){
-							echo "<tr>";
-							echo "<td><center><span class='table-text'>";
-								$tmp = $row['isbn'];
-								if (preg_match('/^[+]/', $tmp)) {
-									echo "---";
-								} else {
-									echo "${row['isbn']}";
-								}
-							echo "</center></span></td>";
-							echo "<td><center><span class='table-text'> ${row['materialid']} </span></center> </td>";
-							echo "<td><center> ";
-							if($row['type']== 'Book')
-								$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Book'><span class='glyphicon glyphicon-book'></span></a>";
-							else if($row['type'] == 'CD')
-								$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='CD'><span class='glyphicon glyphicon-headphones'></span></a>";
-							else if($row['type'] == 'SP')
-								$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='SP'><span class='glyphicon glyphicon-file'></span></a>";
-							else if($row['type'] == 'Reference')
-								$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Reference'><span class='glyphicon glyphicon-paperclip'></span></a>";
-							else if($row['type']== 'Journals')
-								$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Journal'><span class='glyphicon glyphicon-pencil'></span></a>";
-							else if($row['type']== 'Magazines')
-								$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Magazine'><span class='glyphicon glyphicon-picture'></span></a>";
-							else if($row['type'] == 'Thesis')
-								$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Thesi'><span class='glyphicon glyphicon-bookmark'></span></a>";
-															
-							echo "$type</center></td>";
-							echo "<td><span class='table-text'><b>${row['name']}</b></span><br><span class='author'>${row['authorname']}. ${row['year']}.</span></td>";
-							echo "<td><span class='table-text'><center>";
-								if("${row['user_fine']}" > 0){
-									echo "${row['user_fine']}";
-								}else{
-									echo "0";
-								}
-							echo "</center></span></td>";
-							echo "</tr>";
-						}?>
-					</table>
-
-				</div> <!--end of onhand tab-->
-
-				<div id="reserved_link" class="tab-pane">
 					
-					<table class="table table-hover" summary="Results" border="1" cellspacing="5" cellpadding="5">
-						<thead>
-							<tr>
-								<th width="5%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN/ISSN</th>
-								<th width="12%" abbr="lmID" scope="col" title="Library Material ID">Library Material ID</th>
-								<th width="5%" abbr="Type" scope="col" title="Type">Type</th>
-								<th width="70%" abbr="CourseClassification" scope="col" title="Description">Description</th>
-								<th width="7%" abbr="Queue" scope="col" title="Queue">Rank</th>
-								<th width="5%" abbr="Action" scope="col" title="Action">Action</th>
-							</tr>
-						</thead>
+
+						<?php 
+
+							if($borrowed == null){
+								echo "<div> No borrowed Books! </div>";
+							}
+
+							else{
+								?>
+									<table class="table table-hover" id="onhand" summary="Results" border="1" cellspacing="5" cellpadding="5" align = "center">
+									<thead>
+										<tr>
+											<th width="5%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN/ISSN</th>
+											<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Library Material ID</th>
+											<th width="5%" abbr="type" scope="col" title="Type">Type</th>
+											<th width="75%" abbr="CourseClassification" scope="col" title="Description">Description</th>
+											<th width="5%" abbr="ISBN" scope="col" title="Fine">Fine</th>
+										</tr>
+									</thead>
+								<?php
+								foreach($borrowed as $row){
+									echo "<tr>";
+									echo "<td><center><span class='table-text'>";
+										$tmp = $row['isbn'];
+										if (preg_match('/^[+]/', $tmp)) {
+											echo "---";
+										} else {
+											echo "${row['isbn']}";
+										}
+									echo "</center></span></td>";
+									echo "<td><center><span class='table-text'> ${row['materialid']} </span></center> </td>";
+									echo "<td><center> ";
+									if($row['type']== 'Book')
+										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Book'><span class='glyphicon glyphicon-book'></span></a>";
+									else if($row['type'] == 'CD')
+										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='CD'><span class='glyphicon glyphicon-headphones'></span></a>";
+									else if($row['type'] == 'SP')
+										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='SP'><span class='glyphicon glyphicon-file'></span></a>";
+									else if($row['type'] == 'Reference')
+										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Reference'><span class='glyphicon glyphicon-paperclip'></span></a>";
+									else if($row['type']== 'Journals')
+										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Journal'><span class='glyphicon glyphicon-pencil'></span></a>";
+									else if($row['type']== 'Magazines')
+										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Magazine'><span class='glyphicon glyphicon-picture'></span></a>";
+									else if($row['type'] == 'Thesis')
+										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Thesi'><span class='glyphicon glyphicon-bookmark'></span></a>";
+																	
+									echo "$type</center></td>";
+									echo "<td><span class='table-text'><b>${row['name']}</b></span><br><span class='author'>${row['authorname']}. ${row['year']}.</span></td>";
+									echo "<td><span class='table-text'><center>";
+										if("${row['user_fine']}" > 0){
+											echo "${row['user_fine']}";
+										}else{
+											echo "0";
+										}
+									echo "</center></span></td>";
+									echo "</tr>";
+								}
+
+								?>
+
+									</table>
+
+									</div> <!--end of onhand tab-->
+
+									<div id="reserved" class="tab-pane">
+										
+										<table class="table table-hover" summary="Results" border="1" cellspacing="5" cellpadding="5">
+											<thead>
+												<tr>
+													<th width="5%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN/ISSN</th>
+													<th width="12%" abbr="lmID" scope="col" title="Library Material ID">Library Material ID</th>
+													<th width="5%" abbr="Type" scope="col" title="Type">Type</th>
+													<th width="70%" abbr="CourseClassification" scope="col" title="Description">Description</th>
+													<th width="7%" abbr="Queue" scope="col" title="Queue">Rank</th>
+													<th width="5%" abbr="Action" scope="col" title="Action">Action</th>
+												</tr>
+											</thead>
+
+								<?php
+
+							}//end else
+							
+						?>
+					
 										
 					<?php
 						if($list!=NULL && $rank!=NULL && $total!=NULL){
@@ -258,6 +290,60 @@
 						}
 					?>			  
 					</table>
+
+
+<script type="text/javascript">
+	document.getElementById("success_cancel").style.display='none';
+	$(".cancel_button").click( function(){
+		var thisButton = $(this);
+		materialid = $(this).val();
+		var str = "Cancel reservation for " + materialid + "?";
+		
+		bootbox.dialog({
+			message: str,
+			title: "Cancel Reservation",
+			buttons:{
+				yes:{
+					label: "Ok",
+					className: "btn-primary",
+					callback: function() {
+						$.ajax({
+							type: "POST",
+							url: "<?php echo site_url('borrower/cancel_reservation');?>",
+							data: {materialid: materialid},
+							success: function()
+							{
+								thisButton.attr('disabled', true);
+								thisButton.prev().removeAttr('disabled');
+								$("#success_cancel").fadeIn('slow');
+								$("#success_cancel").show();
+								$("#success_cancel").html("Successfully <strong>cancelled</strong> reservation!");
+								document.body.scrollTop = document.documentElement.scrollTop = 0;
+								setTimeout(function() { $('#success_cancel').fadeOut('slow') }, 3000);	
+							},
+							error: function()
+							{
+								$("#failed").fadeIn('slow');
+								$("#failed").show();
+								$("#failed").html("<strong>Failed</strong> to cancel reservation! Please try again.");
+								document.body.scrollTop = document.documentElement.scrollTop = 0;
+								setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
+							}
+						});
+					}
+				},
+				no: {
+				label: "Cancel",
+				className: "btn-default"
+				}
+			}
+		});
+	});	
+</script>
+
+
+
+
 				</div> <!--end of reserved tab-->
 			</div> <!--end of tab-content-->
 		</div> <!--end of library inventory tabs-->
@@ -338,53 +424,4 @@
 			});
 		});
 
-</script>
-
-<script type="text/javascript">
-	document.getElementById("success_cancel").style.display='none';
-	$(".cancel_button").click( function(){
-		var thisButton = $(this);
-		materialid = $(this).val();
-		var str = "Cancel reservation for " + materialid + "?";
-		
-		bootbox.dialog({
-			message: str,
-			title: "Cancel Reservation",
-			buttons:{
-				yes:{
-					label: "Ok",
-					className: "btn-primary",
-					callback: function() {
-						$.ajax({
-							type: "POST",
-							url: "<?php echo site_url('borrower/cancel_reservation');?>",
-							data: {materialid: materialid},
-							success: function()
-							{
-								thisButton.attr('disabled', true);
-								thisButton.prev().removeAttr('disabled');
-								$("#success_cancel").fadeIn('slow');
-								$("#success_cancel").show();
-								$("#success_cancel").html("Successfully <strong>cancelled</strong> reservation!");
-								document.body.scrollTop = document.documentElement.scrollTop = 0;
-								setTimeout(function() { $('#success_cancel').fadeOut('slow') }, 3000);	
-							},
-							error: function()
-							{
-								$("#failed").fadeIn('slow');
-								$("#failed").show();
-								$("#failed").html("<strong>Failed</strong> to cancel reservation! Please try again.");
-								document.body.scrollTop = document.documentElement.scrollTop = 0;
-								setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
-							}
-						});
-					}
-				},
-				no: {
-				label: "Cancel",
-				className: "btn-default"
-				}
-			}
-		});
-	});	
 </script>

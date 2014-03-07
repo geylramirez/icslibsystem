@@ -52,10 +52,11 @@ $route['borrower'] = 'borrower';
 $route['borrower/login/(:any)'] = 'borrower/login/$1';
 
 $route['borrower/home'] = 'borrower/home';
+$route['borrower/home'] = 'borrower/home';
 
 $route['logout'] = 'borrower/logout';
 //$route['inside_search'] = 'borrower/inside_search';
-//$route['outside_search'] = 'borrower/outside_search';
+$route['borrower/outside_search'] = 'borrower/outside_search';
 $route['borrower/profile'] = 'borrower/load_profile';
 $route['reserve'] = 'borrower/reserve';
 $route['reserve_continue'] = 'borrower/reserve_continue';
@@ -71,7 +72,9 @@ $route['registration'] = 'borrower/registration';
 $route['verify_account'] = 'borrower/verify_account';
 //$route['advanced_search'] = 'borrower/advanced_search';
 $route['borrower/search_all'] = 'borrower/new_search';
+$route['about_us'] = 'borrower/about';
 $route['borrower/about_us'] = 'borrower/about';
+
 
 
 /* End of file routes.php */

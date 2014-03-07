@@ -1,3 +1,8 @@
+/*Error area for register.php */
+.error-space{
+  height: 20px;
+  font-size: 12px;
+}
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
@@ -36,28 +41,16 @@ body {
 	margin-left:auto;
 	width:1150px;
 	margin-top:1px;
+	border:1px solid transparent;
 	min-height:500px;
 }
 
 .sidebarMain {
-	float:left;
-	width:200px;
-	padding-right:10px;
-}
-/*home*/
-.leftMain{
-	width:925px;
-	border-left: 1px solid #d3e4f2;
-	padding-left:30px;
-	border-top:1px solid transparent;
-	margin-left:auto;
-	margin-top:-1px;
-	min-height:300px;
+	float:left;	
 }
 
-.tableMain{
-	width:925px;
-	padding-left:30px;
+.leftMain{
+	width:950px;
 	border-top:1px solid transparent;
 	margin-left:auto;
 	margin-top:-1px;
