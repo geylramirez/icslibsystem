@@ -311,7 +311,7 @@ html {
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
@@ -355,7 +355,8 @@ img {
 }
 
 .img-rounded {
-  border-radius: 6px;
+  border-radius: 8px;
+  width: 250px;
 }
 
 .img-thumbnail {
@@ -405,7 +406,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
   line-height: 1.1;
   color: inherit;
@@ -2250,9 +2251,6 @@ textarea.input-lg {
 
 .form-horizontal .form-control-static {
   padding-top: 7px;
-  padding-left: 7px;
-  padding-right: 7px;
-  padding-bottom: 7px;
 }
 
 @media (min-width: 768px) {
@@ -2494,52 +2492,6 @@ fieldset[disabled] .btn-danger.active {
 
 .btn-danger .badge {
   color: #d9534f;
-  background-color: #fff;
-}
-
-.btn-delete {
-  color: #ffffff;
-  background-color: #d33a35;
-  border-color: #c42f2a;
-}
-
-.btn-delete:hover,
-.btn-delete:focus,
-.btn-delete:active,
-.btn-delete.active,
-.open .dropdown-toggle.btn-delete {
-  color: #ffffff;
-  background-color: #b82b27;
-  border-color: #92231f;
-}
-
-.btn-delete:active,
-.btn-delete.active,
-.open .dropdown-toggle.btn-delete {
-  background-image: none;
-}
-
-.btn-delete.disabled,
-.btn-delete[disabled],
-fieldset[disabled] .btn-delete,
-.btn-delete.disabled:hover,
-.btn-delete[disabled]:hover,
-fieldset[disabled] .btn-delete:hover,
-.btn-delete.disabled:focus,
-.btn-delete[disabled]:focus,
-fieldset[disabled] .btn-delete:focus,
-.btn-delete.disabled:active,
-.btn-delete[disabled]:active,
-fieldset[disabled] .btn-delete:active,
-.btn-delete.disabled.active,
-.btn-delete[disabled].active,
-fieldset[disabled] .btn-delete.active {
-  background-color: #d33a35;
-  border-color: #c42f2a;
-}
-
-.btn-delete .badge {
-  color: #d33a35;
   background-color: #fff;
 }
 
@@ -4860,8 +4812,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #296293;
-  border-color: #2b679b;
+  background-color: #000080;
+  border-color: #000053;
 }
 
 .navbar-inverse .navbar-brand {

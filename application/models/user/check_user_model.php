@@ -12,16 +12,7 @@ class Check_user_model extends CI_Model{
 		$this->load->database();
 		$email = $this->input->post('email');
 		
-		$stmt = "SELECT * FROM `borrower` WHERE email = '{$email}' or idnumber = '{$email}'";
-		$query = $this->db->query($stmt);
-		return $query->num_rows();
-	}
-
-	public function check_email_activation(){
-		$this->load->database();
-		$email = $this->input->post('email');
-		
-		$stmt = "SELECT * FROM `borrower` WHERE (email = '{$email}' or idnumber = '{$email}') and status = 'DEACTIVATED'";
+		$stmt = "SELECT * FROM `borrower` WHERE (email = '{$email}' or idnumber = '{$email}') and status = 'ACTIVATED'";
 		$query = $this->db->query($stmt);
 		return $query->num_rows();
 	}

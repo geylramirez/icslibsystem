@@ -23,7 +23,9 @@
 			<div class="row">
 				<?php
 					if($this->session->userdata('email')){ 
-						echo "<br/>";
+						echo "<h1>Hi,"; 
+						echo $this->session->userdata('fname');
+						echo "!</h1><br/>";
 				
 						echo "<div class='col-md-3 sidebar'>";
 						//<!--sidebar-->
@@ -58,46 +60,42 @@
 							echo "</div>";
 						}
 					?>
-					
+					<div>
+						<table class="table table-hover tablesorter" id="myTable" summary="Results" border="1" cellspacing="5" cellpadding="5" align = "center">
+						<thead>
+							<tr>
+								<th width="10%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN</th>
+								<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Material ID</th>
+								<th width="1%" abbr="Type" scope="col" title="Type">Type</th>
+								<th width="50%" abbr="Library Information" scope="col" title="Description">Library Information</th>
+								<?php
+									if($email){
+										echo "<th width='1%' abbr='Queue' scope='col' title='Queue'>Queue</th>";
+										echo "<th width='28%' abbr='Act' scope='col' title='Action'>Action</th>";
+									}
+								?>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th width="10%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN</th>
+								<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Material ID</th>
+								<th width="1%" abbr="Type" scope="col" title="Type">Type</th>
+								<th width="50%" abbr="Library Information" scope="col" title="Description">Library Information</th>
+								<?php
+									if($email){
+										echo "<th width='1%' abbr='Queue' scope='col' title='Queue'>Queue</th>";
+										echo "<th width='28%' abbr='Act' scope='col' title='Action'>Action</th>";
+									}
+								?>
+							</tr>
+						</tfoot>
 
 						<?php
-						//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 								$reserved_flag=0;
 								$waitlist_flag=0;
 								$rowNum 	 = 0;
 								if($value!=NULL){
-									?>
-										<div>
-											<table class="table table-hover tablesorter" id="myTable" summary="Results" border="1" cellspacing="5" cellpadding="5" align = "center">
-											<thead>
-												<tr>
-													<th width="10%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN</th>
-													<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Material ID</th>
-													<th width="1%" abbr="Type" scope="col" title="Type">Type</th>
-													<th width="58%" abbr="Library Information" scope="col" title="Description">Library Information</th>
-													<?php
-														if($email){
-															echo "<th width='1%' abbr='Queue' scope='col' title='Queue'>Queue</th>";
-															echo "<th width='20%' abbr='Act' scope='col' title='Action'>Action</th>";
-														}
-													?>
-												</tr>
-											</thead>
-											<tfoot>
-												<tr>
-													<th width="10%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN</th>
-													<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Material ID</th>
-													<th width="1%" abbr="Type" scope="col" title="Type">Type</th>
-													<th width="58%" abbr="Library Information" scope="col" title="Description">Library Information</th>
-													<?php
-														if($email){
-															echo "<th width='1%' abbr='Queue' scope='col' title='Queue'>Queue</th>";
-															echo "<th width='20%' abbr='Act' scope='col' title='Action'>Action</th>";
-														}
-													?>
-												</tr>
-											</tfoot>
-									<?php
 									foreach($value as $row){
 										echo "<tr>";
 										echo "<td class='isbn'><span class='table-text'><center>";
@@ -126,7 +124,15 @@
 											
 										echo "<td class = 'type' align='center'>". $type ."</td>";
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-										echo "<td><span class='table-text'><b> ${row['name']} </b></span> <br/><span class='author'> ${row['authorname']}</span><br /></td>";
+										echo "<td><span class='table-text'><b> ${row['name']} </b></span> <br/><span class='author'> ${row['authorname']}</span><br />";
+										echo "Ratings: <select class = 'btn btn-default btn-sm rating'>
+										  <option value='1'>1</option>
+										  <option value='2'>2</option>
+										  <option value='3'>3</option>
+										  <option value='4'>4</option>
+										  <option value='5'>5</option>
+										</select></td>";
+										
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 										if($email){
 											$t_q = 0;
@@ -154,8 +160,8 @@
 											if($waitlist_flag==1){
 												$materialid=$row['materialid'];
 												echo "<td><center>";
-												echo "<span><button class='btn btn-primary reserve_button' name='reserve'  value='".$materialid."' disabled><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
-												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\"><span class = 'glyphicon glyphicon-remove'></span></button></span></td></tr>";	
+												echo "<span><button class='btn btn-primary reserve_button' name='reserve'  value='".$materialid."' disabled>Reserve</button>";
+												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\">Cancel</button></span></td></tr>";	
 											}
 											else if($reserved_flag==1){
 												echo "<td><span class='table-text'><center>" . "BORROWED" . "</span></center></td>";
@@ -187,8 +193,8 @@
 												if($borrowed_count>=3)
 													$reserve = "cannot_reserve";
 												else $reserve= "reserve_button";
-												echo "<span><button class='btn btn-primary ". $reserve. "' name='reserve'  value='".$materialid."'><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
-												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\" disabled><span class = 'glyphicon glyphicon-remove'></span></button></span>";
+												echo "<span><button class='btn btn-primary ". $reserve. "' name='reserve'  value='".$materialid."'>Reserve</button>";
+												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\" disabled>Cancel</button></span>";
 												//echo "<input type='hidden' value='". $materialid ."' class='hiddenForm'/>";
 												echo "</center></td></tr>";
 												$rowNum++;
@@ -198,12 +204,7 @@
 											$waitlist_flag=0;
 										}
 									}
-								}//if(value!=NULL)
-
-								else{
-									echo "<div>No results found!</div>";
 								}
-								//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 								
 							?>
 					</table>
@@ -249,7 +250,6 @@
 
 <script id="js">
 			$(function(){
-
 			var pagerOptions = {
 
 			// target the pager markup - see the HTML block below
@@ -341,15 +341,32 @@
 
 	document.getElementById("success_cancel").style.display='none';
 	document.getElementById("success_reserve").style.display='none';
-	//$(".cannot_reserve").attr('disabled','true');
-	
-	function sendRow(numrow) {
-			finalRow = numrow;
-	}	
+	$(".cannot_reserve").attr('disabled','true');
+
 	$(document).ready(function()
 	{
 		$("a.tooltipLink").tooltip();
 		
+		$(".rating").change( function(){
+			rating = $(this).val();
+			materialid = $(this).parent().siblings('.matID').text();
+			isbn = $(this).parent().siblings('.isbn').text();				
+					$.ajax({
+						type: "POST",
+						url: "<?php echo site_url('borrower/insert_rating');?>",
+						data: {materialid: materialid, isbn: isbn, rating: rating},
+
+						success: function(data)
+						{
+
+						},
+						error: function()
+						{
+							alert('Reservation failed. Try again.');
+						}
+					});
+		});
+
 		$(".reserve_button").click( function(){
 				materialid = $(this).val();
 				var thisButton = $(this);
@@ -381,13 +398,7 @@
 						});
 					};
 				});
-		});
-		
-		$(".cannot_reserve").click( function(){
-				bootbox.alert('Maximum number of borrowed books has met!', function(result){
-				
-				});
-		});
+		});		
 
 		$(".cancel_button").click( function(){
 			var thisButton = $(this);

@@ -1,5 +1,5 @@
 <?php include 'home_header.php'; ?>   
-<!-- START OF SIGN UP -->
+<center>    <!-- START OF SIGN UP -->
 <div class="container">
     <div class="row">
               INSERT SOMETHING HERE
@@ -8,109 +8,53 @@
           <img src='<?php echo base_url(); ?>dist/images/side.png' alt = '' width = "500" height = "500">
         </div>
        <div class="col-xs-6 col-md-4"><br/><br/><br/>
-          <legend><center><a href="#"><i class="glyphicon glyphicon-globe"></i></a> Sign up!</center></legend>
-
+          <legend><a href="#"><i class="glyphicon glyphicon-globe"></i></a> Sign up!</legend>
+    
           <form action="<?php echo base_url()?>registration" method="post" class="form" role="form">
 
           <div class="row"><br/>
             <div class="col-xs-4 col-md-12">
-               <div class="form-group">
-                    <div class="col-sm-4">
-                      <label for="idnumber"> ID Number </label> 
-                    </div>
-                  <div class="col-sm-8">
-                    <input class="form-control" name="idnumber" id="idnumber" value="<?php echo set_value('idnumber');?>" type="text" required />
-                     <div class="error-space">
-                       <span id="error_message" class="error_color"></span>
-                    </div>
-                  </div>
-              </div>
+              <label for="idnumber" > Employee/Student Number </label><br/>
+              <input class="form-control" name="idnumber" id="idnumber" value="<?php echo set_value('idnumber');?>" type="text" required />
+              <span id="error_message" class="error_color"></span>
             </div>
           </div>
           <div class="row"><br/>
             <div class="col-xs-4 col-md-12">
-              <div class="form-group">
-                    <div class="col-sm-4">
-                      <label for="email"> Email </label><br/>
-                    </div>
-                  <div class="col-sm-8">
-                    <input class="form-control" name="email" id="emailid" value="<?php echo set_value('email');?>" type="email" required>
-                     <div class="error-space">
-                       <span id="error_message1" class="error_color"></span>
-                    </div>
-                  </div>
-              </div>
+              <label for="email"> Email </label><br/>
+              <input class="form-control" name="email" id="emailid" value="<?php echo set_value('email');?>" type="email" required>
+              <span id="error_message1" class="error_color"></span>
             </div>
           </div>
           <div class="row"><br/>
             <div class="col-xs-4 col-md-12">
-              <div class="form-group">
-                    <div class="col-sm-4">
-                      <label for="password"> Password </label><br/>
-                    </div>
-                  <div class="col-sm-8">
-                    <input class="form-control" name="password" id="password" type="password"/>
-                     <div class="error-space">
-                       <span id="error_message2" class="error_color"></span>
-                    </div>
-                  </div>
-              </div>
+              <label for="password"> Password </label><br/>
+              <input class="form-control" name="password" id="password" type="password"/>
+               <span id="error_message2" class="error_color"></span>
             </div>
           </div>
           <div class = "row"><br/>
             <div class="col-xs-4 col-md-12">
-              <div class="form-group">
-                    <div class="col-sm-4">
-                      <label for="password_conf"> Re-enter password </label><br/>
-                    </div>
-                  <div class="col-sm-8">
-                    <input class="form-control" name="password_conf" id="password_conf" onblur="validatePassword()" type="password"/>
-                     <div class="error-space">
-                       <span id="error_message3" class="error_color"></span>
-                    </div>
-                  </div>
-              </div>
+              <label for="password_conf"> Re-enter password </label><br/>
+              <input class="form-control" name="password_conf" id="password_conf" onblur="validatePassword()" type="password"/>
+               <span id="error_message3" class="error_color"></span>
             </div>
           </div><br/>
-          <div class = "row"><br/>
-             <div class="col-xs-4 col-md-12">
-              <div class="form-group">
-                    <div class="col-sm-4">
-                    </div>
-                  <div class="col-sm-8">
-                    <button class="btn btn-lg btn-primary" id="sign_up" type="button" > Sign up</button>
-                  </div>
-              </div>
-            </div>
-          </div>  
+
+          <button class="btn btn-lg btn-primary" id="sign_up" type="button" > Sign up</button>        
+          
+        
         </div>
     </div>
 </div>
-
-
-    <div class="modal fade" id="container1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3 class="modal-title" id="myModalLabel">Verify Account</h3>
-          </div>
-          <div id="details" class="modal-body">
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary">Ok</button>
-          </div>
-         </div>
-        </div>
-    </div>
-
+</center>
 
 
          <!-- END OF SIGN UP -->
 <hr class="featurette-divider">
-  <script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
-  <script src="<?php echo base_url(); ?>dist/js/bootbox.min.js"></script>
+
   <link href="<?php echo base_url(); ?>dist/css/signup.css" rel="stylesheet">
+  <script type = "text/javascript" src = "<?php echo base_url();?>script/jquery-2.1.0.min.js"></script>  
   <script>
 
   $('#add').hide();
@@ -134,13 +78,11 @@
     }
 
     function check_password(){
-      var password = $('#password').val();
-
+      var value = $('#password').val();
       $.ajax({
         url: "<?php echo base_url();?>borrower/checkpassword",
         type: "POST",
-        data: { password : password},
-
+        data: { password : value},
         success: function(result){
           if($.trim(result)=="1"){
                    $('#error_message2').html("Password length must be atleast 8 characters");
@@ -204,55 +146,30 @@
         } );
     }
 
-
-
-
     $('#sign_up').click( function(){
         if( flagSignUp ){
-          var idnumber = document.getElementById('idnumber').value;
-          var password = document.getElementById('password').value;
-          var email = $('#emailid').val();
+           var idnumber = document.getElementById('idnumber').value;
+        var password = document.getElementById('password').value;
+        var email = $('#emailid').val();
 
         $.ajax({
           url: "<?php echo base_url();?>borrower/registration",
           type: "POST",
           data: { idnumber : idnumber, password : password, email : email },
 
-
           success: function(result){
-            bootbox.dialog({
-            message: "Please check your email for verification",
-            title: "Verify Account",
-            buttons:{
-              no: {
-                label: "Ok",
-                className: "btn-primary",
-                callback: function() {
-                   window.location.href = "borrower";
-                }
-              }
-            }
-            });
+                alert('Verify');
+                window.location.href = "borrower";
           }
-
-
 
         });
 
         } else {
-           bootbox.dialog({
-              message: "Please fill-out the form properly.",
-              title: "Complete Form",
-              buttons:{
-                no: {
-                label: "Ok",
-                className: "btn-primary"
-                }
-               }
-            });
-        };
+          alert("false");
+        }
 
     });
+
 
   </script>
 
