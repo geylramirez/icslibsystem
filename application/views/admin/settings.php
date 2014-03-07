@@ -80,15 +80,27 @@
 			<table id="settingsForm">
 				<tr>
 					<td><label>* Fine: </label></td>
-					<td><input type="text" value="3.00" name="fine" pattern="[0-9]+" id="fine" disabled required></td>
+					<?php 
+						foreach($info as $row){
+							echo " <td id='fine'><label id='fine_value'> $row->fine </label></td>";
+						}
+					?>
 				</tr>
 				<tr>
 					<td><label>* Start of Semester: </label></td>
-					<td><input type="date" value="2013-11-11" name="start_sem" id="start_sem" disabled required></td>
+					<?php 
+						foreach($info as $row){
+							echo " <td id='start_sem'><label id='start_sem_value'> $row->start </label></td>";
+						}
+					?>
 				</tr>
 				<tr>
 					<td><label>* End of Semester: </label></td>
-					<td><input type="date" value="2014-03-29" name="end_sem" id="end_sem" disabled required></td>
+					<?php 
+						foreach($info as $row){
+							echo " <td id='end_sem'><label id='end_sem_value'> $row->end </label></td>";
+						}
+					?>
 					
 				</tr>
 				
@@ -109,34 +121,33 @@
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 						<strong>Update successful!</strong> Password successfully updated.
 					</div>
-				<table>
-				<tr>
-					<td><label>Current Password:</label></td>
-					<td><input type="password" id="currpw" name="currpw" value="" pattern="\w{0,}\d{1,}\w{0,}" disabled></td>
-				</tr>
-				<tr>
-					<td><label>Retype Current Password:</label></td>
-					<td><input type="password" id="crepw" name="crepw" value="" pattern="\w{0,}\d{1,}\w{0,}" disabled></td>
-				</tr>
-				<tr>
-					<td><label>New Password:</label></td>
-					<td><input type="password" id="newpw" name="newpw" value="" pattern="\w{0,}\d{1,}\w{0,}" disabled></td>
-				</tr>
-				<tr>
-					<td><label>Retype New Password:</label></td>
-					<td><input type="password" id="nrepw" name="nrepw" value="" pattern="\w{0,}\d{1,}\w{0,}" disabled></td>
-				</tr>
-				
-				<tr>
-				<td><br /></td>
-				</tr>
-				
-		</table>
+				<table id='edit_password_table' style='display:none;'>
+					<tr>
+						<td><label>Current Password:</label></td>
+						<td><input type="password" id="currpw" name="currpw" value="" pattern="\w{0,}\d{1,}\w{0,}" ><span id='currpw_error'></span></td>
+					</tr>
+					<tr>
+						<td><label>Retype Current Password:</label></td>
+						<td><input type="password" id="crepw" name="crepw" value="" pattern="\w{0,}\d{1,}\w{0,}" onblur="crepw_check()"><span id='crepw_error'></span></td>
+					</tr>
+					<tr>
+						<td><label>New Password:</label></td>
+						<td><input type="password" id="newpw" name="newpw" value="" pattern="\w{0,}\d{1,}\w{0,}"><span id='newpw_error'></span></td>
+					</tr>
+					<tr>
+						<td><label>Retype New Password:</label></td>
+						<td><input type="password" id="nrepw" name="nrepw" value="" pattern="\w{0,}\d{1,}\w{0,}" onblur="nrepw_check()"><span id='nrepw_error'></span></td>
+					</tr>
+					
+					<tr>
+					<td><br /></td>
+					</tr>
+				</table>
 		<input type="submit" id="cancel_2" name="insert" class="btn" value="Cancel" style="display: none;" onclick="cancel2()">
 		<input type="button" id="save_2" name="insert" class="btn btn-primary" value="Save" style="display: none;" onclick="valPword()">
 		<input type="submit" id="upd_pword" name="insert" class="btn btn-primary" value="Update Password" onclick="update2()">
 		<br/>
-		
+		<input id = "clear" type = "button" class = "btn btn-default" value = "Clear Reservations"/>
 		</div>
 		</div>
 		</div>
@@ -147,12 +158,45 @@
 	<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
     <script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
     <script src="<?php echo base_url();?>dist/js/holder.js"></script>
-	<script>		
+    <script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>
+	<script>
+
+		function crepw_check(){
+			var currpw = document.getElementById('currpw').value;
+			var crepw = document.getElementById('crepw').value;
+			var crepw_error = document.getElementById('crepw_error');
+
+			if(currpw != crepw){
+				crepw_error.innerHTML = "Not idetical to current password";
+			}
+			else{
+				crepw_error.innerHTML = "";
+			}
+
+		}
+
+		function nrepw_check(){
+			var newpw = document.getElementById('newpw').value;
+			var nrepw = document.getElementById('nrepw').value;
+			var nrepw_error = document.getElementById('nrepw_error');
+
+			if(newpw != nrepw){
+				nrepw_error.innerHTML = "Not idetical to new password";
+			}
+			else{
+				nrepw_error.innerHTML = "";
+			}
+
+		}
+
 		function update1(){
 		
 			var fine = document.getElementById('fine');
 			var start_sem = document.getElementById('start_sem');
 			var end_sem = document.getElementById('end_sem');
+			var fine_data = document.getElementById('fine_value').innerHTML;
+			var start_sem_data = document.getElementById('start_sem_value').innerHTML;
+			var end_sem_data = document.getElementById('end_sem_value').innerHTML;
 			var cancel_1 = document.getElementById('cancel_1');
 			var save_1 = document.getElementById('save_1');
 			var upd_info = document.getElementById('upd_info');
@@ -160,10 +204,10 @@
 			//var new_start_sem = date(start_sem);
 			
 			//alert(new_start_sem);
-		
-			fine.disabled=false;
-			start_sem.disabled=false;
-			end_sem.disabled=false;
+			
+			fine.innerHTML = "<input type='text' name='fine' id='fine_value' placeholder='"+fine_data+"'/>";
+			start_sem.innerHTML = "<input type='text' name='start_sem' id='start_sem_value' placeholder='"+start_sem_data+"'/>";
+			end_sem.innerHTML = "<input type='text' name='end_sem' id='end_sem_value' placeholder='"+end_sem_data+"'/>";
 			cancel_1.style.display='inline';
 			save_1.style.display='inline';
 			upd_info.style.display='none';
@@ -175,13 +219,20 @@
 			var fine = document.getElementById('fine');
 			var start_sem = document.getElementById('start_sem');
 			var end_sem = document.getElementById('end_sem');
+			var fine_data = document.getElementById('fine_value').placeholder;
+			var start_sem_data = document.getElementById('start_sem_value').placeholder;
+			var end_sem_data = document.getElementById('end_sem_value').placeholder;
 			var cancel_1 = document.getElementById('cancel_1');
 			var save_1 = document.getElementById('save_1');
-			var upd_info= document.getElementById('upd_info');
+			var upd_info = document.getElementById('upd_info');
 			
-			fine.disabled=true;
-			start_sem.disabled=true;
-			end_sem.disabled=true;
+			//var new_start_sem = date(start_sem);
+			
+			//alert(new_start_sem);
+			
+			fine.innerHTML = "<label id='fine_value'>"+fine_data+"</label>";
+			start_sem.innerHTML = "<label id='start_sem_value'>"+start_sem_data+"</label>";
+			end_sem.innerHTML = "<label id='end_sem_value'>"+end_sem_data+"</label>";
 			cancel_1.style.display='none';
 			save_1.style.display='none';
 			upd_info.style.display='inline';
@@ -273,19 +324,12 @@
 		
 		function update2(){
 		
-			
-			var crepw = document.getElementById('crepw');
-			var newpw = document.getElementById('newpw');
-			var currpw = document.getElementById('currpw');
-			var nrepw = document.getElementById('nrepw');
+			var table = document.getElementById('edit_password_table');
 			var cancel_2 = document.getElementById('cancel_2');
 			var save_2= document.getElementById('save_2');
 			var upd_pword= document.getElementById('upd_pword');
 			
-			crepw.disabled=false;
-			newpw.disabled=false;
-			currpw.disabled=false;
-			nrepw.disabled=false;
+			table.style.display='block';
 			cancel_2.style.display='inline';
 			save_2.style.display='inline';
 			upd_pword.style.display='none';
@@ -293,19 +337,13 @@
 		}
 		
 		function cancel2(){
-		
-			var crepw = document.getElementById('crepw');
-			var newpw = document.getElementById('newpw');
-			var currpw = document.getElementById('currpw');
-			var nrepw = document.getElementById('nrepw');
+
+			var table = document.getElementById('edit_password_table');
 			var cancel_2 = document.getElementById('cancel_2');
 			var save_2= document.getElementById('save_2');
 			var upd_pword= document.getElementById('upd_pword');
-			
-			crepw.disabled=true;
-			newpw.disabled=true;
-			currpw.disabled=true;
-			nrepw.disabled=true;
+
+			table.style.display='none';
 			cancel_2.style.display='none';
 			save_2.style.display='none';
 			upd_pword.style.display='inline';
@@ -326,15 +364,9 @@
 			if(newpw.value == currpw.value){
 				alert('Please provide a new password');
 			}
-			
+
 			else if(newpw.value.length < 6) {
 				alert("Password must be greater than 6 characters!");
-				return false;
-			}
-													
-			else if (newpw.value!=nrepw.value || (newpw.value == '' || nrepw.value == '')) {
-				alert('Please retype your password.');
-				newpw.focus;
 				return false;
 			}
 			else{
@@ -375,6 +407,46 @@
 					});
 		
 		}
+
+		$("#clear").click(function(){
+			
+			bootbox.dialog({
+						message: "Are you sure you want to clear the reservations?",
+						title: "Clear Reservations",
+						buttons: {
+							yes: {
+								label: "Yes, continue.",
+								className: "btn-primary",
+								callback: function() {
+									$.ajax({
+										type: "POST",
+										url: "<?php echo base_url();?>admin/clear_reservation",
+
+										beforeSend: function() {
+											//$("#con").html('<img src="/function-demos/functions/ajax/images/loading.gif" />');
+											$("#error_message").html("loading...");
+										},
+
+										error: function(xhr, textStatus, errorThrown) {
+												$('#error_message').html(textStatus);
+										},
+
+										success: function( result ){
+											console.log("Cleared");
+											
+										}
+									});
+								}
+							},
+							no: {
+								label: "No.",
+								className: "btn-default"
+							}
+						}
+					});
+			
+		
+		});
 	</script>
 
 	</body>

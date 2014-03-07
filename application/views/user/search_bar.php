@@ -5,7 +5,14 @@
 			 	<!-- Begin Box 1 -->
 				<table bgcolor="#ffffff" cellspacing="0" cellpadding="2" border="0" style="width: 100%; border-collapse: collapse; bordercolor: #111111">
 					<tr>
-						<form method="post" action="<?php echo base_url();?>borrower/search_all">
+						<?php
+							$email = $this->session->userdata('email');
+							base_url();
+							if($email)
+								echo "<form method='post' action='search_all'>";
+							else
+								echo "<form method='post' action='outside_search'>";
+						?>
 						<table bgcolor="#ffffff" cellspacing="0" cellpadding="2" border="0" style="width: 100%; border-collapse: collapse; bordercolor: #111111">
 
 								<td align="left">
@@ -52,6 +59,10 @@
 	</TBODY>
 </TABLE> <!--end of search bar-->
 
+
+
+
+	<script type = "text/javascript" src = "<?php echo base_url();?>script/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript">
 
 	$('#filter').show();

@@ -6,6 +6,12 @@
 		include 'home_header.php';
 
 ?>
+
+	<!--
+	
+			HOME PAGE - BORROWER
+
+	-->
 	<style>
 		.sidebar{border-right: 1px solid #eee; height:700px;}
 		th{text-align: center;}
@@ -117,9 +123,7 @@
 											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Thesi'><span class='glyphicon glyphicon-bookmark'></span></a>";
 											
 										echo "<td class = 'type' align='center'>". $type ."</td>";
-										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-										echo "<td><span class='table-text'><b> ${row['name']} </b></span> <br/><span class='author'> ${row['authorname']}</span><br /></td>";
-										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+										echo "<td><span class='table-text'><b> ${row['name']} </b></span> <br/><span class='author'> ${row['lname']}, ${row['fname']} ${row['mname']}</span></td>";
 										if($email){
 											$t_q = 0;
 											foreach($total as $t_queue){
@@ -174,12 +178,8 @@
 												$materialid=$row['materialid'];
 												//$rowVal = $rowNum . "|" . $materialid;
 												$borrowed_count = 0;
-												foreach($borrowedCount as $row)
-													$borrowed_count = $row['COUNT(librarymaterial.materialid)'];
-												if($borrowed_count>=3)
-													$reserve = "cannot_reserve";
-												else $reserve= "reserve_button";
-												echo "<span><button class='btn btn-primary ". $reserve. "' name='reserve'  value='".$materialid."'>Reserve</button>";
+												
+												echo "<span><button class='btn btn-primary reserve_button' name='reserve'  value='".$materialid."'>Reserve</button>";
 												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\" disabled>Cancel</button></span>";
 												//echo "<input type='hidden' value='". $materialid ."' class='hiddenForm'/>";
 												echo "</center></td></tr>";
@@ -321,86 +321,3 @@
 	
 	</script>
 	
-
-<script type="text/javascript">
-	var finalRow;
-	
-
-	document.getElementById("success_cancel").style.display='none';
-	document.getElementById("success_reserve").style.display='none';
-	$(".cannot_reserve").attr('disabled','true');
-	
-	function sendRow(numrow) {
-			finalRow = numrow;
-	}	
-	$(document).ready(function()
-	{
-		$("a.tooltipLink").tooltip();
-		
-		$(".reserve_button").click( function(){
-				materialid = $(this).val();
-				var thisButton = $(this);
-				var parent = $(this).parent();
-				var str = "Reserve " + materialid + "?";
-				bootbox.confirm(str, function(result){
-					if(result){
-				
-						$.ajax({
-							type: "POST",
-							url: "<?php echo site_url('borrower/reserve');?>",
-							data: {materialid: materialid},
-							
-							success: function(data)
-							{
-								thisButton.attr('disabled', true);
-								thisButton.next().removeAttr('disabled');
-								$("#success_reserve").fadeIn('slow');
-								$("#success_reserve").show();
-								$("#success_reserve").html("Successfully <strong>reserved</strong> material!");
-								document.body.scrollTop = document.documentElement.scrollTop = 0;
-								setTimeout(function() { $('#success_reserve').fadeOut('slow') }, 3000);
-								$('#reserved-count').html(""+(parseInt($('#reserved-count').text())+1));
-							},
-							error: function()
-							{
-								alert('Reservation failed. Try again.');
-							}
-						});
-					};
-				});
-		});
-		
-		
-
-		$(".cancel_button").click( function(){
-			var thisButton = $(this);
-			materialid = $(this).val();
-			
-			bootbox.confirm("Cancel reservation of this material?", function(result){
-				if(result){
-				$.ajax({
-  						type: "POST",
-  						url: "<?php echo site_url('borrower/cancel_reservation');?>",
-  						data: {materialid: materialid},
-  						success: function()
-  						{
-							thisButton.attr('disabled', true);
-							thisButton.prev().removeAttr('disabled');
-							$("#success_cancel").fadeIn('slow');
-							$("#success_cancel").show();
-							$("#success_cancel").html("Successfully <strong>cancelled</strong> reservation!");
-							document.body.scrollTop = document.documentElement.scrollTop = 0;
-							setTimeout(function() { $('#success_cancel').fadeOut('slow') }, 3000);	
-							$('#reserved-count').html(parseInt(""+($('#reserved-count').text())-1));
-  						},
-  						error: function()
-  						{
-  							alert('Cancel failed. Try again.');
-  						}
-  					});	
-				};//end if	
-			});//bootbox
-		});//end click
-
-	});
-</script>

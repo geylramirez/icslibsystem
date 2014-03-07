@@ -4,17 +4,21 @@
     <div class="signin">
       <div class="panel panel-info">
         <div class="panel-heading"><h3 class="form-signin-heading">Please sign in</h3></div>
-        <form id = "signin" class="form-signin" action = "<?php echo base_url();?>borrower/login" role="form" method = "post">
-          <input id = "username" type="text" class="form-control" placeholder="Email address" value="<?php echo set_value('username');?>" name="username" required autofocus>
-          <input id ="password" type="password" class="form-control" placeholder="Password" name = "password"required>
-		  <a href="#forgot" id="forgotText" data-toggle="modal"> Forgot password? </a>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        
+        <!-- <form id = "signin" class="form-signin" action = "<?php echo base_url();?>borrower/login/null" role="form" method = "post"> -->
+       <!-- <input id = "username" type="text" class="form-control" placeholder="Email address" value="<?php echo set_value('username');?>" name="username" required autofocus>
+          <input id ="password" type="password" class="form-control" placeholder="Password" name = "password"required> -->
+        <form id = "login_form" class="form-signin" role="form">
+        <input type="text" placeholder="Email" value="<?php echo set_value('username');?>"  class="form-control"  name="uname" required autofocus>
+        <input type="password" placeholder="Password" class="form-control" name="pword" required>
+		<a href="#forgot" id="forgotText" data-toggle="modal"> Forgot password? </a>
+        <button class="btn btn-lg btn-primary btn-block" type="button" id = "sign_in">Sign in</button>
         </form>
      </div>
-   </div>
-	<div class="alert-container">
+ 	<div class="alert-container">
 		<div id = "no_user" class = "alert alert-danger">  </div>
 	</div>
+   </div>
 
 			<div class="modal fade" id="forgot" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			  <div class="modal-dialog">
@@ -33,6 +37,56 @@
 				</div>
 			</div>
 <script src="<?php echo base_url();?>dist/js/jquery-2.1.0.min.js"></script>
+
+<script type="text/javascript">
+    
+      $("#login_form").keypress(function(event){
+        if(event.keyCode == 13){
+          event.preventDefault();
+          $("#sign_in").click();
+        }
+      });
+      
+      $("#sign_in").click( function(){
+
+        username = $("#login_form").find("input[name='uname']").val();
+        password = $("#login_form").find("input[name='pword']").val();
+
+        $.ajax({
+            url: "<?php echo base_url();?>borrower/check_user",
+            type: "POST",
+            dataType: "html",
+            data: { email: username, pword: password },
+
+            beforeSend: function() {
+
+            },
+
+            error: function(xhr, textStatus, errorThrown) {
+                //$('#error_message').html(textStatus);
+            },
+
+            success: function( result ){
+              //if username DNE
+              if(result == 0 ){
+              	displayError("Username does not exist!");
+                //window.location.href = "<?php echo site_url('borrower/login/dne'); ?>";
+              }
+              //username exists, but pword does not match
+              else if(result ==2){
+              	displayError("Password does not match with the username!");
+               // window.location.href = "<?php echo site_url('borrower/login/dnm'); ?>";
+              }
+              //if username and password exists
+              else {
+                window.location.href = "<?php echo site_url('borrower/home'); ?>";
+              }
+            }
+          });
+      });
+    </script>
+
+
 <script type="text/javascript">
 
 document.getElementById("no_user").style.display='none';

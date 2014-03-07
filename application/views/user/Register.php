@@ -72,7 +72,7 @@
       var password_conf = document.getElementById('password_conf').value;
       if(password == password_conf){
       }else{
-        alert('Please re-enter password');
+        $('#error_message3').html("Password does not match. Check passwords");
         password_conf.focus;
       }
     }

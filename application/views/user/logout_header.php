@@ -45,57 +45,56 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="<?php echo base_url();?>borrower/profile" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-home" ></span></a></li>
             <li class="dropdown">
-              <a class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" ></span></a>
+              <a  id = "message" class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" ></span></a>
                 <?php
                  // if($overdue || $res || $readytoclaim){ echo "<span class='glyphicon glyphicon-exclamation-sign'></span>"; }
                 ?>
               <ul class="dropdown-menu">
-
                 <li class="dropdown-header">Overdue Books</li>
+                <li><a>
+                <div  id = "overdue">
                 <?php
-                    if(!$overdue){  echo "<li><a><i> None </i></a></li>"; }
+                    if(!$overdue){  echo "<i> None </i>"; }
                     else{
                       foreach ($overdue as $temps) {
-                        echo "<li><a>"; 
                         echo $temps['name']; 
                         echo "<br/>";
                         echo "Fine:  Php ";
                         echo "${temps['user_fine']}";
-                        echo "</a></li>"; 
                       }
                     }
                   ?>
+                </div>
                  </a></li>
                  <li class="divider"></li>
-                 <li class="dropdown-header">Reserved Books</li>
-
-                  <?php
-                    if(!$res){ echo "<li><a><i> None </i></a></li>"; }
-                    else{
-                      foreach ($res as $temps) {
-                        echo "<li><a>"; echo $temps['name']; echo "</a></li>"; 
-                      } 
-                    }
-                  ?>
-
+                 <li  class="dropdown-header">Reserved Books</li>
+                 <li><a>
+                    <div id = "reserved" >
+                      <?php
+                        if(!$res){ echo "<i> None </i>"; }
+                        else{
+                          foreach ($res as $temps) {
+                            echo $temps['name'];
+                          } 
+                        }
+                      ?>
+                    </div>
+                  </a></li>
                  </a></li>
                  <li class="divider"></li>
-                 <li id = "message" class="dropdown-header">Ready to claim</li>
-                  <?php
-                    
-                    if(!$readytoclaim){  echo "<li><a><i> None </i></a></li>"; }
-                    else{
-                      foreach ($readytoclaim as $temps) {
-                        echo "<li><a>"; 
-                        echo $temps['materialid'];  
-                        echo " until "; 
-                        echo"<b>"; 
-                        echo $temps['claimdate'];  
-                        echo"</b>"; 
-                        echo "</a></li>"; 
-                      } 
-                    }
-                  ?>
+                 <li  class="dropdown-header">Ready to claim</li>
+                 <li><a>
+                  <div id="ready">
+                    <?php
+                      
+                      if(!$readytoclaim){  echo "<i> None </i>"; }
+                      else{
+                        foreach ($readytoclaim as $temps) {
+                          echo $temps['materialid'];  echo " until "; echo"<b>"; echo $temps['claimdate'];  echo"</b>";
+                        } 
+                      }
+                    ?>
+                  </div>
                  </a></li>
               </ul>
             </li>
@@ -107,13 +106,3 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
- <script src="<?php echo base_url(); ?>dist/js/jquery.js"></script>
-    <script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
-    <script src="<?php echo base_url(); ?>dist/js/holder.js"></script>
-
-    <script type="text/javascript">
-      $("#message").click(function(){
-          $(this).html("hello");
-          alert(1);
-      });
-    </script>

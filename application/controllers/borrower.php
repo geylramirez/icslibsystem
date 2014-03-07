@@ -4,7 +4,7 @@
 *	Filename: borrower.php
 *	Project Name: ICS Library System
 *	Date Created: 23 January 2014
-*	Created by: Julius M. Iglesia
+*	Created by: 
 *
 */
 
@@ -12,40 +12,35 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Borrower extends CI_Controller {
 	
-public function _construct()
-	{
+	public function _construct(){
 		parent::_construct();
 		$this->load->model('borrower_model');
 	}
 
-public function index(){
-		$this->load->helper('url');
-		$email = $this->session->userdata('email');
-		if($email)
-			$this->borrowed_materials();
-		else
-			$this->load->view('user/index.php');
+	public function index(){
+		$is_logged_in = $this->is_logged_in();
+		if($is_logged_in) $this->borrowed_materials();
+		else $this->load->view('user/index.php');
 	}
 
-public function about(){
+	public function about(){
 		$this->load->view('user/about_us.php');
 	}
 	
 
-public function no_cache(){
+	public function no_cache(){
 		$this->output->set_header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		$this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate');
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
 		$this->output->set_header('Pragma: no-cache');
 	}
 
-public function is_logged_in(){
-		$email = $this->session->userdata('email');
-		return $email;
+	public function is_logged_in(){
+		return $this->session->userdata('email');
 	}
 
 	
-public function reserve(){
+	public function reserve(){
 		$this->load->library("session");
 		$this->load->helper('url');
 
@@ -53,34 +48,9 @@ public function reserve(){
 		$userid = $this->session->userdata('email');
 
 		$this->load->model('user/reservation_model');
-		$check_borrowed = $this->reservation_model->get_borrowedcopy($materialid);		
-		if($check_borrowed){
-			$data['materialid']=$materialid;
-			$this->load->view('user/waitlist_book', $data);
-
-		}else{
-			$this->load->model('user/reservation_model');
-			$this->reservation_model->get_book($materialid, $userid);
-		}
-
-		
+		$this->reservation_model->get_book($materialid, $userid);	
 	}
 	
-/*public function reserve_continue(){
-		$this->load->library("session");
-		$this->load->helper('url');
-
-		$materialid = $this->input->post('yes');
-		$userid = $this->session->userdata('email');
-		
-		$data['materialid']=$materialid;
-		$data['user']=$userid;
-		$data['value']=$this->input->post('search');
-
-		$this->load->model('user/reservation_model');
-		$this->reservation_model->get_book($materialid, $userid);
-		$this->load->view('user/user_search', $data);
-	}*/
 
 public function cancel_reservation(){
 		$this->load->library("session");
@@ -88,45 +58,11 @@ public function cancel_reservation(){
 		$matid = $this->input->post('materialid');
 		$this->load->model('user/reservation_model');
 		$this->reservation_model->cancel_res($matid);
-		$this->reserved_materials_view();
+//		$this->reserved_materials_view();
 	}	
 
-/*	
-public function login()
-	{	
-		$username = $this->input->post('username');
-		$password =  $this->input->post('password');
-		$pass = $password;	
-		
-		$this->load->model('user/log_model');
-		$borrower_info = $this->log_model->get_borrower($username, $password);		
-	
-		if($borrower_info)
-		{
-		$this->session->set_userdata('idnumber',$borrower_info[0]->idnumber);
-		$this->session->set_userdata('email',$borrower_info[0]->email);
-		$this->session->set_userdata('password',$pass);
-		$this->session->set_userdata('bookcount',$borrower_info[0]->bookcount);
 
-			$b_info = $this->log_model->get_info($borrower_info[0]->idnumber);
-				$this->session->set_userdata('college',$b_info[0]->college);
-				$this->session->set_userdata('course',$b_info[0]->course);
-				$this->session->set_userdata('sex',$b_info[0]->sex);
-				$this->session->set_userdata('classification',$b_info[0]->classification);
-				$this->session->set_userdata('fname',$b_info[0]->fname);
-				$this->session->set_userdata('mname',$b_info[0]->mname);
-				$this->session->set_userdata('lname',$b_info[0]->lname);
-
-		
-		$this->borrowed_materials();
-		}
-		else
-		{
-			$this->load->view('user/forgot_pword');
-		}
-	}*/
-
-		public function check_logout(){
+public function check_logout(){
 		$is_logged_in = $this->is_logged_in();
 		$this->no_cache();
 		if( $is_logged_in ){
@@ -135,9 +71,9 @@ public function login()
 			$this->load->view('borrower/forgot_pword');
 		}
 	
-	}
+}
 	
-	public function home(){
+public function home(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
 			redirect('/borrower/login/null', 'refresh');
@@ -230,58 +166,19 @@ public function logout()
 
 
 
-public function register(){
+	public function register(){
 		$this->load->helper('url');
 		$this->load->view('user/Register.php');
 	}
-/*
-public function borrowed_materials() { 
-		// loads the model php file which will interact with the database
-		
-		//$is_logged_in = $this->is_logged_in();
-		
-		//if($is_logged_in){
-		
-		//$this->no_cache();
 
-		// loads the model php file which will interact with the database
-		$this->load->helper('url');
-		$this->load->model('user/borrowed_model'); 
-		$userid = $this->session->userdata('email');
-		// views the result by passing the data to the view php file
-		$data['borrowed'] = $this->borrowed_model->get_borrowed_material();
-		$data['reserved'] = $this->borrowed_model->get_reserved_books();
-		$data['overdue'] = $this->borrowed_model->get_overdue();
-		$data['res'] = $this->borrowed_model->get_reservations();
-		$data['readytoclaim'] = $this->borrowed_model->get_ready_to_claim();
-		$data['borrowedCount'] = $this->borrowed_model->get_borrowed_material_count();
-		$data['reservedCount'] = $this->borrowed_model->get_reserved_material_count();
-		$data['overdueCount'] = $this->borrowed_model->get_overdue_material_count();
-		
-		//update
-		$this->load->model('user/reservation_model');
-		$data['list'] = $this->reservation_model->waitlisted_matid($userid);
-		$data['rank'] = $this->reservation_model->get_rank($userid);
-		$data['total'] = $this->reservation_model->get_total($userid); //end update
-		$data['searchtext']="";
-		$this->load->view('user/profile', $data);
-		
-		
-		
-	}*/
 	public function borrowed_materials() { 
 		// loads the model php file which will interact with the database
-		
-		$is_logged_in = $this->is_logged_in();
-		
-		if($is_logged_in){
-		
 		$this->no_cache();
 
 		// loads the model php file which will interact with the database
-		$this->load->helper('url');
 		$this->load->model('user/borrowed_model'); 
 		$userid = $this->session->userdata('email');
+		
 		// views the result by passing the data to the view php file
 		$data['borrowed'] = $this->borrowed_model->get_borrowed_material();
 		$data['reserved'] = $this->borrowed_model->get_reserved_books();
@@ -298,42 +195,12 @@ public function borrowed_materials() {
 		$data['rank'] = $this->reservation_model->get_rank($userid);
 		$data['total'] = $this->reservation_model->get_total($userid); //end update
 		$data['searchtext']="";
+		
 		$this->load->view('user/profile', $data);
-		}
-		else redirect('/borrower/check_logout', 'refresh');
+
 	}
-/*	
-public function borrowed_materials_view(){
-	
-		// loads the model php file which will interact with the database
-		$this->load->helper('url');
-		$this->load->model('user/borrowed_model'); 
-		// views the result by passing the data to the view php file
-		$data['borrowedCount'] = $this->borrowed_model->get_borrowed_material_count();
-		$data['reservedCount'] = $this->borrowed_model->get_reserved_material_count();
-		$data['overdueCount'] = $this->borrowed_model->get_overdue_material_count();
-		$data['res'] = $this->borrowed_model->get_reservations();
-		$data['overdue'] = $this->borrowed_model->get_overdue();
-		$data['borrowed'] = $this->borrowed_model->get_borrowed_material();
-		$data['readytoclaim'] = $this->borrowed_model->get_ready_to_claim();
 
-		$this->load->view('user/borrowed_books', $data);
-	
-	}*/
-public function profile(){
-		$email = $this->session->userdata('email');
-		if($email)
-			//$this->borrowed_materials();
-			echo $email;
-		else
-			//$this->index();
-			echo "MAY MALI!";
-	}	
-
-
-	
-public function reserved_materials_view(){
-	
+	public function reserved_materials_view(){
 		// loads the model php file which will interact with the database
 		$this->load->helper('url');
 		$this->load->model('user/borrowed_model'); 
@@ -546,7 +413,7 @@ public function forgot_password()
 						'smtp_host' => 'ssl://smtp.googlemail.com',
     					'smtp_port' => 465,
     					'smtp_user' => 'icslibsystem.dummy@gmail.com',
-    					'smtp_pass' => 'icslibraryadmin'
+    					'smtp_pass' => 'codeigniter'
 					);
 					$this->load->library('email',$config);
 					$this->email->set_newline("\r\n");
@@ -697,48 +564,86 @@ public function updatePassword(){
 	echo "1";
 }
 
+public function getPassword()
+{
+	$opassword = $this->input->post('opassword');
+	$idnumber = $this->input->post('idnumber');
+
+	$this->load->model('user/update_model');
+	$cpword = $this->update_model->get_password($idnumber);
+	//echo $cpword[0]->password;
+	$opassword = SHA1($opassword);
+	$ret_pw = $cpword[0]->password;
+	$ret_val = array('opassword'=>$opassword, 'password'=>$ret_pw);
+	echo json_encode($ret_val);
+	
+
+}
+
+public function outside_search(){
+			
+	$search = 	$this->db->escape_str($this->input->post('searchbox'));
+		
+	$search_option = $this->input->post('category'); //array yung options
+	$type = $this->input->post('type');
+
+	if(empty($type) || $search==''){
+		$this->load->model('user/basic_search_model');
+		$result_info['value'] = $this->basic_search_model->get_search_res($search,$search_option);
+	}
+	else{
+		$this->load->model('user/advance_search_model');
+		$result_info['value'] = $this->advance_search_model->get_adv_search($search,$search_option,$type);
+	}
+
+	$this->load->view('user/search_results_view', $result_info);
+}
+
 
 
 public function new_search(){
-		$this->load->helper('url');
-		
-		
-		$search = 	$this->db->escape_str($this->input->post('searchbox'));
-		$userid = $this->session->userdata('email');
-		
-		$search_option = $this->input->post('category'); //array yung options
-		$type = $this->input->post('type');
-
-		if(empty($type) || $search==''){
-			$this->load->model('user/basic_search_model');
-			$result_info['value'] = $this->basic_search_model->get_search_res($search,$search_option);
-		}
-		else{
-			$this->load->model('user/advance_search_model');
-			$result_info['value'] = $this->advance_search_model->get_adv_search($search,$search_option,$type);
-		}
-		$this->load->model('user/basic_search_model');
-		if($this->session->userdata('email')){
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){
+			redirect('/borrower/login/null', 'refresh');
+		}else{
+			$this->no_cache();
+			$this->load->helper('url');
 			
-			$this->load->model('user/reservation_model');
+			$search = 	$this->db->escape_str($this->input->post('searchbox'));
+			$userid = $this->session->userdata('email');
+			
+			$search_option = $this->input->post('category'); //array yung options
+			$type = $this->input->post('type');
 
+			if(empty($type) || $search==''){
+				$this->load->model('user/basic_search_model');
+				$result_info['value'] = $this->basic_search_model->get_search_res($search,$search_option);
+			}
+			else{
+				$this->load->model('user/advance_search_model');
+				$result_info['value'] = $this->advance_search_model->get_adv_search($search,$search_option,$type);
+			}
+			$this->load->model('user/basic_search_model');
+
+			
+		
+			$this->load->model('user/reservation_model');
 			$result_info['matid'] = $this->reservation_model->if_reserved($userid);
 			$result_info['material'] = $this->reservation_model->if_waitlisted($userid);
 			$result_info['total'] = $this->reservation_model->get_total($userid);
-		
+			
 			$this->load->model('user/borrowed_model');
 			$result_info['borrowed'] = $this->borrowed_model->get_borrowed_material();
 			$result_info['res'] = $this->borrowed_model->get_reservations();
 			$result_info['overdue'] = $this->borrowed_model->get_overdue();
 			$result_info['readytoclaim'] = $this->borrowed_model->get_ready_to_claim();
-		
 			
+		
 			$result_info['reserved'] = $this->borrowed_model->get_reserved_books();
-			$result_info['readytoclaim'] = $this->borrowed_model->get_ready_to_claim();
+				
 			$result_info['borrowedCount'] = $this->borrowed_model->get_borrowed_material_count();
 			$result_info['reservedCount'] = $this->borrowed_model->get_reserved_material_count();
 			$result_info['overdueCount'] = $this->borrowed_model->get_overdue_material_count();
-
 			$this->load->model('user/reservation_model');
 			$result_info['list'] = $this->reservation_model->waitlisted_matid($userid);
 			$result_info['rank'] = $this->reservation_model->get_rank($userid);
@@ -746,8 +651,19 @@ public function new_search(){
 			
 			$result_info['searchtext'] = $this->db->escape_str($this->input->post('searchbox'));
 			//$this->load->view('user/search_results_view', $result_info);
-		}
 			$this->load->view('user/search_results_view', $result_info);	
+		}
+	}
+
+	public function get_message(){
+		$this->load->model('user/borrowed_model'); 
+		$data = array();
+		// views the result by passing the data to the view php file
+		$data['reserved'] = $this->borrowed_model->get_reserved_books();
+		$data['overdue'] = $this->borrowed_model->get_overdue();	
+		$data['readytoclaim'] = $this->borrowed_model->get_ready_to_claim();
+
+		echo json_encode($data);
 	}
 }
 

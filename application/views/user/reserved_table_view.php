@@ -19,8 +19,7 @@
 	<?php
 		if($list!=NULL && $rank!=NULL && $total!=NULL){
 			foreach($reserved as $row){
-				echo "<form method ='post'>";
-				echo "<tr>";
+				echo "<tr id='${row['materialid']}'>";
 				echo "<td>";
 					$tmp = $row['isbn'];
 					if (preg_match('/^[+]/', $tmp)) {
@@ -64,14 +63,14 @@
 				}
 				}
 				  echo "<td> $rrank of $t_q </td>";
-				  echo "<td><button type=\"submit\" class=\"cancel_reservation btn btn-danger\" data-dismiss=\"modal\" name = 'materialid' value='${row['materialid']}'>CANCEL</button>" . "</td>";
-				  echo "</form>";
+				  echo "<td><button class=\"cancel_button btn btn-danger\" name = 'materialid' value='${row['materialid']}'><span class='glyphicon glyphicon-remove'></button>" . "</td>";
 				  echo "</tr>";
 			  }
 		}
 	?>			  
 </table>
 
+<script src="<?php echo base_url();?>dist/js/jquery-2.1.0.min.js"></script>
 <script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>
 <script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.js"></script>
 <script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.pager.js"></script>
@@ -100,35 +99,53 @@
 	</script>
 
 <script type="text/javascript">
-	$(document).ready(function()
-	{
-		$('.cancel_reservation').on('click', function(){
-			if(confirm('Are you sure?'))
-			{
-				materialid = $(this).val();
+document.getElementById("success_cancel").style.display='none';
+$(".cancel_button").click( function(){
+	var thisButton = $(this);
+	materialid = $(this).val();
+	var str = "Cancel reservation for " + materialid + "?";
+	
+	bootbox.dialog({
+		message: str,
+		title: "Cancel Reservation",
+		buttons:{
+			yes:{
+				label: "Ok",
+				className: "btn-primary",
+				callback: function() {
 					$.ajax({
-  						type: "POST",
-  						url: "<?php echo site_url('borrower/cancel_reservation');?>",
-  						data: {materialid: materialid},
-  						success: function(data)
-  						{
-  							alert('You have successfully cancelled the item');
-  							location.reload();
-  						},
-  						error: function()
-  						{
-  							alert('Cancel failed. Try again.');
-  						}
-  					});
-			}	
-
-			else
-			{
-
+						type: "POST",
+						url: "<?php echo site_url('borrower/cancel_reservation');?>",
+						data: {materialid: materialid},
+						success: function()
+						{
+							thisButton.attr('disabled', true);
+							thisButton.prev().removeAttr('disabled');
+							$("#success_cancel").fadeIn('slow');
+							$("#success_cancel").show();
+							$("#success_cancel").html("Successfully <strong>cancelled</strong> reservation!");
+							$("#"+materialid).html("");
+							document.body.scrollTop = document.documentElement.scrollTop = 0;
+							setTimeout(function() { $('#success_cancel').fadeOut('slow') }, 3000);	
+						},
+						error: function()
+						{
+							$("#failed").fadeIn('slow');
+							$("#failed").show();
+							$("#failed").html("<strong>Failed</strong> to cancel reservation! Please try again.");
+							document.body.scrollTop = document.documentElement.scrollTop = 0;
+							setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
+						}
+					});
+				}
+			},
+			no: {
+			label: "Cancel",
+			className: "btn-default"
 			}
-
-		});
+		}
 	});
+});	
 
 
 </script>

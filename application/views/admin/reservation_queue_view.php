@@ -245,7 +245,10 @@
 								
 									foreach($reservations as $row){
 										echo "<tr id = '${row['materialid']}-${row['idnumber']}'>";
-										echo "<td class = 'isbn' ><center><span class='table-text'>${row['isbn']}</span></center> </td>";
+										if($row['type'] == 'Book' || $row['type'] == 'Reference'){											
+												echo "<td><span class='table-text'><center>" . $row['isbn'] ."</center></span></td>";
+											}
+											else echo "<td align='center'>---</td>";
 										echo "<td class = 'materialid' ><center><span class='table-text'>${row['materialid']} </span></center></td>";
 										
 										
@@ -468,20 +471,10 @@
 				}
 
 				function printISBN( data, type ){
-					if( type == 'Book')
+					if(type == 'Book' || type == 'Reference'){											
 						return data;
-					else if( type == 'CD')
-						return "";
- 					else if( type == 'SP')
-						return "";
-					else if( type == 'Reference')
-						return data;
-					else if( type == 'Journals')
-						return data;
-					else if( type == 'Magazines')
-						return data;
-					else if( type == 'Thesis')
-						return "";
+					}
+					else return "---";
 				}
 
 				function printDate( data, date ){
@@ -494,9 +487,9 @@
 				
 				function printButton( condition ){
 					if( condition == 0 ){
-						return "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' >Notify </button><button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled>Claim</button></td>";
+						return "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify'><span class='glyphicon glyphicon-bullhorn'></button><button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled><span class='glyphicon glyphicon-download'></button></td>";
 					} else {
-						return "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' disabled>Notify </button><button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' >Claim</button></td>";
+						return "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' disabled><span class='glyphicon glyphicon-bullhorn'></button><button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim'><span class='glyphicon glyphicon-download'></button></td>";
 					}					
 				}
 				

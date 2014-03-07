@@ -144,6 +144,7 @@ class Admin extends CI_Controller {
 		} else {
 			$this->no_cache();
 			$data['user'] = $is_logged_in;
+			
 			$this->load->model('admin/get_stats_model');
 			$data['stats'] = $this->get_stats_model->get_library_stats();
 			$data['weekstats'] = $this->get_stats_model->get_current_week();
@@ -505,10 +506,13 @@ class Admin extends CI_Controller {
 	*/
 	
 	public function settings(){
-	
 		$this->load->helper('url');
-		$this->load->view('admin/settings');
-	
+		
+		$this->load->model('admin/settings_model');	
+		$data['info'] = $this->settings_model->get_data();
+		$this->load->view('admin/settings', $data);
+
+
 	}
 
 	public function add_multiple(){

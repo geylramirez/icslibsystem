@@ -15,6 +15,7 @@
 	<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>dist/css/style.css" rel="stylesheet">
+	<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet">
 
 	<style type="text/css" id="holderjs-style"></style></head>
 
@@ -79,6 +80,7 @@
 								<div id="piechartContainer" style=" display: inline-block; white-space: nowrap; width: 10%; height: auto;"></div>
 								<script> var libmatcount = new Array(); var bormatcount = new Array(); var diffcount = new Array(); </script>
 								<?php
+
 									$row = $stats[0];
 	 								echo "<script>";
 	 								echo "libmatcount[0] = $row->libmatcount;";
@@ -142,10 +144,10 @@
 			$(function ()
 				{				
 					var dataSource = [
-				    { week: "Current week", value1: libmatcount[4], value2 : bormatcount[4], value3: diffcount[4] },
-				    { week: "Last week", value1: libmatcount[3], value2 : bormatcount[3], value3: diffcount[3] },
-				    { week: "Last two weeks", value1: libmatcount[2], value2 : bormatcount[2], value3: diffcount[2] },
-				    { week: "Last three weeks", value1: libmatcount[1], value2 : bormatcount[1], value3: diffcount[1] }
+				    { week: "Current week", value1 : bormatcount[1], value2: diffcount[1] },
+				    { week: "Last week", value1 : bormatcount[2], value2: diffcount[2] },
+				    { week: "Last two weeks", value1 : bormatcount[3], value2: diffcount[3] },
+				    { week: "Last three weeks",value1 : bormatcount[4], value2: diffcount[4] }
 				];
 
 				$("#barchartContainer").dxChart({
@@ -165,9 +167,8 @@
 				    //--------------------------------/
 				    //PHP CODE TO KNOW MONTH
 				    series: [
-				        { valueField: "value1", name: "Total Materials" },
-						{ valueField: "value2", name: "Borrowed Materials" },
-				        { valueField: "value3", name: "Available Materials" }
+						{ valueField: "value1", name: "Borrowed Materials" },
+				        { valueField: "value2", name: "Available Materials" }
 				    ],
 				    title: "Four-Week Stats",
 				    legend: {
