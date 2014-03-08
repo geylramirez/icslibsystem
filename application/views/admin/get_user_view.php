@@ -22,7 +22,64 @@
 		<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
 		<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
 		<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>		
-		
+
+		<script type="text/javascript">
+
+		function confirmDeleteAccount( thisDiv ){
+			bootbox.dialog({
+				message: "This account will be deleted. Are you sure you want to proceed?",
+				title: "Delete Account",
+				onEscape: function() {},
+				buttons: {
+					yes: {
+						label: "Yes, continue.",
+						className: "btn-primary",
+						callback: function() {
+							var password = prompt( "Please enter admin password" ).trim();
+							if( password != "" ){
+								$.ajax({
+									type : "POST",
+									url : "<?php echo base_url(); ?>admin/check_password",
+									data : { password : password },
+									success : function( result ){
+													console.log( result );
+													if( result == "1" ){
+ 														deleteAccount(thisDiv);
+													} else {
+														alert( "Wrong password!" );
+													}
+												}
+
+								});								
+							}
+						}
+					},
+					no: {
+						label: "No.",
+						className: "btn-default"
+					}
+				}
+			});
+		}
+
+		function deleteAccount( thisDiv ){
+			var idnumber = thisDiv.parent().siblings('.idnumber').text().trim();
+			$.ajax({
+				type : "POST",
+				url : "<?php echo base_url(); ?>admin/delete_account",
+				data : { idnumber : idnumber },
+				success : function( result ){
+					if( result == "" ){
+						console.log("Deleted");
+						$('#'+idnumber).remove();
+					}
+
+					$('table').trigger('update');
+				}
+			});
+		}
+
+		</script>
 	</head>		
 	<body>
 		 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -44,6 +101,7 @@
 				  <ul class="dropdown-menu">
 					<li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
 					<li><a href="#">Help</a></li>
+
 					<li class="divider"></li>
 					<li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
 				  </ul>
@@ -96,10 +154,9 @@
 							
 							<tbody>
 								<?php  
-									echo count($users);
 									foreach ($users as $data){
 										$data = (array)$data;
-										echo "<tr>";
+										echo "<tr id = '${data['idnumber']}'>";
 										echo "<td class = 'idnumber' > ${data['idnumber']}  </td>";
 										echo "<td>"; 
 										echo "<strong><span class = 'fname'> ${data['fname']} </span> <span class = 'mname'> ${data['mname']}  </span> <span class = 'lname'> ${data['lname']}  </span> </strong> <br /> ${data['email']}  <br />"; 
@@ -109,7 +166,7 @@
 										else echo "<span class = 'classification'><i> (Student) </i> </span><br />"; 
 										echo "</td>";
 										echo "<td> <strong> ${data['status']} </strong> </td>";
-										echo "<td> <button class = 'btn btn-default' id = 'deleteAccount' > Delete Account </button> </td>";
+										echo "<td> <button class = 'btn btn-default' onclick = 'confirmDeleteAccount($(this))' > Delete Account </button> </td>";
 										echo "</tr>";	
 									}
 								?>
@@ -154,7 +211,6 @@
 		
 		<script id="js">
 			$(function(){
-
 				var pagerOptions = {
 
 				// target the pager markup - see the HTML block below
@@ -259,7 +315,7 @@
 			}
 			
 			function printButton( ){
-				return "<td> <button class = 'btn btn-default' id = 'deleteAccount' > Delete Account </button> </td>";
+				return "<td> <button class = 'btn btn-default' onclick = 'confirmDeleteAccount($(this))' > Delete Account </button> </td>";
 			}
 
 			function updateContents( data ){
@@ -284,7 +340,7 @@
 						if( result.length != 0 ){
 							$('tbody').html("");
 							for( var i = 0; i < result.length; i++ ){
-								$('tbody').append("<tr>" + updateContents(result[i]) + "</tr>");	
+								$('tbody').append("<tr id = '"+ result[i].idnumber  +"'>" + updateContents(result[i]) + "</tr>");	
 							}
 						 	$('table').trigger('update');
 						} else {
@@ -298,6 +354,8 @@
 					}
 				});
 			});
+
+
 
 			$("#logout").click(function(){
 				window.location.href = "<?php echo site_url('admin/logout'); ?>";

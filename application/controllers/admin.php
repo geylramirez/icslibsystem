@@ -583,7 +583,7 @@ class Admin extends CI_Controller {
 		$this->load->model('admin/search_user_model');
 		$search = ""; 
 		$data['users'] = $this->search_user_model->get_users( $search );
-		$this->load->view('admin/search_user_view', $data);
+		$this->load->view('admin/get_user_view', $data);
 	}
 
 	public function add_multiple(){
@@ -637,6 +637,16 @@ class Admin extends CI_Controller {
 		$this->load->model('admin/clear_reservation_model');
 		$this->clear_reservation_model->clear();
 		
+	}
+
+	public function check_password(){
+		$this->load->model('admin/delete_account_model');
+		echo $this->delete_account_model->check_combination();
+	} 
+
+	public function delete_account(){
+		$this->load->model('admin/delete_account_model');
+		$this->delete_account_model->delete_account();
 	}
 }
 
