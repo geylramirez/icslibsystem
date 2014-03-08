@@ -571,6 +571,21 @@ class Admin extends CI_Controller {
 
 	}
 
+	public function search_user(){
+		$this->load->model('admin/search_user_model');
+		if ( !$this->input->post('search') ) $search = ""; 
+		else $search = $this->input->post('search');
+
+		echo json_encode($this->search_user_model->get_users( $search ));
+	}
+
+	public function get_user(){
+		$this->load->model('admin/search_user_model');
+		$search = ""; 
+		$data['users'] = $this->search_user_model->get_users( $search );
+		$this->load->view('admin/search_user_view', $data);
+	}
+
 	public function add_multiple(){
 	
 		$this->load->view('admin/add_multiple_view');

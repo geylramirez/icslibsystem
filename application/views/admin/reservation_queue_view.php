@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	
-	<link rel="shortcut icon" href="<?php echo base_url();?>dist/images/favicon.png">
-
-	<title>ICS-iLS</title>
-
-	<link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" /> <!--for chart -->
-
-	<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
-	<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
-	<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>		
-	
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
 		
+		<link rel="shortcut icon" href="<?php echo base_url();?>dist/images/favicon.png">
+
+		<title>ICS-iLS</title>
+
+		<link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet">
+		<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
+		<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
+		<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
+		<link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
+		<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" />
+
+		<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
+		<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
+		<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>		
+		
+	</head>		
 	<body>
 		 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
@@ -71,9 +71,6 @@
 									var isbn = parent.siblings('.isbn').text().trim();
 									if( isbn == "---" ) isbn = "+" + materialid;
 									
-									console.log(idnumber);
-									console.log(materialid);
-									console.log(isbn);
 									$.ajax({
 										type: "POST",
 										url: "<?php echo base_url();?>admin/claim_reservation",
@@ -137,10 +134,6 @@
 									
 									if( isbn == "---" ) isbn = "+" + materialid;
 
-									console.log(idnumber);
-									console.log(isbn);
-									console.log(materialid);
-									
 									$.ajax({
 										type: "POST",
 										url: "<?php echo base_url();?>admin/notification",
@@ -220,12 +213,10 @@
 							if( count($reservations) != 0 ){
 						?>
 
-						<form method="post"  style="width: 600px ; margin-left: auto; margin-right: auto;" role="form">
-							<input type="text" id = "searchReservedBooks" name ="search"  size="80"/>
-							<input class = "btn btn-primary" type="button" id = "searchReservedButton" value="Search"/> 
-							<div id = "alert"> </div><br /><br />
-                        </form>
-						
+						<input type="text" id = "searchReservedBooks" name ="search"  size="80"/>
+						<input class = "btn btn-primary" type="button" id = "searchReservedButton" value="Search"/> 
+						<div id = "alert"> </div><br /><br />
+	                
 						<table class="table table-hover tablesorter" border = "1" cellspacing='5' cellpadding='5' align = 'center'>
 							<thead>
 								<tr>
@@ -271,7 +262,7 @@
 											$type = "<span class='glyphicon glyphicon-headphones'></span>";
 										else if($row['type'] == 'SP')
 											$type = "<span class='glyphicon glyphicon-file'></span>";
-										else if($row['type'] == 'Reference')
+										else if($row['type'] == 'References')
 											$type = "<span class='glyphicon glyphicon-paperclip'></span>";
 										else if($row['type']== 'Journals')
 											$type = "<span class='glyphicon glyphicon-pencil'></span>";
@@ -514,7 +505,7 @@
 						type = "<center><span class='glyphicon glyphicon-headphones'></span></center>";
  					else if( type == 'SP')
 						type = "<center><span class='glyphicon glyphicon-file'></span></center>";
-					else if( type == 'Reference')
+					else if( type == 'References')
 						type = "<center><span class='glyphicon glyphicon-paperclip'></span></center>";
 					else if( type == 'Journals')
 						type = "<center><span class='glyphicon glyphicon-pencil'></span></center>";
@@ -526,7 +517,13 @@
 					return type;
 				}
 
-
+				$("#searchReservedBooks").keypress(function(event){
+					if(event.keyCode == 13){
+						event.preventDefault();
+						$("#searchReservedButton").click();
+					}
+				});
+		
 				$("#searchReservedButton").click(function(){
 
 					var search = $("#searchReservedBooks").val();	
