@@ -230,18 +230,7 @@
 									<th width="22%"><center>Action</center></th>
 								</tr>
 							</thead>
-							<tfoot>
-								<tr>
-									<th width="5%"><center>ISBN/ISSN</center></th>
-									<th width="5%"><center>Library Material ID</center></th>
-									<td width="5%"><center><b>Type</center></b></td>
-									<th width="45%"><center>Library Information</center></th>
-									<th width="5%"><center>Borrower</center></th>
-									<th width="8%"><center>Start Date</center></th>
-									<th width="5%"><center>Rank</center></th>
-									<th width="22%"><center>Action</center></th>
-								</tr>
-							</tfoot>
+							
 							<tbody>
 								<?php
 									$rank = 0;
@@ -295,7 +284,7 @@
 										echo "<td class = 'idnumber' ><center><span class='table-text'>${row['idnumber']}</span></center> </td>";
 										
 											if( $row['started'] == 0 ){
-												echo "<td align='center'><span class='table-text'> Not yet notified </span></td>";
+												echo "<td align='center'><span class='table-text'> Notify first the borrower. </span></td>";
 												echo "<td align='center'><span class='table-text'> ${row['queue']}/${row['total']}</span> </td>";
 												echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' ><span class='glyphicon glyphicon-bullhorn'></button>";
 												echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled><span class='glyphicon glyphicon-download'></button>";
