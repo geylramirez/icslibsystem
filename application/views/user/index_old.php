@@ -10,23 +10,17 @@
 
     <title>ICS-iLS</title>
 
-    <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url(); ?>dist/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- Custom styles for this template -->
     <link href="<?php echo base_url(); ?>dist/css/carousel.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>dist/css/modulestyle.css" rel="stylesheet">
     
   <style type="text/css" id="holderjs-style"></style></head>
+
+  <script src="<?php echo base_url();?>dist/js/jquery-2.1.0.min.js"></script>
+  <script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
+  <script src="<?php echo base_url(); ?>dist/js/holder.js"></script>
+
+
 <!-- NAVBAR
 ================================================== -->
   <body id="body">
@@ -39,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>dist/images/logo4.png" height="50px" width="165px"></a>
+          <a class="navbar-brand" href="index.php"><img src="<?php echo base_url(); ?>dist/images/logo4.png" height="50px" width="165px"></a>
         </div>
         <div class="navbar-collapse collapse">
 
@@ -56,7 +50,7 @@
          <!--   <button type="submit" name="login" class="btn btn-primary">Sign in</button> -->
             <a href="register" name="signup" class="buttonhref white" >Sign up</a>
             <p><a href="#forgot" id="forgotText" data-toggle="modal"> Forgot password? </a></p>
-      </form>
+            </form>
 
         </div><!--/.navbar-collapse -->
       </div>
@@ -78,38 +72,35 @@
    </div>
   </div>
 </div>
-<script src="<?php echo base_url();?>dist/js/jquery-2.1.0.min.js"></script>
 
-
-    <script type="text/javascript">
+  <script type="text/javascript">
     
-      $("#login_form").keypress(function(event){
-        if(event.keyCode == 13){
-          event.preventDefault();
-          $("#sign_in").click();
-        }
-      });
+    $("#login_form").keypress(function(event){
+      if(event.keyCode == 13){
+        event.preventDefault();
+        $("#sign_in").click();
+      }
+    });
       
-      $("#sign_in").click( function(){
+    $("#sign_in").click( function(){
 
-        username = $("#login_form").find("input[name='uname']").val();
-        password = $("#login_form").find("input[name='pword']").val();
+      username = $("#login_form").find("input[name='uname']").val();
+      password = $("#login_form").find("input[name='pword']").val();
 
-        $.ajax({
-            url: "<?php echo base_url();?>borrower/check_user",
-            type: "POST",
-            dataType: "html",
-            data: { email: username, pword: password },
+      $.ajax({
+          url: "<?php echo base_url();?>borrower/check_user",
+          type: "POST",
+          dataType: "html",
+          data: { email: username, pword: password },
 
-            beforeSend: function() {
+          beforeSend: function() {
+          },
 
-            },
+          error: function(xhr, textStatus, errorThrown) {
+              //$('#error_message').html(textStatus);
+          },
 
-            error: function(xhr, textStatus, errorThrown) {
-                //$('#error_message').html(textStatus);
-            },
-
-            success: function( result ){
+          success: function( result ){
             //if username DNE
             if(result == 0 ){
               window.location.href = "<?php echo site_url('borrower/login/dne'); ?>";
@@ -128,9 +119,10 @@
               window.location.href = "<?php echo site_url('borrower/home'); ?>";
             }
           }
-          });
+
       });
-    </script>
+    });
+  </script>
 
 <script type="text/javascript">
   $(document).ready(function()
@@ -271,4 +263,41 @@
     
  });
 </script>
- 
+    
+  
+   <div class="row" id="container">
+      <div class="container">
+         <center> <img src="<?php echo base_url(); ?>dist/css/banner_up_new.gif"></center>
+      </div>
+    </div>
+
+
+
+    <div class="container marketing" id="fixsize">
+    <br/>
+      <div class="row">
+        <div class="col-lg-4">
+          <img id="icons" alt="50x50" src="<?php echo base_url(); ?>dist/images/search.png">
+          <h3>Looking for something?</h3>
+      <p>Search for materials available in the library.</p>
+          <p><a class="btn btn-primary" href="<?php echo base_url();?>borrower/outside_search" role="button">Search now »</a></p>
+        </div><!-- /.col-lg-4 -->
+
+        <div class="col-lg-4">
+                <img id="icons" alt="50x50" src="<?php echo base_url(); ?>/dist/images/clock.png">
+                <h3>When can you visit?</h3>
+                <p>The library is open from <strong>Monday to Friday, 8am to 12nn and 1pm to 5pm</strong>.</p>
+              </div><!-- /.col-lg-4 -->        
+
+        <div class="col-lg-4">
+                <img id="icons" alt="50x50" src="<?php echo base_url(); ?>/dist/images/cmp.png">
+                <h3>Want to know more?</h3>
+                <p>Take a look at the courses the Institute is offering.</p>
+          <p><a class="btn btn-primary" href="http://ics.uplb.edu.ph/courses/ugrad" role="button">View details »</a></p>
+        </div><!-- /.col-lg-4 -->
+        
+      </div><!-- /.row -->
+      <!-- /END THE FEATURETTES -->
+      <?php include "home_footer.php"; ?>
+
+</body></html>

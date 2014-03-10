@@ -1,71 +1,90 @@
-<?php include 'admin_header.php'; ?></div>
+<!DOCTYPE html>
+<html lang="en">
+<?php include 'includes/head.php'; ?>
+
+	<body>
+		 <?php include 'includes/header.php'; ?>
         <div class="mainBody">
-            <div class="sidebarMain">
-				<ul class="nav nav-pills nav-stacked">
-					<li id = "reserved-nav" >
-						<a href="<?php echo base_url();?>admin/reservation"><span class="glyphicon glyphicon-import"></span> &nbsp;Reserved Books</a>
-					</li>
-					<li id = "borrowed-nav" >
-						<a href="<?php echo base_url();?>admin/borrowed_books"><span class="glyphicon glyphicon-export"></span> &nbsp;Borrowed Books</a>
-					</li>
-					<li id = "view-nav" >
-						<a href="<?php echo base_url();?>admin/admin_search"><span class="glyphicon glyphicon-search"></span> &nbsp;View All Materials</a>
-					</li>
-					<li id = "add-nav" >
-						<a href="<?php echo base_url();?>admin/add_material"><span class="glyphicon glyphicon-plus"></span> &nbsp;Add A New Material&nbsp;&nbsp;&nbsp;</a>
-					</li>
-					<li id = "overview-nav">
-						<a href="<?php echo base_url();?>admin/home"><span class="glyphicon glyphicon-dashboard"></span> &nbsp;Overview</a>
-					</li>	
-				</ul>
-			</div> 
+            <?php include 'includes/sidebar.php'; ?>
 
         <div class="leftMain">
 	        <div id="main-page">
 		        <div id = "main-content">
-		        	<h3> Add multiple materials </h3>
-					<input id="uploadFile" type="file" name = "file[]" accept=".csv" />
-					<span id = "error"> </span>
-					<table id = "table-data-area" border = "1">
+		        	<br />
+						<h2> Add Multiple Materials </h2>
+						<ol class="breadcrumb">
+							<li><a href="<?php echo base_url()?>admin/home">Home</a></li>
+							<li><a href="<?php echo base_url()?>admin/update_material">Add A New Material</a></li>
+							<li class="active"> Add Multiple Materials </li>
+						</ol>
+					<div class = "well">
+						<h4><u> Rules in adding multiple materials </u></h4>
+						<ul>
+							<li>The material ID must match the given format depending on their types. <i>e.g. CS1-A2 (a book for CS1), M-12 (for magazines), R-12 (for references),
+								J-12 (for journals), SP1989-12a (for Special Problem papers), T-12 (for Theses),
+								CD-12 (for CDs)</i>
+							</li>
+							<li>A type of a library material must be spelled out correctly (i.e. Book, Magazines,
+								References, Journals, SP, Thesis, CD).
+							</li>
+							<li>Books and references require a 10-digit ISBN while magazines and journals require
+								an 8-digit ISSN. Leave the space provided for the materials without ISBN or ISSN. 
+							</li>
+							<li>For books, the course classification must agree with the material ID. <i>e.g. material ID = CS1-A2; course classification = CS1</i>
+							</li>
+							<li>Title must be of valid format.</li>
+							<li>The valid years in the year of publication is from 1950 to the current year only.</li>
+							<li>Editions are optional.</li>
+							<li>Accessibility is defined as either: 1 - student, 2 - faculty, 3 - student/faculty, or 4 - room-use</li>
+							<li>Availability is defined as either: 0 - not available or 1 - available</li>
+							<li>To indicate if a library material requires a consent from an instructor before it can be
+								borrowed, define the requirement as 1. Otherwise, 0.
+							</li>
+							<li>Authors are included in the end of the file with the format Fist Name, Middle Name, Last Name, [Fist Name, Middle Name, Last Name]</li>
+						</ul>
+					</div>
+					<br />
+					<input id="uploadFile" type="file" name = "file[]" accept=".csv" class="col-sm-offset-4" />
+					<br />
+					
+					<div id = "error" style = "text-align: center;"> </div>
+					<table id = "table-data-area" class = "table table-hover">
 						<thead>
-
 						</thead>
 						<tbody>
-
 						</tbody>
 					</table>
-
-					<input class = "btn btn-primary" type = "button" name = "insertButton" id = "insertButton" value = "Insert to Database"/>
+					<input disabled = 'true' class = "btn btn-primary col-md-2 col-sm-offset-4" type = "button" name = "insertButton" id = "insertButton" value = "Insert to Database"/>
 					
 					<span id = "error"> </span>
 				</div>
 			</div>
 		
     </div>
-	<footer>
-		<center><p id="small">2013 CMSC 128 AB-6L. All Rights Reserved. <a href="#">Privacy</a> | <a href="#">Terms</a> | <a href="#">About</a> | <a href="#">Contact</a> </p></center>
-	</footer>
-
-	<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
-    <script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
-    <script src="<?php echo base_url();?>dist/js/holder.js"></script>
-  	<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>
+	
+	<!-- Footer -->
+	<?php include 'includes/footer.php'; ?>
     <script type="text/javascript" language="javascript">
-		$(document).ready(function(){
-			var arrayGlobal = new Array();
+		
+			$('#add-nav').addClass('active');
+			$(document).ready(function(){
+				var arrayGlobal = new Array();
 
-			$('#uploadFile').change( checkfile );
-			$('#add-field').attr('hidden', 'hidden');
-			$('#addButton').click(function(){
+				$('#uploadFile').change( checkfile );
+				$('#add-field').attr('hidden', 'hidden');
+				$('#addButton').click(function(){
 				$('#add-field').removeAttr('hidden', 'hidden');
 			});
 
 			function checkfile() {
-                var validExtension = new Array(".xlsx", ".xls", ".csv");
+                var validExtension = new Array(".csv");
                 var fileExtension = $('#uploadFile').val();
                 fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.'));
                 if (validExtension.indexOf(fileExtension) < 0) {
                     $('#error').html("Invalid file selected, valid files are of " + validExtension.toString() + " types.");
+                    $('#error').addClass('alert alert-danger');
+                    setTimeout(function(){ $('#error').fadeOut('slow'); }, 5000);
+                    setTimeout(function(){ $('#error').removeClass('alert alert-danger'); }, 6000);
                     return false;
                 }
                 else {
@@ -76,7 +95,9 @@
 	                    return true;
                     } else {
                         $('#error').html("The File APIs are not fully supported in this browser.");
-                    
+	                    $('#error').addClass('alert alert-danger');
+	                    setTimeout(function(){ $('#error').fadeOut('slow'); }, 5000);
+	                    setTimeout(function(){ $('#error').removeClass('alert alert-danger'); }, 6000);
                         return false;
                     }
                 }
@@ -125,6 +146,7 @@
 				// If we use onloadend, we need to check the readyState.
 				reader.onloadend = function(evt) {
 					if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+						arrayGlobal = new Array();
 						loadTable( evt.target.result );
 					}
 				};
@@ -156,8 +178,10 @@
 			function displayTable( array ){
 				var body = $('#table-data-area').find('tbody');
 				var head = $('#table-data-area').find('thead');
-				var headerArr = new Array('materialid', 'isbn/issn', 'name', 'course', 'available', 'access', 'type', 'year', 'edvol', 'requirement', 'quantity', 'status');
+				var headerArr = new Array('materialid', 'isbn/issn', 'name', 'course', 'availablity', 'accessibility', 'type', 'year', 'edition/volume', 'requirement', 'quantity', 'author(s)');
 				var headStr = "";
+				head.html("");
+				body.html("");
 				
 				for( var i = 0; i < headerArr.length; i++ ){
 					headStr = headStr + "<th> " + headerArr[i] + " </th>";
@@ -178,10 +202,17 @@
 					str = str + "<td class = 'edvol'> " + array[i][8] + " </td>";
 					str = str + "<td class = 'requirement'> " + array[i][9] + " </td>";
 					str = str + "<td class = 'quantity'> " + array[i][10] + " </td>";
-					str = str + "<td><span class = 'check-error' > </span></td>";
+					str = str + "<td><span class = 'authors' >";
+					console.log(array[i][11]);
+					for (var j = 0; j < array[i][11].length; j++) {
+						str += "-- " + array[i][11][j][0] + " " + array[i][11][j][1]  + " " + array[i][11][j][2] + "<br />";
+					}
+					
+					str = str + " </span></td>";
 					
 					body.append("<tr class = '"+ array[i][0] + "-" + array[i][1] + "' >"+ str + "</tr>");
-						currentRow = $('#table-data-area tr').get($('#table-data-area tr').length-1).children;
+					currentRow = $('#table-data-area tr').get($('#table-data-area tr').length-1).children;
+					
 					if ( ( checkDataInput( array[i] ) ) ){
 						//enable
 						document.getElementById("insertButton").disabled = false; 
@@ -248,7 +279,7 @@
 			function checkMaterialIdInDB( materialid, row ){
 				$.ajax({
 					type: "POST",
-					url: "<?php echo base_url();?>admin/check_materialid",
+					url: "<?php echo base_url();?>admin/check_add_materialid",
 					dataType : "html",
 					data: { materialid : materialid }, 
 
@@ -287,7 +318,7 @@
 			function checkISBNInDB( isbn, row ){
 				$.ajax({
 					type: "POST",
-					url: "<?php echo base_url();?>admin/check_isbn",
+					url: "<?php echo base_url();?>admin/check_add_isbn",
 					dataType : "html",
 					data: { isbn : isbn }, 
 

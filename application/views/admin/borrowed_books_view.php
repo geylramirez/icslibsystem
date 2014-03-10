@@ -1,29 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	
-	<link rel="shortcut icon" href="<?php echo base_url();?>dist/images/favicon.png">
+<html lang="en">
+<?php include 'includes/head.php'; ?>
 
-	<title>ICS-iLS</title>
-
-	<link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/style.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" /> <!--for chart -->
-
-	<style type="text/css" id="holderjs-style"></style></head>
-
-	<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
-	<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
-	<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>		
 	<script>
 		function returnBook( thisDiv ){
 					bootbox.dialog({
@@ -78,7 +56,7 @@
 								}
 							},
 							no: {
-								label: "No.",
+								label: "No",
 								className: "btn-default"
 							}
 						}
@@ -87,121 +65,81 @@
 	</script>
 		
 	<body>
-		 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="30px"></a>
-                </div>
-				<!--<div class="alert alert-success" id="returned">
-					<a href="#" class="close" data-dismiss="alert" id="boton_cerrar">&times;</a> 
-					<strong>Successfully returned material!</strong>     
-				</div>-->
-                <form class="navbar-form navbar-right" role="form">
-                    <!-- Split button -->
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-cog"></span>
-				  </button>
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
-                  </ul>
-                </div>
-                </form>
-            </div>
-        </div>
-		<div class="mainBody">
-			<!-- Nav tabs -->
-			<div class="sidebarMain">
-				<ul class="nav nav-pills nav-stacked">
-					<li id = "reserved-nav" >
-						<a href="<?php echo base_url();?>admin/reservation"><span class="glyphicon glyphicon-import"></span> &nbsp;Reserved Books</a>
-					</li>
-					<li id = "borrowed-nav" class="active">
-						<a href="<?php echo base_url();?>admin/borrowed_books"><span class="glyphicon glyphicon-export"></span> &nbsp;Borrowed Books</a>
-					</li>
-					<li id = "view-nav" >
-						<a href="<?php echo base_url();?>admin/admin_search"><span class="glyphicon glyphicon-search"></span> &nbsp;View All Materials</a>
-					</li>
-					<li id = "add-nav" >
-						<a href="<?php echo base_url();?>admin/add_material"><span class="glyphicon glyphicon-plus"></span> &nbsp;Add A New Material&nbsp;&nbsp;&nbsp;</a>
-					</li>
-					<li id = "overview-nav">
-						<a href="<?php echo base_url();?>admin/home"><span class="glyphicon glyphicon-dashboard"></span> &nbsp;Overview</a>
-					</li>	
-				</ul>
-			</div>
-			
+		<?php include 'includes/header.php'; ?>
+        <div class="mainBody">
+            <?php include 'includes/sidebar.php'; ?>
+
 			<div class="leftMain">
 				<div id="main-page">
 					<div id = "main-content">
-						<br /><br />
-						<form method="post"  style="width: 800px ; margin-left: auto; margin-right: auto;" role="form" align="center">
-                            <input type="text" name="search"  size="80"/>
-                            <input class = "btn btn-primary" type="submit" value="Search" name="search_borrowed_books"/> 
-                            <div class="alert-container">
-								<div style="display:none" id = "success_return" class = "alert alert-success">  </div>
+						<div id = "main-content">
+						<br />
+						<h2> Borrowed View </h2>
+						<h5> <i> You are currently viewing the borrowed material that can be provided with a library material copy. </i> </h5>
+						<ol class="breadcrumb">
+							<li><a href="<?php echo base_url()?>admin/home">Home</a></li>
+							<li class="active"> Borrowed </li>
+						</ol>
+						
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3 ">
+								<div class="alert-container" style = 'height: 40px; padding-top: 10px; margin-bottom:10px;'>
+									<div style="display:none; height: 20px; text-align: center;" id = "success_return">  </div>
+								</div>
 							</div>
-                                  
+						</div>
+						<br /><br /><br />
+						<form method="post" role="form" align="center">
+							 <div class="row">
+								<div class="col-md-6 col-md-offset-3 ">
+									<div class="input-group">
+                            			<input type="text" name="search" class="form-control"/>
+                            			<span class="input-group-btn"> 
+	                           				<input class = "btn btn-default" type="submit" value="Search" name="search_borrowed_books"/> 
+	                           			</span>
+									</div><!-- /input-group -->  
+								</div><!-- /.col-lg-6 -->
+							</div><!-- /.row -->
                         </form>
-                        
-						<table class="tablesorter" border = "1" cellspacing='5' cellpadding='5' align = 'center'>
-							
+                        <br />
+
 						<?php
 						  if($this->input->post('returnButton') != ''){
 							echo "wew";
 						  }
-                         	if($flag->num_rows ==0){
-                         		 echo "<center>No search results found. </center>";
-                         	}
-
-								echo"<table border = '1' id='myTable' class='tablesorter'>
+						  	echo"<table id='myTable' class='table table-hover table-bordered'>
 								<thead>
 									<tr>
-										<th title='ISBN' width='10%'><center>ISBN</center></th>
-										<th title='Library Material ID' width='10%'><center>Library Material ID</center></th>
-										<th title='Type' width='5%'><center>Type</center></th>
-										<th title='Library Information' width='41%'><center>Library Information</center></th>
-										<th title='Borrower' width='8%'><center>Borrower</center></th>
-										<th title='Start date' width='8%'><center>Start Date</center></th>
-										<th title='Due Date' width='8%'><center>Due Date</center></th>
-										<th title='Fine' width='5%'><center>Fine</center></th>
-										<th title='Action' width='5%'><center>Action</center></th>
+										<th width='10%'><center>ISBN/ISSN</center></th>
+										<th width='11%'><center>ID Material</center></th>
+										<th width='5%'><center>Type</center></th>
+										<th width='42%'><center>Library Information</center></th>
+										<th width='8%'><center>Borrower</center></th>
+										<th width='8%'><center>Start Date</center></th>
+										<th width='8%'><center>Due Date</center></th>";
+							if ($enable_fine == 0) echo "<th width='5%'><center>Status</center></th>";
+							else echo "<th width='5%'><center>Fine</center></th>";
+										
+							echo"		<th width='5%'><center>Action</center></th>
 									</tr>
 								</thead>
 								<tfoot>
-									<tr>
-										<th title='ISBN' width='10%'><center>ISBN</center></th>
-										<th title='Library Material ID' width='10%'><center>Library Material ID</center></th>
-										<th title='Type' width='5%'><center>Type</center></th>
-										<th title='Library Information' width='41%'><center>Library Information</center></th>
-										<th title='Borrower' width='8%'><center>Borrower</center></th>
-										<th title='Start date' width='8%'><center>Start Date</center></th>
-										<th title='Due Date' width='8%'><center>Due Date</center></th>
-										<th title='Fine' width='5%'><center>Fine</center></th>
-										<th title='Action' width='5%'><center>Action</center></th>
-									</tr>
 								</tfoot>";
-					
-
+							echo "<tbody>";
+                         	if($flag->num_rows ==0){		
+                                    echo "<td colspan = '9' style='background-color:rgba(0,0,0,0.1); color: black;'><center>No search results found.</center></td>";
+                                    
+                         	}else{
 								date_default_timezone_set('Asia/Manila');
 							    // Then call the date functions
 							    $date = strtotime(date('Y-m-d'));
 								//echo count($borrowed_books->result());
 								//$i=0;
 								foreach($borrowed_books->result() as $row){	
+									$date2 = strtotime($row->expectedreturn);
+									$days = $date-$date2;
+									$finalfine = floor($days/(60*60*24))*$fine;
+									echo "<tbody>";
 									echo "<tr id = '{$row->materialid}-{$row->idnumber}'>";
 									echo "<td class = 'isbn' ><center><span class='table-text'>{$row->isbn}</span></center> </td>";
 									echo "<td class = 'materialid' ><center><span class='table-text'>{$row->materialid} </span></center></td>";
@@ -212,8 +150,8 @@
 											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='CD'><span class='glyphicon glyphicon-headphones'></span></a>";
 										else if($row->type == 'SP')
 											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='SP'><span class='glyphicon glyphicon-file'></span></a>";
-										else if($row->type == 'Reference')
-											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Reference'><span class='glyphicon glyphicon-paperclip'></span></a>";
+										else if($row->type == 'References')
+											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='References'><span class='glyphicon glyphicon-paperclip'></span></a>";
 										else if($row->type== 'Journals')
 											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Journal'><span class='glyphicon glyphicon-pencil'></span></a>";
 										else if($row->type== 'Magazines')
@@ -227,17 +165,21 @@
 									echo "<td class='idnumber'><span class='table-text'>". $row->idnumber. "</span></td>";
 									echo "<td><span class='table-text'>". $row->start . "</span></td>";
 									echo "<td><span class='table-text'>". $row->expectedreturn. "</span></td>";
-									$date2 = strtotime($row->expectedreturn);
-									$days = $date-$date2;
-									if (floor($days/(60*60*24))*$fine > 0)
-										echo "<td class='fine'><span class='table-text'>". floor($days/(60*60*24))*$fine . ".00" . "</span></td>";
-									else echo "<td class='fine'><span class='table-text'>0.00</span></td>";
-									echo "<td><button onclick = 'returnBook($(this))' class='returnButton btn btn-primary' name='return'>Return</button>";
+									if($enable_fine == 1) {
+										if ($finalfine > 0) echo "<td><span class='table-text'>". $finalfine. ".00</span></td>";
+										else echo "<td><span class='table-text'>0.00</span></td>";
+									}
+									else {
+										if ($finalfine > 0) echo "<td><span class='table-text'>Overdue</span></td>";
+										else echo "<td><span class='table-text'>0.00</span></td>";
+									}
+									echo "<td><button onclick = 'returnBook($(this))' class='returnButton btn btn-primary' name='return'><span class='glyphicon glyphicon-remove-circle'></span></button>";
 									echo "</td></tr>";
-								}
-								//echo "</table>";
+								}//for	
+							}
+							echo "</tbody>";
+							echo "</table>";
 						?>
-						</table>
 						<div class="pager">
 							<!--<img src="../addons/pager/icons/first.png" class="first" alt="First" />
 							<img src="../addons/pager/icons/prev.png" class="prev" alt="Prev" />-->
@@ -261,132 +203,18 @@
 				</div>
 				<div id = "error"> </div>
 			</div>
-		<!-- FOOTER -->
-		<footer> <a href="#" class="back-to-top"><span class='glyphicon glyphicon-chevron-up'></span></a>
-			<center><p id="small">2013 CMSC 128 AB-6L. All Rights Reserved. <a href="#">Privacy</a> | <a href="#">Terms</a> | <a href="#">About</a> | <a href="#">Contact</a> </p></center>
-		</footer>
-		
-		<script src="<?php echo base_url();?>dist/js/holder.js"></script>
-		<script src="<?php echo base_url();  ?>js/jquery.tablesorter.js" type="text/javascript"></script>
-		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.pager.js"></script>
-		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.widgets.js"></script>
-		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/widget-pager.js"></script>
-		
-		<!--script src="<?php echo base_url();?>dist/js/dynamic.js"></script-->
-		<!--script src="<?php echo base_url();?>dist/js/modernizr.js"></script-->
-<script id="js">
-			$(function(){
+		<!-- Footer -->
+		<?php include 'includes/footer.php'; ?>
 
-			var pagerOptions = {
+		<?php include 'includes/pagination.php'; ?>	
 
-			// target the pager markup - see the HTML block below
-			container: $(".pager"),
-
-			// use this url format "http:/mydatabase.com?page={page}&size={size}&{sortList:col}"
-			ajaxUrl: null,
-
-			// modify the url after all processing has been applied
-			customAjaxUrl: function(table, url) { return url; },
-
-			// process ajax so that the data object is returned along with the total number of rows
-			// example: { "data" : [{ "ID": 1, "Name": "Foo", "Last": "Bar" }], "total_rows" : 100 }
-			ajaxProcessing: function(ajax){
-			if (ajax && ajax.hasOwnProperty('data')) {
-			// return [ "data", "total_rows" ];
-			return [ ajax.total_rows, ajax.data ];
-			}
-			},
-
-			// output string - default is '{page}/{totalPages}'
-			// possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
-			output: '{startRow} to {endRow} ({totalRows})',
-
-			// apply disabled classname to the pager arrows when the rows at either extreme is visible - default is true
-			updateArrows: true,
-
-			// starting page of the pager (zero based index)
-			page: 0,
-
-			// Number of visible rows - default is 10
-			size: 10,
-
-			// Save pager page & size if the storage script is loaded (requires $.tablesorter.storage in jquery.tablesorter.widgets.js)
-			savePages : true,
-
-			//defines custom storage key
-			storageKey:'tablesorter-pager',
-
-			// if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
-			// table row set to a height to compensate; default is false
-			fixedHeight: true,
-
-			// remove rows from the table to speed up the sort of large tables.
-			// setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
-			removeRows: false,
-
-			// css class names of pager arrows
-			cssNext: '.next', // next page arrow
-			cssPrev: '.prev', // previous page arrow
-			cssFirst: '.first', // go to first page arrow
-			cssLast: '.last', // go to last page arrow
-			cssGoto: '.gotoPage', // select dropdown to allow choosing a page
-
-			cssPageDisplay: '.pagedisplay', // location of where the "output" is displayed
-			cssPageSize: '.pagesize', // page size selector - select dropdown that sets the "size" option
-
-			// class added to arrows when at the extremes (i.e. prev/first arrows are "disabled" when on the first page)
-			cssDisabled: 'disabled', // Note there is no period "." in front of this class name
-			cssErrorRow: 'tablesorter-errorRow' // ajax error information row
-
-			};
-
-			$("table")
-				.tablesorter({
-						theme: 'blue',
-						widthFixed: true,
-						widgets: ['zebra']
-					})
-
-			.bind('pagerChange pagerComplete pagerInitialized pageMoved', function(e, c){
-				var msg = '"</span> event triggered, ' + (e.type === 'pagerChange' ? 'going to' : 'now on') + ' page <span class="typ">' + (c.page + 1) + '/' + c.totalPages + '</span>';
-				$('#display')
-					.append('<li><span class="str">"' + e.type + msg + '</li>')
-					.find('li:first').remove();
-				document.body.scrollTop = document.documentElement.scrollTop = 0;
-			})
-
-			.tablesorterPager(pagerOptions);
-
-		});
-	
-	</script>	
 		<script>
-		$("a.tooltipLink").tooltip();
-			 $("#logout").click(function(){
-                window.location.href = "<?php echo site_url('admin/logout'); ?>";
-            	});
-
-					//back to top code
-					var offset = 220;
-	                var duration = 500;
-	                jQuery(window).scroll(function() {
-	                    if (jQuery(this).scrollTop() > offset) {
-	                        jQuery('.back-to-top').fadeIn(duration);
-	                    } else {
-	                        jQuery('.back-to-top').fadeOut(duration);
-	                    }
-	                });
-	                
-	                jQuery('.back-to-top').click(function(event) {
-	                    event.preventDefault();
-	                    jQuery('html, body').animate({scrollTop: 0}, duration);
-	                    return false;
-	                });
-	                //end code of back to top
-			
-		function submitForm(){
-			$("#return").submit();
-		}
+	
+			$('#borrowed-nav').addClass('active');
+			$("a.tooltipLink").tooltip();
+			function submitForm(){
+				$("#return").submit();
+			}
 			
 		</script>
 

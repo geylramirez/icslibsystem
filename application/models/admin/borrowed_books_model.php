@@ -43,6 +43,13 @@ class Borrowed_books_model extends CI_Model{
 		return $query->row()->fine;
 	}
 
+	public function get_enable_fine(){
+
+		$this->load->database();
+		$query = $this->db->query("SELECT fineenable FROM settings");
+		return $query->row()->fineenable;
+	}
+
 	public function get_searched_book($word) {
 
 		$return_array = array();

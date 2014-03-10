@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		
-		<link rel="shortcut icon" href="<?php echo base_url();?>dist/images/favicon.png">
-
-		<title>ICS-iLS</title>
-
-		<link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet">
-		<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
-		<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
-		<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
-		<link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
-		<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" />
-
-		<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
-		<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
-		<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>		
+	<?php include 'includes/head.php'; ?>	
 
 		<script type="text/javascript">
 
@@ -82,67 +61,42 @@
 		</script>
 	</head>		
 	<body>
-		 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="40px"></a>
-                </div>
-                <div class="navbar-collapse collapse">
-			  <ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-				  <a class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-cog" ></span></a>
-				  
-				  <ul class="dropdown-menu">
-					<li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
-					<li><a href="#">Help</a></li>
-
-					<li class="divider"></li>
-					<li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
-				  </ul>
-            </div>
-
-            </div>
-        </div>
+		<?php include 'includes/header.php'; ?>
 
 		<div class="mainBody">
 			<!-- Nav tabs -->
-			<div class="sidebarMain">
-				<ul class="nav nav-pills nav-stacked">
-					<li id = "reserved-nav"  class="active" ><br />
-						<a href="<?php echo base_url();?>admin/reservation"><span class="glyphicon glyphicon-import"></span> &nbsp;Reserved Books</a>
-					</li>
-					<li id = "borrowed-nav" >
-						<a href="<?php echo base_url();?>admin/borrowed_books"><span class="glyphicon glyphicon-export"></span> &nbsp;Borrowed Books</a>
-					</li>
-					<li id = "view-nav" >
-						<a href="<?php echo base_url();?>admin/admin_search"><span class="glyphicon glyphicon-search"></span> &nbsp;View All Materials</a>
-					</li>
-					<li id = "add-nav" >
-						<a href="<?php echo base_url();?>admin/add_material"><span class="glyphicon glyphicon-plus"></span> &nbsp;Add A New Material&nbsp;&nbsp;&nbsp;</a>
-					</li>
-					<li id = "overview-nav">
-						<a href="<?php echo base_url();?>admin/home"><span class="glyphicon glyphicon-dashboard"></span> &nbsp;Overview</a>
-					</li>	
-				</ul>
-			</div>
+			<?php include 'includes/sidebar.php'; ?>
 			
 			<div class="leftMain">
 				<div id="main-page">
 					<div id = "main-content">
 						<br />
+							<h2> Search User </h2>
+							<ol class="breadcrumb">
+								<li><a href="<?php echo base_url()?>admin/home">Home</a></li>
+								<li class="active"> Search User </li>
+							</ol>
 						<br />
-
-						<input type="text" id = "searchUser" name ="search"  size="80"/>
-						<input class = "btn btn-primary" type="button" id = "searchUserButton" value="Search"/> 
-						<div id = "alert"> </div><br /><br />
-	                
-						<table class="table table-hover tablesorter" border = "1" cellspacing='5' cellpadding='5' align = 'center'>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3 ">
+								<div class="alert-container" style = 'height: 50px;'>
+									<div style="height: 45px; text-align: center;" id = "alert"> </div>
+								</div>
+							</div>
+						</div>
+						<br />
+	            		<div class="row">
+								<div class="col-md-6 col-md-offset-3 ">
+									<div class="input-group">
+										<input type="text" id = "searchUser" class="form-control">
+										<span class="input-group-btn">
+											<button class="btn btn-default" id = "searchUserButton" type="button" value="Search"> Search</button>
+										</span>
+									</div><!-- /input-group -->
+								</div><!-- /.col-lg-6 -->
+							</div><!-- /.row -->
+						<br /><br />
+						<table class="table table-hover table-bordered" border = "1" cellspacing='5' cellpadding='5' align = 'center'>
 							<thead>
 								<tr>
 									<th width="10%"><center>Student/Employee Number</center></th>
@@ -172,43 +126,18 @@
 								?>
 							</tbody>
 						</table>
-						<div class="pager">
-							<!--<img src="../addons/pager/icons/first.png" class="first" alt="First" />
-							<img src="../addons/pager/icons/prev.png" class="prev" alt="Prev" />-->
-							<span class="first" style="cursor:pointer">First</span>
-							<span class="prev" style="cursor:pointer">Prev</span>
-							<strong> <span class="pagedisplay"></span></strong> <!--this can be any element, including an input-->
-							<span class="next" style="cursor:pointer">Next</span>
-							<span class="last" style="cursor:pointer">Last</span>
-							<br/>
-							<span>Page size: </span>
-							<select class="pagesize" title="Select page size">
-								<option value="10">10</option>
-								<option value="20">20</option>
-								<option value="30">30</option>
-								<option value="40">40</option>
-							</select>
-							<span>Go to: </span>
-							<select class="gotoPage" title="Select page number"></select>
-						</div>
+						<?php include 'includes/pager.php'; ?>
 					</div>
 				</div>
 				
 			</div>
+		</div>
 		
-		 <!-- FOOTER -->
-		<footer><a href="#" class="back-to-top"><span class='glyphicon glyphicon-chevron-up'></span></a>
-        <center><p id="small">2013 CMSC 128 AB-6L. All Rights Reserved. <a href="#">Privacy</a> | <a href="#">Terms</a> | <a href="#">About</a> | <a href="#">Contact</a></p></center>
-		</footer>
+		<!-- Footer -->
+		<?php include 'includes/footer.php'; ?>
 
-		<script src="<?php echo base_url();?>dist/js/holder.js"></script>
-		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.js"></script>
-		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.pager.js"></script>
-		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.widgets.js"></script>
-		<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/widget-pager.js"></script>
-		<!--script src="<?php echo base_url();?>dist/js/dynamic.js"></script-->
-		<!--script src="<?php echo base_url();?>dist/js/modernizr.js"></script-->
-		
+		<?php include 'includes/pagination.php'; ?>	
+
 		<script id="js">
 			$(function(){
 				var pagerOptions = {
@@ -293,6 +222,8 @@
 		
 		</script>
 		<script type="text/javascript">
+			$('#user-nav').addClass('active');
+
 			function printIdNumber( idnumber ){
 				return "<td class = 'idnumber'> " + idnumber + "</td>"
 			}
@@ -355,11 +286,28 @@
 				});
 			});
 
-
-
 			$("#logout").click(function(){
 				window.location.href = "<?php echo site_url('admin/logout'); ?>";
 			});	
 		</script>
+		<script>
+				//back to top code
+				var offset = 220;
+			    var duration = 500;
+			    jQuery(window).scroll(function() {
+			        if (jQuery(this).scrollTop() > offset) {
+			            jQuery('.back-to-top').fadeIn(duration);
+			        } else {
+			            jQuery('.back-to-top').fadeOut(duration);
+			        }
+			    });
+			    
+			    jQuery('.back-to-top').click(function(event) {
+			        event.preventDefault();
+			        jQuery('html, body').animate({scrollTop: 0}, duration);
+			        return false;
+			    });
+		    //end code of back to top
+			</script>
 	</body>
 </html>

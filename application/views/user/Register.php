@@ -1,5 +1,5 @@
 <?php include 'home_header.php'; ?>   
-<center>    <!-- START OF SIGN UP -->
+<!-- START OF SIGN UP -->
 <div class="container">
     <div class="row">
               INSERT SOMETHING HERE
@@ -8,57 +8,97 @@
           <img src='<?php echo base_url(); ?>dist/images/side.png' alt = '' width = "500" height = "500">
         </div>
        <div class="col-xs-6 col-md-4"><br/><br/><br/>
-          <legend><a href="#"><i class="glyphicon glyphicon-globe"></i></a> Sign up!</legend>
-    
+          <legend><center><a href="#"><i class="glyphicon glyphicon-globe"></i></a> Sign up!</center></legend>
+
           <form action="<?php echo base_url()?>registration" method="post" class="form" role="form">
 
           <div class="row"><br/>
             <div class="col-xs-4 col-md-12">
-              <label for="idnumber" > Employee/Student Number </label><br/>
-              <input class="form-control" name="idnumber" id="idnumber" value="<?php echo set_value('idnumber');?>" type="text" required />
-              <span id="error_message" class="error_color"></span>
+               <div class="form-group">
+                    <div class="col-sm-4">
+                      <label for="idnumber"> ID Number </label> 
+                    </div>
+                  <div class="col-sm-8">
+                    <input class="form-control" name="idnumber" id="idnumber" value="<?php echo set_value('idnumber');?>" type="text" required />
+                     <div class="error-space">
+                       <span id="error_message" class="error_color"></span>
+                    </div>
+                  </div>
+              </div>
             </div>
           </div>
           <div class="row"><br/>
             <div class="col-xs-4 col-md-12">
-              <label for="email"> Email </label><br/>
-              <input class="form-control" name="email" id="emailid" value="<?php echo set_value('email');?>" type="email" required>
-              <span id="error_message1" class="error_color"></span>
+              <div class="form-group">
+                    <div class="col-sm-4">
+                      <label for="email"> Email </label><br/>
+                    </div>
+                  <div class="col-sm-8">
+                    <input class="form-control" name="email" id="emailid" value="<?php echo set_value('email');?>" type="email" required>
+                     <div class="error-space">
+                       <span id="error_message1" class="error_color"></span>
+                    </div>
+                  </div>
+              </div>
             </div>
           </div>
           <div class="row"><br/>
             <div class="col-xs-4 col-md-12">
-              <label for="password"> Password </label><br/>
-              <input class="form-control" name="password" id="password" type="password"/>
-               <span id="error_message2" class="error_color"></span>
+              <div class="form-group">
+                    <div class="col-sm-4">
+                      <label for="password"> Password </label><br/>
+                    </div>
+                  <div class="col-sm-8">
+                    <input class="form-control" name="password" id="password" type="password"/>
+                     <div class="error-space">
+                       <span id="error_message2" class="error_color"></span>
+                    </div>
+                  </div>
+              </div>
             </div>
           </div>
           <div class = "row"><br/>
             <div class="col-xs-4 col-md-12">
-              <label for="password_conf"> Re-enter password </label><br/>
-              <input class="form-control" name="password_conf" id="password_conf" onblur="validatePassword()" type="password"/>
-               <span id="error_message3" class="error_color"></span>
+              <div class="form-group">
+                    <div class="col-sm-4">
+                      <label for="password_conf"> Re-enter password </label><br/>
+                    </div>
+                  <div class="col-sm-8">
+                    <input class="form-control" name="password_conf" id="password_conf" onblur="validatePassword()" type="password"/>
+                     <div class="error-space">
+                       <span id="error_message3" class="error_color"></span>
+                    </div>
+                  </div>
+              </div>
             </div>
-          </div><br/>
-
-          <button class="btn btn-lg btn-primary" id="sign_up" type="button" > Sign up</button>        
-          
-        
+          </div>
+      <div id="reg"></div>
+          <div class = "row"><br/>
+             <div class="col-xs-4 col-md-12">
+              <div class="form-group">
+                    <div class="col-sm-4">
+                    </div>
+                  <div class="col-sm-8">
+                    <button class="btn btn-lg btn-primary" id="sign_up" type="button" > Sign up</button>
+                  </div>
+              </div>
+            </div>
+          </div>      
         </div>
     </div>
 </div>
-</center>
-
-
          <!-- END OF SIGN UP -->
 <hr class="featurette-divider">
-
+  <script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
+  <script src="<?php echo base_url(); ?>dist/js/bootbox.min.js"></script>
   <link href="<?php echo base_url(); ?>dist/css/signup.css" rel="stylesheet">
-  <script type = "text/javascript" src = "<?php echo base_url();?>script/jquery-2.1.0.min.js"></script>  
   <script>
 
   $('#add').hide();
-  var flagSignUp = false;
+  var flagId = false;
+  var flagEmail = false;
+  var flagValidate = false;
+  var flagPass = false;
 
 
     $('#idnumber').blur( check_idnumber );
@@ -70,27 +110,34 @@
    function validatePassword(){  
       var password = document.getElementById('password').value;
       var password_conf = document.getElementById('password_conf').value;
-      if(password == password_conf){
+    
+    if(password == password_conf){
+      $('#error_message3').html("");
+      flagValidate =  true;
       }else{
-        $('#error_message3').html("Password does not match. Check passwords");
-        password_conf.focus;
-      }
+      $('#error_message3').html("Password does not match. Check passwords");
+      flagValidate =  false;
+      password_conf.focus;
+    }
     }
 
     function check_password(){
-      var value = $('#password').val();
+      var password = $('#password').val();
+
       $.ajax({
         url: "<?php echo base_url();?>borrower/checkpassword",
         type: "POST",
-        data: { password : value},
+        data: { password : password},
+
         success: function(result){
           if($.trim(result)=="1"){
-                   $('#error_message2').html("Password length must be atleast 8 characters");
-               flagSignUp =  false;
+         $('#error_message2').html("Password length must be atleast 6 characters");
+               flagPass =  false;
+         validatePassword();
             }
           else{
              $('#error_message2').html("");
-             flagSignUp =  true;
+             flagPass =  true;
           }
         }
       });
@@ -104,16 +151,16 @@
           data: { email : value},
           success: function(result){
               if($.trim(result)=="2"){
-                   $('#error_message1').html("Email in use");
-                flagSignUp =  false;
+        $('#error_message1').html("Email in use");
+                flagEmail =  false;
               }
               else if($.trim(result)=="1"){
-                   $('#error_message1').html("Invalid email");
-                 flagSignUp =  false;
+                $('#error_message1').html("Invalid email");
+                flagEmail =  false;
               }
               else if($.trim(result)=="0"){
-                   $('#error_message1').html("");
-                 flagSignUp =  true;
+        $('#error_message1').html("");
+                flagEmail =  true;
               }
             }
         });
@@ -128,48 +175,75 @@
           success: function(result){
             if($.trim(result)=="1"){
                $('#error_message').html("Idnumber in use");
-                flagSignUp =  false;
+                flagId =  false;
             }
             else if($.trim(result)=="2"){
                $('#error_message').html("Not in sample table");
-                 flagSignUp =  false;
+                 flagId =  false;
             }
             else if($.trim(result)=="3"){
                $('#error_message').html("Invalid idnumber");
-               flagSignUp =  false;
+               flagId =  false;
             }
             else if($.trim(result)=="0"){
                $('#error_message').html("");
-               flagSignUp =  true;
+               flagId =  true;
             }
           }
         } );
     }
 
     $('#sign_up').click( function(){
-        if( flagSignUp ){
-           var idnumber = document.getElementById('idnumber').value;
-        var password = document.getElementById('password').value;
-        var email = $('#emailid').val();
+    check_idnumber();
+    check_email();
+    check_password();
+    
+        if( flagId && flagEmail && flagValidate && flagPass ){
+    
+          var idnumber = document.getElementById('idnumber').value;
+          var password = document.getElementById('password').value;
+          var email = $('#emailid').val();
 
         $.ajax({
           url: "<?php echo base_url();?>borrower/registration",
           type: "POST",
           data: { idnumber : idnumber, password : password, email : email },
 
-          success: function(result){
-                alert('Verify');
-                window.location.href = "borrower";
+      beforeSend: function() {
+        $("#reg").removeClass('alert alert-danger');
+        $("#reg").html("<center><img src='<?php echo base_url();?>dist/images/ajax-loader.gif' /></center>");
+      },
+      
+      success: function(result){
+
+        if(result.trim() == "sent"){
+          $("#reg").hide();
+          bootbox.dialog({
+          message: "One last step: verify your account. <strong>Pleace check your email for the verification link</strong>.",
+          title: "<h3>Successful registration!<h3>",
+          buttons:{
+            no: {
+            label: "Ok",
+            className: "btn-primary",
+            callback: function() {
+               window.location.href = "borrower";
+            }
+            }
           }
-
-        });
-
-        } else {
-          alert("false");
+          });
         }
-
+        else{
+          $("#reg").addClass("alert alert-danger");
+          $("#reg").html("<center>Connection error. Try again.</center>");
+        }
+        },
+      error: function(){
+        $("#reg").addClass("alert alert-danger");
+        $("#reg").html("<center>An error has occurred. Try again.</center>");
+      }
+        });
+        }
     });
-
 
   </script>
 

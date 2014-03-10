@@ -55,7 +55,7 @@ class Reservation_model extends CI_Model{
 				   $idn=$id->idnumber;
 			}
 			
-			$material="SELECT materialid FROM borrowedmaterial where idnumber='{$idn}'";
+			$material="SELECT materialid FROM borrowedmaterial where idnumber='{$idn}' and status='BORROWED'";
 			$res = $this->db->query($material);
 			$data = array();
 
@@ -124,7 +124,7 @@ class Reservation_model extends CI_Model{
 				   $isbn = $res->isbn;
 			}
 			
-			$insert="INSERT INTO reservation(idnumber, materialid, queue, isbn, startdate) VALUES ('{$idno}', '{$materialid}', '{$qno}', '{$isbn}', sysdate())";
+			$insert="INSERT INTO reservation(idnumber, materialid, queue, isbn) VALUES ('{$idno}', '{$materialid}', '{$qno}', '{$isbn}')";
 			$insertbm = $this->db->query($insert);
 			
 		}

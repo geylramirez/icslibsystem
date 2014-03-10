@@ -12,6 +12,17 @@
 
     <link href="<?php echo base_url(); ?>dist/css/bootstrap.css" rel="stylesheet">
 
+    <script type="text/javascript">
+           
+      function toggle() {
+       if( document.getElementById("hidethis").style.display=='none' ){
+         document.getElementById("hidethis").style.display = 'table-row'; // set to table-row instead of an empty string
+       }else{
+         document.getElementById("hidethis").style.display = 'none';
+       }
+      }
+      </script>
+
     <!-- Custom styles for this template-->
     <link href="<?php echo base_url(); ?>dist/css/carousel.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>dist/css/modulestyle.css" rel="stylesheet">
@@ -85,18 +96,13 @@
                     ?>
                   </div>
                  </a></li>
-              </ul> <!--notifs-->
+              </ul>
             </li>
-            <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-cog" ></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="<?php echo base_url();?>/dist/pdf/user/ILS User Operations Manual.pdf" target="_blank">Operations Manual</a></li>
-                    <li><a href="<?php echo base_url();?>/dist/pdf/user/ILS FAQ.pdf" target="_blank">FAQs</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?php echo base_url();?>logout?">Logout</a></li>
-                  </ul>
-                 </li>
-          </ul> <!--buong menu-->
+            <form class="navbar-form navbar-right" role="form" action="logout" >
+              <button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-log-out" type="submit" style="font-size:17px;" onclick = "this.style.color='white';"><a href="/icslibsystem/logout?"></a></span></button>
+              <!--li><a href="/icslibsystem/logout?"><span class="glyphicon glyphicon-log-out" type="submit" style="font-size:17px;" onclick = "this.style.color='white';"></span></a></li-->
+            </form>
+          </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>

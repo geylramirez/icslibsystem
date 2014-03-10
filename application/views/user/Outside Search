@@ -1,0 +1,16 @@
+Outside Search
+	-- yung search bar. nagiging advance pag nagreload.
+	-- di nakasave yung type ng search na ginawa ng user since wlang session
+
+Search(inside at outside)
+	-- di pa nalalagay yung dating input ng user sa search bar after searching
+	-- yung pagtotokenize ng input se search box
+	-- yung pagdetermine ng search bar type. mejo wrong pa
+
+Manage Profile
+	-- magulo pa siya. yung printing ng error... etc.
+	-- ayusiiiiin!!!
+
+Redirections!
+
+Log

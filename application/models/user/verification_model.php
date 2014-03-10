@@ -17,9 +17,6 @@
 			);
 
 			$this->db->insert('borrower',$data);
-				
-			$this->send_verification_email($idnumber, $email, $password);
-				
 		}
 		
 		public function send_verification_email($idnumber, $email, $password){
@@ -27,7 +24,6 @@
 		 	$sql = "SELECT fname FROM sample WHERE idnumber LIKE '{$idnumber}'";
 		 	$result = $this->db->query($sql);
 		 	
-			
 			$config = Array(
 				'protocol' => 'smtp',
 				'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -43,21 +39,22 @@
 			$this->load->library('email', $config);
 			$this->email->set_mailtype('html');
 			$this->email->set_newline("\r\n");
-			$this->email->from('System.ICSLibrary@gmail.com', 'ICSLibrary Admin');
+			$this->email->from('System.ICSLibrary@gmail.com', 'ICS Library');
 			$this->email->to($email);
-			$this->email->subject('Account Verification');
+			$this->email->subject('[iLS] Please verify your account '. $result->row()->fname.'');
 			
 			$message = '<html><head></head><body>';
-			$message .= '<p>Dearest '. $result .',<br />';
-			$message .= '<p>Please click the link: <strong><a href="'. base_url() .'borrower/validate_email/'. $idnumber .'/'. $password .'">CLICK ME</a></strong> for your account to verify.</p><br />';
-			$message .= '<p>Thank you, <br />';
-			$message .= 'ICSLibrary Admin Team</p>';
+			$message .= '<p>Hey hey, we want to verify that you are indeed "'. $result->row()->fname .'".  If that is the case, please follow the link below: <br />';
+			$message .= '<p><a href="'. base_url() .'borrower/validate_email/'. $idnumber .'/'. $password .'">VERIFY MY ILS ACCOUNT</a></p><br />';
+			$message .= '<p>If you are not "'. $result->row()->fname .'" or did not request for this verification, you can ignore this email.<br /></p>';
 			$message .= '</body></html>';
 			
 			$this->email->message($message);
-		
-			$this->email->send();	
-
+			
+			if($this->email->send()){
+				return true;
+			}
+			else return false;
         }
 		
 		public function validate_email($idnumber, $verification_code){
@@ -69,7 +66,7 @@
 			if($validation === true){
 				return true;
 			}else{
-				echo 'verification_model/validate_email error';
+				//echo 'verification_model/validate_email error';
 				return false;
 			}
 			/* AFTER THIS FUNCTION BABALIK NA SIYA SA REGISTER->validate_email() */
@@ -83,7 +80,7 @@
 			if($this->db->affected_rows() === 1){
 				return true;
 			}else{
-				echo 'activate_account error';
+				//echo 'activate_account error';
 				return false;
 			}
 			

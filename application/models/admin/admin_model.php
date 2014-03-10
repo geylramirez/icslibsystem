@@ -70,22 +70,45 @@
 		return $query->result();
 	}
 	
-	public function book_update($library_material_data, $all_authors, $previous_matID){
+	public function book_update($library_material_data, $all_authors, $previous_matID, $previous_isbn){
 		$this->load->database();
 		$materialid = $this->db->escape_like_str($previous_matID);
-		$this->db->update("librarymaterial",$library_material_data,"materialid = '". $materialid."'"); 
+        $isbn = $this->db->escape_like_str($previous_isbn);
 
-		$this->db->delete("author","materialid = '". $library_material_data['materialid']."'");
-		for ($i=0; $i<count($all_authors); $i++) {
-			$all_authors[$i]['materialid'] = $library_material_data['materialid'];
-			$all_authors[$i]['isbn'] = $library_material_data['isbn'];
-		}
-		$this->db->insert_batch("author",$all_authors);	
+        $this->db->where('materialid', $materialid);
+        $this->db->update('librarymaterial', $library_material_data);
+
+        $this->db->where('materialid', $library_material_data['materialid']);
+        $this->db->delete('author'); 
+        //echo $library_material_data['materialid'] . $library_material_data['isbn'];
+        for ($i=0; $i<count($all_authors); $i++) {
+         $all_authors[$i]['materialid'] = $library_material_data['materialid'];
+         $all_authors[$i]['isbn'] = $library_material_data['isbn'];
+        }
+        $this->db->insert_batch("author",$all_authors);
+        //
+
+        //$this->db->delete("author","materialid = '". $library_material_data['materialid']."'");
+
+        //$this->db->update("librarymaterial",$library_material_data,"materialid = '$materialid' AND isbn = '$isbn.'"); 
+
+		//$this->db->delete("author","materialid = '". $library_material_data['materialid']."'");
+		//for ($i=0; $i<count($all_authors); $i++) {
+	   	//	$all_authors[$i]['materialid'] = $library_material_data['materialid'];
+		//	$all_authors[$i]['isbn'] = $library_material_data['isbn'];
+		//}
+		//$this->db->insert_batch("author",$all_authors);	
 		/*materialid = $this->db->query("SELECT fname FROM author WHERE materialid = '{$library_material_data['materialid']}'");
 		$materialid = $materialid->result();
 		var_dump($materialid);*/
 		
 	}
+
+    public function book_add($library_material_data, $all_authors){
+        $this->load->database();
+        $this->db->insert("librarymaterial",$library_material_data); 
+        $this->db->insert_batch("author",$all_authors); 
+    }
 	
 	public function book_delete($data){
 		$this->load->database();

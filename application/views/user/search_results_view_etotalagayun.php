@@ -7,6 +7,11 @@
 
 ?>
 
+	<!--
+	
+			HOME PAGE - BORROWER
+
+	-->
 	<style>
 		.sidebar{border-right: 1px solid #eee; height:700px;}
 		th{text-align: center;}
@@ -17,7 +22,6 @@
 		<div class="mainbody">
 			<div class="row">
 				<?php
-					
 					if($this->session->userdata('email')){ 
 						echo "<br/>";
 				
@@ -36,12 +40,15 @@
 						echo "<br/>";
 					}
 				?>
-					<ol class="breadcrumb">
-					  <li><a href="<?php echo base_url();?>">Home</a></li>
-					  <li class="active"><a href="<?php echo base_url();?>/borrower/search_all">Search library</a></li>
-					</ol>
 					<!--search bar-->
-					<?php include 'search_bar.php'; ?>				
+					
+					<?php include 'search_bar.php'; ?>
+					<!--
+
+						JOHANA, DITO ILALAGAY YUNG FILTERS PARA SA ADVANCED SEARCH :)
+
+					-->
+										
 					<br />
 					<?php
 						if($email){
@@ -52,6 +59,7 @@
 					
 
 						<?php
+						//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 								$reserved_flag=0;
 								$waitlist_flag=0;
 								$rowNum 	 = 0;
@@ -88,24 +96,7 @@
 												</tr>
 											</tfoot>
 									<?php
-									$borrowed_count = 0;
-									$reserved_count = 0;
-									$limit = 3;
-												
-									foreach($borrowedCount as $row)
-										$borrowed_count = $row['COUNT(librarymaterial.materialid)'];
-									foreach($reservedCount as $row)
-										$reserved_count = $row['resCount'];
-
-									$total_count = $borrowed_count+$reserved_count;
-									//echo "<span id='total' value='{$total_count}'></span>";
-												
-									if($total_count>=$limit)
-										$reserve = "cannot_reserve";
-									else $reserve= "reserve_button";
-												
 									foreach($value as $row){
-										//var_dump($row['author']);
 										echo "<tr>";
 										echo "<td class='isbn'><span class='table-text'><center>";
 										$tmp = $row['isbn'];
@@ -133,17 +124,7 @@
 											
 										echo "<td class = 'type' align='center'>". $type ."</td>";
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-										/*echo "<td><span class='table-text'><b> ${row['name']} </b></span> <br/>
-
-										<span class='author'> ${row['authorname']}</span><br /></td>";*/
-										echo "<td><b><span class ='title'>${row['name']}.</b></span><br />";									
-										foreach ($row['author'] as $name) {
-											$name = (array)$name;
-											echo "<span class ='author'> ${name['lname']}, ${name['fname']} ${name['mname']}.</span>";
-										}
-										echo "</td>";
-
-
+										echo "<td><span class='table-text'><b> ${row['name']} </b></span> <br/><span class='author'> ${row['authorname']}</span><br /></td>";
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 										if($email){
 											$t_q = 0;
@@ -152,7 +133,7 @@
 												  $t_q=$t_queue['tq'];
 												}
 											  }
-											echo "<td class='queue'><span class='table-text'><center>".$t_q."</center></span></td>";
+											echo "<td><span class='table-text'><center>".$t_q."</center></span></td>";
 											if($material!=NULL){
 												foreach ($material as $here){ 
 													if($row['materialid']==$here['materialid']){
@@ -171,7 +152,7 @@
 											if($waitlist_flag==1){
 												$materialid=$row['materialid'];
 												echo "<td><center>";
-												echo "<span><button class='btn btn-primary reserve_button' style='display:none;' name='reserve'  value='".$materialid."'><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
+												echo "<span><button class='btn btn-primary reserve_button' name='reserve'  value='".$materialid."' disabled><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
 												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\"><span class = 'glyphicon glyphicon-remove'></span></button></span></td></tr>";	
 											}
 											else if($reserved_flag==1){
@@ -184,8 +165,8 @@
 											}
 											else if($this->session->userdata('classification') == 'F' && $row['access']==1){
 													
-												echo "<td><span class='table-text'><center>" . "STUDENT USE" . "</span></center></td>";
-												echo "</tr>";	
+													echo "<td><span class='table-text'><center>" . "STUDENT USE" . "</span></center></td>";
+													echo "</tr>";	
 												
 											}
 											else if($this->session->userdata('classification') == 'S' && $row['access']==2){
@@ -198,9 +179,15 @@
 												echo "<td><center>" . "";
 												$materialid=$row['materialid'];
 												//$rowVal = $rowNum . "|" . $materialid;
-												
+												$borrowed_count = 0;
+												foreach($borrowedCount as $row)
+													$borrowed_count = $row['COUNT(librarymaterial.materialid)'];
+												if($borrowed_count>=3)
+													$reserve = "cannot_reserve";
+												else $reserve= "reserve_button";
 												echo "<span><button class='btn btn-primary ". $reserve. "' name='reserve'  value='".$materialid."'><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
-												echo "<button class='btn btn-danger cancel_button' style='display:none;'  name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\"><span class = 'glyphicon glyphicon-remove'></span></button></span>";
+												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\" disabled><span class = 'glyphicon glyphicon-remove'></span></button></span>";
+												//echo "<input type='hidden' value='". $materialid ."' class='hiddenForm'/>";
 												echo "</center></td></tr>";
 												$rowNum++;
 											}
@@ -358,24 +345,20 @@
 	document.getElementById("failed").style.display='none';
 	document.getElementById("success").style.display='none';
 	//$(".cannot_reserve").attr('disabled','true');
+	
 	function sendRow(numrow) {
 			finalRow = numrow;
 	}
 	
 $(document).ready(function()
 {		
-//	$(".cancel_button").hide();	
-	var reserved = parseInt($('#reservedCount').text());
 		
 	$(".reserve_button").click( function(){
-		var materialid = $(this).val();
+		materialid = $(this).val();
 		var thisButton = $(this);
-		var parent = $(this).parent().parent().parent();
-		var r_queue = $.trim(parent.siblings('.queue').text());
-		var sibling = parseInt(r_queue);
+		var parent = $(this).parent();
 		var str = "Reserve " + materialid + "?";
-
-
+		
 		bootbox.dialog({
 			message: "Reserve " + materialid + "?",
 			title: "Reserve Material",
@@ -393,18 +376,12 @@ $(document).ready(function()
 						
 						success: function(data)
 						{
-							reserved = reserved+1;
-							$('#reservedCount').html(reserved);
-							sibling = sibling+1;
-							parent.siblings('.queue').html("<center>" + sibling + "</center>");
-							//$('.reserve_button').parent().parent().parent().sibling('.queue').html(sibling);
-							thisButton.hide();
-							thisButton.next().show();
+							thisButton.attr('disabled', true);
+							thisButton.next().removeAttr('disabled');
 							$("#success").attr('class', 'alert alert-success');
 							$("#success").fadeIn('slow');
 							$("#success").show();
-							$("#success").html("Successfully <strong>reserved</strong> material!");		
-							//$(".cancel_button")[].show();	
+							$("#success").html("Successfully <strong>reserved</strong> material!");
 							document.body.scrollTop = document.documentElement.scrollTop = 0;
 							setTimeout(function() { $('#success').fadeOut('slow') }, 3000);
 
@@ -443,18 +420,15 @@ $(document).ready(function()
 	});
 
 	$(".cancel_button").click( function(){
-		var materialid = $(this).val();
 		var thisButton = $(this);
-		var parent = $(this).parent().parent().parent();
-		var r_queue = $.trim(parent.siblings('.queue').text());
-		var sibling = parseInt(r_queue);
+		materialid = $(this).val();
 		
 		bootbox.dialog({
 			message: "Cancel reservation of this material?",
 			title: "Cancel Reservation",
 			buttons:{
 				yes:{
-					label: "Yes",
+					label: "Reserve",
 					className: "btn-primary",
 					callback: function() {
 						$.ajax({
@@ -463,12 +437,8 @@ $(document).ready(function()
 							data: {materialid: materialid},
 							success: function()
 							{
-								reserved = reserved-1;
-								$('#reservedCount').html(reserved);
-								sibling = sibling - 1;
-								parent.siblings('.queue').html("<center>" + sibling + "</center>");
-								thisButton.hide();
-								thisButton.prev().show();
+								thisButton.attr('disabled', true);
+								thisButton.prev().removeAttr('disabled');
 								$("#success").attr('class', 'alert alert-success');
 								$("#success").fadeIn('slow');
 								$("#success").show();
@@ -487,10 +457,6 @@ $(document).ready(function()
 							}
 						});	
 					}
-				},
-				no: {
-					label: "No",
-					className: "btn-default"
 				}
 			}
 		});
