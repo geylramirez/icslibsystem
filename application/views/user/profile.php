@@ -1,12 +1,3 @@
-<script type = "text/javascript" src = "<?php echo base_url();?>script/jquery-2.1.0.min.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.pager.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.widgets.js"></script>
-<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/widget-pager.js"></script>
-<script src="<?php echo base_url();?>dist/js/jquery-2.1.0.min.js"></script>
-<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>
-<script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
-<script src="<?php echo base_url(); ?>dist/js/holder.js"></script>
 
 
 <?php 
@@ -71,7 +62,6 @@
 
 						<?php 
 							if($borrowed != null){
-								//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 								?>
 										<thead>
 											<tr>
@@ -82,7 +72,7 @@
 												
 
 												<?php
-												//var_dump($enable_fine);
+												
 												$fine_enable = 0;
 												foreach($enable_fine as $fine){
 													 $fine_enable = $fine['fineenable'];
@@ -97,7 +87,6 @@
 											</tr>
 										</thead>
 								<?php
-								//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 								foreach($borrowed as $row){
 									echo "<tr>";
 									echo "<td><center><span class='table-text'>";
@@ -127,7 +116,7 @@
 																	
 									echo "$type</center></td>";
 									echo "<td><span class='table-text'><b>${row['name']}</b></span><br><span class='author'>${row['authorname']}. ${row['year']}.</span></td>";
-									//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+									
 										if($fine_enable==1){
 											echo "<td><span class='table-text'><center>";
 											if("${row['user_fine']}" > 0 ){
@@ -138,7 +127,6 @@
 											}
 											echo "</center></span></td>";
 										}
-									//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 									echo "</tr>";
 								}
 							}
@@ -213,7 +201,6 @@
 									}
 									
 								}
-								//var_dump($rrank);
 								foreach($total as $t_queue){
 									if($t_queue['materialid']==$row['materialid']){
 										 $t_q=$t_queue['tq'];
@@ -257,15 +244,26 @@
 
  
 </body></html>
+<script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
+    <script src="<?php echo base_url(); ?>dist/js/holder.js"></script>
+	</div> <!--container marketing-->
 
+
+<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.pager.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/jquery.tablesorter.widgets.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/widget-pager.js"></script>
 
 
 <script type="text/javascript">
+	$("a.tooltipLink").tooltip();
+	
 	document.getElementById("success_cancel").style.display='none';
 	$(".cancel_button").click( function(){
 		var thisButton = $(this);
 		materialid = $(this).val();
-		var str = "Cancel reservation for " + materialid + "?";
+		var str = "Are you sure you want to cancel your reservation for " + materialid +"?";
 		var reserved = parseInt($('#reservedCount').text());
 		bootbox.dialog({
 			message: str,
@@ -287,7 +285,7 @@
 								thisButton.prev().removeAttr('disabled');
 								$("#success_cancel").fadeIn('slow');
 								$("#success_cancel").show();
-								$("#success_cancel").html("Successfully <strong>cancelled</strong> reservation!");
+								$("#success_cancel").html("You have successfully <strong>cancelled</strong> your reservation for "+ materialid+".");
 								document.body.scrollTop = document.documentElement.scrollTop = 0;
 								setTimeout(function() { $('#success_cancel').fadeOut('slow') }, 3000);	
 							},
@@ -295,7 +293,7 @@
 							{
 								$("#failed").fadeIn('slow');
 								$("#failed").show();
-								$("#failed").html("<strong>Failed</strong> to cancel reservation! Please try again.");
+								$("#failed").html("Cancellation <strong>failed</strong>. Please try again.");
 								document.body.scrollTop = document.documentElement.scrollTop = 0;
 								setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
 							}

@@ -48,8 +48,6 @@
                       foreach ($overdue as $temps) {
                         echo $temps['name']; 
                         echo "<br/>";
-                        echo "Fine:  Php ";
-                        echo "${temps['user_fine']}";
                       }
                     }
                   ?>
@@ -90,8 +88,8 @@
             <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-cog" ></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?php echo base_url();?>/dist/pdf/user/ILS User Operations Manual.pdf" target="_blank">Operations Manual</a></li>
-                    <li><a href="<?php echo base_url();?>/dist/pdf/user/ILS FAQ.pdf" target="_blank">FAQs</a></li>
+                    <li><a href="<?php echo base_url();?>dist/pdf/user/ILS Manual.pdf" target="_blank">Operations Manual</a></li>
+                    <li><a href="<?php echo base_url();?>dist/pdf/user/ILS FAQ.pdf" target="_blank">FAQs</a></li>
                     <li class="divider"></li>
                     <li><a href="<?php echo base_url();?>logout?">Logout</a></li>
                   </ul>
@@ -101,7 +99,7 @@
       </div>
     </div>
 
-    <script type = "text/javascript" src = "<?php echo base_url();?>script/jquery-2.1.0.min.js"></script>
+    <script type = "text/javascript" src = "<?php echo base_url();?>dist/js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript">
     //$("a.tooltipLink").tooltip();
     
@@ -120,12 +118,20 @@
 
         success: function( result ){
           var overdue = result['overdue'];
+          var fne = result['fineenable'];
           var str = "";
           
           if( overdue.length == 0 ){  str += "<li><a><i> None </i></a></li>"; }
                   else{
                      for( var i = 0; i < overdue.length; i++){
-                        str += "<li><a>" + overdue[i].name + " <br /> Fine: Php " + overdue[i].user_fine + "</a> </li>";
+                        //str += "<li><a>" + overdue[i].name + " <br /> Fine: Php " + overdue[i].user_fine + "</a> </li>";
+                        if(fne[0].fineenable == 1){
+                          str += "<li><a>" + overdue[i].name + " <br /> Fine: Php " + overdue[i].user_fine + "</a> </li>";
+                        }
+                        else{
+                          str += "<li><a>" + overdue[i].name + "<br/> </a> </li>";
+                        }
+
                      } 
                   }
           

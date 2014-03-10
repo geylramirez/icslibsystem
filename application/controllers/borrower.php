@@ -632,6 +632,20 @@ public function getPassword()
 	echo json_encode($ret_val);
 }
 
+public function getPasswordForEmail()
+	{
+	$epassword = $this->input->post('epassword');
+	$idnumber = $this->input->post('idnumber');
+
+	$this->load->model('user/update_model');
+	$cpword = $this->update_model->get_password($idnumber);
+	//echo $cpword[0]->password;
+	$epassword = SHA1($epassword);
+	$ret_pw = $cpword[0]->password;
+	$ret_val = array('epassword'=>$epassword, 'password'=>$ret_pw);
+	echo json_encode($ret_val);
+}
+
 
 public function outside_search(){
 
@@ -678,6 +692,7 @@ public function outside_search(){
 		$data['reserved'] = $this->borrowed_model->get_reserved_books();
 		$data['overdue'] = $this->borrowed_model->get_overdue();	
 		$data['readytoclaim'] = $this->borrowed_model->get_ready_to_claim();
+		$data['fineenable'] = $this->borrowed_model->get_fine_enable();
 
 		echo json_encode($data);
 	}
@@ -726,7 +741,6 @@ public function new_search(){
 			$result_info['matid'] = $this->reservation_model->if_reserved($userid);
 			$result_info['material'] = $this->reservation_model->if_waitlisted($userid);
 			$result_info['total'] = $this->reservation_model->get_total($userid);
-			
 			$this->load->model('user/borrowed_model');
 			$result_info['borrowed'] = $this->borrowed_model->get_borrowed_material();
 			$result_info['res'] = $this->borrowed_model->get_reservations();
@@ -748,6 +762,16 @@ public function new_search(){
 			//$result_info['searchtext'] = $this->db->escape_str($this->input->post('searchbox'));
 			$this->load->view('user/search_results_view', $result_info);
 		}
+	}
+
+	public function insert_rating(){
+		$this->load->model('user/rating_model');
+		$idnumber = $this->session->userdata('idnumber');
+		$isbn = $this->input->post('isbn');
+		$materialid = $this->input->post('materialid');
+		$rating = $this->input->post('rating');
+
+		$this->rating_model->check_rating(trim($materialid), trim($idnumber), trim($isbn),$rating);
 	}
 	
 }

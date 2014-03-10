@@ -73,9 +73,18 @@
 		<div id="error_update" class = "alert alert-danger"> </div>
 		<div id="error_updatePassword" class = "alert alert-danger"> </div>
 		<hr />
-		<label> Email: </label>
-		<input id="email" name="email" type="text" value="<?php echo $this->session->userdata('email'); ?>">&nbsp;
-		<label for="email" id ="email-label"><?php echo $this->session->userdata('email'); ?> </label>
+		<table>
+		<tr>
+			<td><label> Email: </label></td>
+			<td><input id="email" name="email" type="text" value="<?php echo $this->session->userdata('email'); ?>">&nbsp;
+			<label for="email" id ="email-label"><?php echo $this->session->userdata('email'); ?> </label></td>
+		</tr>
+		<tr>
+			<td><label for="epass" id="epass-label">Current Password</label></td>
+			<td><input id="epassword" name="password" type="password" value=""/></td>
+		</tr>
+		</table>
+
 		
 		<a id="edit-email" value="Update Email" style = "cursor : pointer;" onclick="edit()"> &nbsp; Edit </a>
 		<br /><a type="button" class = "btn btn-default" id="set-email" value="Save" style = "cursor : pointer;"> <i class="glyphicon glyphicon-ok"></i>  </a>
@@ -115,7 +124,7 @@
 
 
 <script src="<?php echo base_url();?>dist/js/jquery.js"></script>
-<script type = "text/javascript" src = "<?php echo base_url();?>script/jquery-2.1.0.min.js"></script>
+<script type = "text/javascript" src = "<?php echo base_url();?>dist/js/jquery-2.1.0.min.js"></script>
 
 <script>
 $('#update').hide();
@@ -123,9 +132,13 @@ $('#cancelBtn').hide();
 $('#alert_update').hide();
 $("#error_update").hide();
 $('#error_updatePassword').hide();
+$("#epass-label").hide();
+$('#epassword').hide();
 
 hideEmailEdit();
 hidePasswordEdit();
+var flag = false;
+var flagMail = false;
 
 	$('#opassword').blur(function () {
 	var opassword = $('#opassword').val();
@@ -147,7 +160,6 @@ hidePasswordEdit();
 				}
 				else
 				{
-					//$('#error_updatePassword').html("Wrong password");
 					$("#error_updatePassword").show();
 					$('#error_updatePassword').html("Wrong Password");
 					$("#error_updatePassword").fadeIn('slow');
@@ -160,11 +172,50 @@ hidePasswordEdit();
 				$("#alert_update").fadeIn('slow');
 				setTimeout(function() { $('#alert_update').fadeOut('slow') }, 3000);
 			}
-
 		});
-
-
 	});
+
+	$('#epassword').blur(function (){
+	var epassword = $('#epassword').val();
+	var id = "<?php echo $this->session->userdata('idnumber');?>";
+	var password;
+		$.ajax({
+			url: "<?php echo base_url(); ?>borrower/getPasswordForEmail",
+			type: "POST",
+			data: {idnumber: id,
+					epassword: epassword
+				},
+			dataType: "JSON",
+			success: function(result){
+				password = result.password;
+				epassword = result.epassword;
+				if(epassword == password)
+				{
+					$('#error_update').html("");
+					flag = true;
+				}
+				else
+				{
+					flag = false;
+					$("#error_update").show();
+					$('#error_update').html("Wrong Password");
+					$("#error_update").fadeIn('slow');
+					setTimeout(function() { $('#error_update').fadeOut('slow') }, 3000);
+				}
+			},
+			error: function() {
+				flag = false;
+				$("#alert_update").show();
+				$('#alert_update').html("Oops.An error occured.");
+				$("#alert_update").fadeIn('slow');
+				setTimeout(function() { $('#alert_update').fadeOut('slow') }, 3000);
+			}
+		});
+	});
+
+
+
+
 
 	$('#npassword').blur(function(){
 		var value_pword = $('#npassword').val();
@@ -217,6 +268,8 @@ function hideEmailEdit(){
 	$('#set-email').hide();
 	$('#cancel-email').hide();
 	$('#email').hide();
+	$("#epass-label").hide();
+	$('#epassword').hide();
 }
 
 function hidePasswordEdit(){
@@ -266,6 +319,9 @@ $('#cancelBtn').click( function(){
 	$('#npassword').val("");
 	$('#re-npassword').val("");
 	$('#email').val("<?php echo $this->session->userdata('email'); ?>");
+	$("#epass-label").hide();
+	$('#epassword').hide();
+	$('#epassword').val("");
 });
 
 $('#edit-email').click( function(){
@@ -275,6 +331,8 @@ $('#edit-email').click( function(){
 	$('#cancel-email').show();	
 	$('#email').show();
 	$('#error_update').html("");
+	$("#epass-label").show();
+	$('#epassword').show();
 });
 
 $('#edit-password').click( function(){
@@ -292,13 +350,6 @@ $('#edit-password').click( function(){
 	$('#error_updatePassword').html("");
 });
 
-$('#set-email').click(function(){
-		$('#set-email').hide();
-		$('#cancel-email').hide();
-		$('#edit-email').show();
-		$('#email-label').show();
-		$('#email').hide();
-});
 
 $('#cancel-email').click(function(){
 		$('#set-email').hide();
@@ -308,6 +359,8 @@ $('#cancel-email').click(function(){
 		$('#error_updateEmail').html("");
 		$('#email').hide();
 		$('#email').val("<?php echo $this->session->userdata('email'); ?>");
+		$("#epass-label").hide();
+		$('#epassword').hide();
 });
 
 $('#set-password').click(function(){
@@ -428,20 +481,21 @@ $('#cancel-password').click(function(){
           data: { email : value},
           success: function(result){
               if($.trim(result)=="1"){
-                //$('#error_update').html("Invalid email");
+                flagMail = false;
                 $("#error_update").show();
 				$('#error_update').html("Oops.An error occured.");
 				$("#error_update").fadeIn('slow');
 				setTimeout(function() { $('#error_update').fadeOut('slow') }, 3000);
               }
               else if($.trim(result)=="2"){
-                //$('#error_update').html("Email already in use");
+                flagMail = false;
                 $("#error_update").show();
 				$('#error_update').html("Email already in use");
 				$("#error_update").fadeIn('slow');
 				setTimeout(function() { $('#error_update').fadeOut('slow') }, 3000);
               }
               else if($.trim(result)=="0"){
+              	flagMail = true;
                    $('#error_update').html("");
               }
             }
@@ -469,14 +523,12 @@ $('#cancel-password').click(function(){
           data: { email : value},
           success: function(result){
               if($.trim(result)=="1"){
-                   //$('#error_update').html("Invalid email");
                    $("#error_update").show();
 				   $('#error_update').html("Invalid Email");
 				   $("#error_updateord").fadeIn('slow');
 					setTimeout(function() { $('#error_update').fadeOut('slow') }, 3000);
               }
               else if($.trim(result)=="2"){
-                   //$('#error_update').html("Email already in use");
                    $("#error_update").show();
 				   $('#error_update').html("Email already in use");
 				   $("#error_update").fadeIn('slow');
@@ -505,7 +557,19 @@ $('#cancel-password').click(function(){
 
 
 	$('#set-email').click(function(){
-		update_email();
+		if(flag && flagMail){
+			update_email();
+			$('#set-email').hide();
+			$('#cancel-email').hide();
+			$('#edit-email').show();
+			$('#email-label').show();
+			$('#email').hide();
+			$("#epass-label").hide();
+			$('#epassword').hide();
+		}
+		else{
+
+		}
 	});
 
 	function edit(){										
