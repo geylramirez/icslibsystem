@@ -120,7 +120,6 @@
 	<script>
 		var enable = "<?php echo $info[0]->fineenable; ?>";
 		
-	
 		hideInfoInput();
 		hideFine();
 		hideMax();
@@ -381,7 +380,7 @@
 			enable_fine.style.display='none';
 			
 			$.ajax({
-				url : "<?php echo base_url();?>admin/settings_for_enable",
+				url : "<?php echo site_url()?>/admin/settings_for_enable",
 				success : function( result ){
 					if( result == "" ){
 						console.log("Updated");
@@ -402,7 +401,7 @@
 			enable_fine.style.display='inline';
 			
 			$.ajax({
-				url : "<?php echo base_url();?>admin/settings_for_disable",
+				url : "<?php echo site_url()?>/admin/settings_for_disable",
 				success : function( result ){
 					if( result == "" ){
 						console.log("Updated");
@@ -428,7 +427,7 @@
 							if( password != "" ){
 								$.ajax({
 									type : "POST",
-									url : "<?php echo base_url(); ?>admin/check_password",
+									url : "<?php echo site_url()?>/admin/check_password",
 									data : { password : password },
 									success : function( result ){
 													console.log( result );
@@ -459,7 +458,7 @@
 	
 				$.ajax({
 					type : "POST",
-					url : "<?php echo base_url();?>admin/settings_for_info",
+					url : "<?php echo site_url()?>/admin/settings_for_info",
 					data: { start_sem_value : start_sem_value, end_sem_value : end_sem_value },
 					success : function( result ){
 						if( result == "" ){
@@ -474,7 +473,7 @@
 				var fine = document.getElementById('fineInput').value;
 				$.ajax({
 					type: "POST",
-					url: "<?php echo base_url();?>admin/settings_for_fine",
+					url: "<?php echo site_url()?>/admin/settings_for_fine",
 					data: { fine: fine },
 					success : function( result ){
 						if( result == "" ){
@@ -489,7 +488,7 @@
 				var max = document.getElementById('maxInput').value;
 				$.ajax({
 					type: "POST",
-					url: "<?php echo base_url();?>admin/settings_for_max",
+					url: "<?php echo site_url()?>/admin/settings_for_max",
 					data: { max: max },
 					success : function( result ){
 						if( result == "" ){
@@ -532,7 +531,7 @@
 								callback: function() {
 									$.ajax({
 										type: "POST",
-										url: "<?php echo base_url();?>admin/clear_reservation",
+										url: "<?php echo site_url()?>/admin/clear_reservation",
 
 										beforeSend: function() {
 											//$("#con").html('<img src="/function-demos/functions/ajax/images/loading.gif" />');

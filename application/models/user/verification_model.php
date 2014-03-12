@@ -31,15 +31,15 @@
 				//'smtp_user' => 'system.icslibrary@gmail.com',  //ADMIN EMAIL
 				//'smtp_pass' => 'icslibraryadmin',			   //ADMIN PW
 				//dummy account
-				'smtp_user' => 'icslibsystem.dummy@gmail.com', 
-				'smtp_pass' => 'codeigniter',			   
+				'smtp_user' => 'icslibsystem.noreply@gmail.com', 
+				'smtp_pass' => 'computerscience128',			   
 				'mailtype'  => 'html', 
 				'charset'   => 'iso-8859-1'
 			);
 			$this->load->library('email', $config);
 			$this->email->set_mailtype('html');
 			$this->email->set_newline("\r\n");
-			$this->email->from('System.ICSLibrary@gmail.com', 'ICS Library');
+			$this->email->from('icslibsystem.noreply@gmail.com', 'ICS Library');
 			$this->email->to($email);
 			$this->email->subject('[iLS] Please verify your account '. $result->row()->fname.'');
 			

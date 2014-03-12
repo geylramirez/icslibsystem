@@ -37,14 +37,17 @@
 					}
 				?>
 					<ol class="breadcrumb">
-					  <li><a href="<?php echo base_url();?>">Home</a></li>
+					  <li><a href="<?php echo site_url();?>">Home</a></li>
 					  <?php
-					  	base_url();
 					  	if($email){
-					  		echo "<li class='active'><a href='search_all'>Search library</a></li>";
+					  		echo "<li class='active'><a href='";
+					  		echo site_url();
+					  		echo "/borrower/search_all'>Search library</a></li>";
 					  	}
 					  	else{
-					  		echo "<li class='active'><a href='outside_search'>Search library</a></li>";	
+					  		echo "<li class='active'><a href='";
+					  		echo site_url();
+					  		echo "/borrower/outside_search'>Search library</a></li>";	
 					  	}
 					  ?>
 					  
@@ -99,6 +102,7 @@
 									<?php
 												
 									foreach($value as $row){
+										//var_dump($row);
 										//var_dump($row['author']);
 										$requirement = $row['requirement'];
 										echo "<tr>";
@@ -143,15 +147,65 @@
 											<img style='float:left;cursor:pointer;height:15px;width:15px;' src='<?php echo base_url();?>dist/images/emptystar.jpg' name='${row['materialid']}' value='4' id='4' onclick='fillstar(this)' />&nbsp;
 											<img style='float:left;cursor:pointer;height:15px;width:15px;' src='<?php echo base_url();?>dist/images/emptystar.jpg' name='${row['materialid']}' value='5' id='5' onclick='fillstar(this)' />&nbsp;
 										</div></td>";*/
-										echo "<br />Ratings: <select class = 'btn btn-default btn-sm rating'>
-										  <option value='1'>1</option>
-										  <option value='2'>2</option>
-										  <option value='3'>3</option>
-										  <option value='4'>4</option>
-										  <option value='5'>5</option>
-										</select></td>";
+										
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 										if($email){
+											echo "<br />Ratings: <select class = 'btn btn-default btn-sm rating'>";
+											if(isset($row['rating'])){ 
+												if($row['rating']==1){
+												  echo "<option value='0'>0</option>
+												  <option value='1' SELECTED>1</option>
+												  <option value='2'>2</option>
+												  <option value='3'>3</option>
+												  <option value='4'>4</option>
+												  <option value='5'>5</option>";
+												}
+												else if($row['rating']==2){
+												  echo "<option value='0'>0</option>
+												  <option value='1'>1</option>
+												  <option value='2' SELECTED>2</option>
+												  <option value='3'>3</option>
+												  <option value='4'>4</option>
+												  <option value='5'>5</option>";
+												}
+												else if($row['rating']==3){
+												  echo "<option value='0'>0</option>
+												  <option value='1'>1</option>
+												  <option value='2'>2</option>
+												  <option value='3' SELECTED>3</option>
+												  <option value='4'>4</option>
+												  <option value='5'>5</option>";
+												}
+												else if($row['rating']==4){
+												  echo "<option value='0'>0</option>
+												  <option value='1'>1</option>
+												  <option value='2'>2</option>
+												  <option value='3'>3</option>
+												  <option value='4' SELECTED>4</option>
+												  <option value='5'>5</option>";
+												}
+												else if($row['rating']==5){
+												  echo "<option value='0'>0</option>
+												  <option value='1'>1</option>
+												  <option value='2'>2</option>
+												  <option value='3'>3</option>
+												  <option value='4'>4</option>
+												  <option value='5' SELECTED>5</option>";
+												}
+
+
+											}
+											else {
+												echo "<option value='0' SELECTED>0</option>
+												  <option value='1'>1</option>
+												  <option value='2'>2</option>
+												  <option value='3'>3</option>
+												  <option value='4'>4</option>
+												  <option value='5'>5</option>";
+											}
+
+											echo "</select></td>";
+
 											$t_q = 0;
 											foreach($total as $t_queue){
 												if($t_queue['materialid']==$row['materialid']){
@@ -400,7 +454,7 @@ $(document).ready(function()
 					
 			$.ajax({
 				type: "post",
-				url: "<?php echo base_url();?>borrower/insert_rating",
+				url: "<?php echo site_url();?>/borrower/insert_rating",
 				data: { materialid: materialid, isbn: isbn, rating: rating },
 				success: function(data){
 

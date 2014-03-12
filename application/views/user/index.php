@@ -33,24 +33,28 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>dist/images/logo4.png" height="50px" width="165px"></a>
+          <a class="navbar-brand" href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>dist/images/logo.png" height="70px"></a>
         </div>
         <div class="navbar-collapse collapse">
 
             <!-- <form class="navbar-form navbar-right" role="form" method="post" action="login"> -->
       <form id = "login_form" class="navbar-form navbar-right" role="form">
-            <div class="form-group">
-             <!-- <input placeholder="Email" class="form-control" type="text" value="<?php echo set_value('username');?>" name="username"> -->
-       <input type="text" placeholder="Email" class="form-control" id="uname" name="uname">
-            </div>
-            <div class="form-group">
-              <input placeholder="Password" class="form-control" type="password" name="pword">
-            </div>
-      <button class="btn btn-primary" type="button" id = "sign_in">Sign in</button>
-         <!--   <button type="submit" name="login" class="btn btn-primary">Sign in</button> -->
-            <a href="register" name="signup" class="buttonhref white" >Sign up</a>
-            <p><a href="#forgot" id="forgotText" data-toggle="modal"> Forgot password? </a></p>
-            </form>
+                <div class="form-group">
+                 <!-- <input placeholder="Email" class="form-control" type="text" value="<?php echo set_value('username');?>" name="username"> -->
+                    <input type="text" placeholder="Email/ID Number" class="form-control"  name="uname">
+                </div>
+                <div class="form-group">
+                  <input placeholder="Password" class="form-control" type="password" name="pword">
+                </div>
+                   <button class="btn btn-primary" type="button" id = "sign_in">Sign in</button>
+             <!--   <button type="submit" name="login" class="btn btn-primary">Sign in</button> -->
+                
+                <p>
+                  <a href="<?php echo site_url()?>/borrower/register" name="signup">Create an account</a>
+                  <span id="tab"></span>
+                  <a href="#forgot" data-toggle="modal"> Forgot password? </a>
+                </p>
+          </form>
 
         </div><!--/.navbar-collapse -->
       </div>
@@ -89,7 +93,7 @@
       password = $("#login_form").find("input[name='pword']").val();
 
       $.ajax({
-          url: "<?php echo base_url();?>borrower/check_user",
+          url: "<?php echo site_url();?>/borrower/check_user",
           type: "POST",
           dataType: "html",
           data: { email: username, pword: password },
@@ -144,7 +148,7 @@
       email = $("#email").val();
       $.ajax({
         type: "POST",
-        url: "<?php echo site_url('borrower/forgot_password');?>",
+        url: "<?php echo site_url('/borrower/forgot_password');?>",
         data: {'email':email,
              'action': 'verify_email'
             },
@@ -307,7 +311,7 @@
   
    <div class="row" id="container">
       <div class="container">
-         <center> <img src="<?php echo base_url(); ?>dist/css/banner_up_new.gif"></center>
+         <center> <img src="<?php echo base_url(); ?>dist/images/banner.png" class="img-responsive"></center>
       </div>
     </div>
 
@@ -318,7 +322,7 @@
           <img id="icons" alt="50x50" src="<?php echo base_url(); ?>dist/images/search.png">
           <h3>Looking for something?</h3>
       <p>Search for materials available in the library.</p>
-          <p><a class="btn btn-primary" href="<?php echo base_url();?>borrower/outside_search" role="button">Search now »</a></p>
+          <p><a class="btn btn-primary" href="<?php echo site_url();?>/borrower/outside_search" role="button">Search now »</a></p>
         </div><!-- /.col-lg-4 -->
 
         <div class="col-lg-4">
@@ -338,6 +342,9 @@
       <!-- /END THE FEATURETTES -->
 
       <footer>
-        <center><p id="small">&copy; 2013-2014 CMSC 128 AB-6L. All Rights Reserved. <a href="<?php echo base_url(); ?>about_us">About Us</a> </p></center>
+        <center><p id="small">&copy; 2013-2014 CMSC 128 AB-6L. All Rights Reserved. <a href="<?php echo site_url(); ?>/borrower/about_us">About Us</a> 
+          | <a href="<?php echo base_url();?>dist/pdf/user/ILS Manual.pdf" target="_blank">Operations Manual</a> 
+          | <a href="<?php echo base_url();?>dist/pdf/user/ILS FAQ.pdf" target="_blank">FAQs</a></p>
+        </center>
       </footer>
 </body></html>

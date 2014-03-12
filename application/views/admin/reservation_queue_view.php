@@ -32,7 +32,7 @@
 									
 									$.ajax({
 										type: "POST",
-										url: "<?php echo base_url();?>admin/claim_reservation",
+										url: "<?php echo site_url()?>/admin/claim_reservation",
 										data: { materialid : materialid, idnumber : idnumber, isbn : isbn }, 
 
 										beforeSend: function() {
@@ -94,7 +94,7 @@
 
 									$.ajax({
 										type: "POST",
-										url: "<?php echo base_url();?>admin/notification",
+										url: "<?php echo site_url()?>/admin/notification",
 										data: { materialid : materialid, idnumber : idnumber, isbn : isbn }, 
 
 										beforeSend: function() {
@@ -149,7 +149,7 @@
 						<h2> Reservations View </h2>
 						<h5> <i> You are currently viewing the reservations that can be provided with a library material copy. </i> </h5>
 						<ol class="breadcrumb">
-							<li><a href="<?php echo base_url()?>admin/home">Home</a></li>
+							<li><a href="<?php echo site_url()?>/admin/home">Home</a></li>
 							<li class="active"> Reservations </li>
 						</ol>
 						<?php if( count($reservations) != 0 ){ ?>
@@ -277,7 +277,14 @@
 		
 		<script>
 			$('#reserved-nav').addClass('active');
-			
+			 // now, fadeout the html (whole page)
+			$('#view-nav').click(function(){
+				$("html").fadeOut(function () {
+        // when the animation is complete, set the new location
+        location = "<?php echo site_url(); ?>";
+    });
+			});
+	
 			$(document).ready(function(){		
 				function printAuthor( data ){
 					var ret = "";
@@ -362,7 +369,7 @@
 					var search = $("#searchReservedBooks").val();	
 					$.ajax({
 						type: "POST",
-						url: "<?php echo base_url();?>admin/search_reservations",
+						url: "<?php echo site_url()?>/admin/search_reservations",
 						dataType: "json",
 						data: { search : search }, 
 

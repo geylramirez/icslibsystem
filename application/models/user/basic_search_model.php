@@ -8,6 +8,11 @@
 	
 		public function get_search_res($search, $category)
 		{
+			$search = $this->db->escape_like_str($search);
+			$search = trim($search);
+			$search = mysql_real_escape_string($search);
+			$search = htmlspecialchars($search);
+			$search = str_replace("'", '', $search);
 			$return_array = array();
 			$this->load->database();
 			$this->load->library("session");
@@ -33,13 +38,15 @@
 									OR (a.fname LIKE '%{$temp_search[$i]}%' OR a.mname LIKE '%{$temp_search[$i]}%' OR a.lname LIKE '%{$temp_search[$i]}%')";
 				}
 			}
-				if(count($conditions)!=0){
-					$stmt = "SELECT DISTINCT l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
-						FROM author a INNER JOIN librarymaterial l ON a.materialid = l.materialid WHERE ". implode(' OR ', $conditions) . "ORDER BY l.name";
+				$id = $this->session->userdata('idnumber');
+
+				if(count($conditions)!=0){			
+					$stmt = "SELECT DISTINCT r.rating, l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
+						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid LEFT JOIN rating r ON r.idnumber = '${id}' AND l.materialid = r.materialid WHERE ". implode(' OR ', $conditions) . "ORDER BY l.name";
 				}
 				else{
-					$stmt = "SELECT DISTINCT l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
-						FROM author a INNER JOIN librarymaterial l ON a.materialid = l.materialid ORDER BY l.name";	
+					$stmt = "SELECT DISTINCT r.rating, l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
+						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid LEFT JOIN rating r ON r.idnumber = '${id}' AND l.materialid = r.materialid ORDER BY l.name";	
 				}
 
 				$query = $this->db->query($stmt);

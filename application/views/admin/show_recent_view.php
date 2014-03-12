@@ -18,7 +18,7 @@
 							var materialid = $.trim(parent.siblings('.materialid').text());
 							$.ajax({
 								type: "POST",
-								url: "<?php echo site_url(); ?>/admin/delete_material",
+								url: "<?php echo site_url()?>/admin/delete_material",
 								data: { materialid : materialid }, 
 
 								beforeSend: function() {
@@ -60,7 +60,6 @@
 				}
 			});
 		}
-		
 	</script>
 		
 	<body>
@@ -73,21 +72,14 @@
 	        <div id="main-page">
 	            <div id = "main-content">
 	            	<br />
-						<h2> All Library Materials </h2>
-						<h5> <i> You are viewing all library materials. </i> </h5>
-						<ol class="breadcrumb">
-							<li><a href="<?php echo site_url(); ?>/admin/home">Home</a></li>
-							<li class="active"> View All Materials </li>
-						</ol>
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3 ">
-							<div class="alert-container" style = 'height: 40px; margin-bottom: 20px; text-align: center;'>
-								<div style="display:none" id = "success_delete" class = "alert alert-success">  </div>
-							</div>
-						</div>
-					</div>
+					<h2> All Library Materials </h2>
+					<h5> <i> You are viewing all library materials. </i> </h5>
+					<ol class="breadcrumb">
+						<li><a href="<?php echo site_url()?>/admin/home">Home</a></li>
+						<li class="active"> View All Materials </li>
+					</ol>
 	            	<br /><br />
-	                <form method="post"  style="width: 800px ; margin-left: auto; margin-right: auto;" role="form">
+	                <form method="post"  style="width: 800px ; margin-left: auto; margin-right: auto;" action="<?php echo site_url()?>/admin/admin_search">
 	                    <label for="filter"><span class="label label-default">Filter by:</span></label>
 	                    <select name="filter">
 	                        <option value="none">Any Field</option>
@@ -109,7 +101,7 @@
 	                        <option value="Magazines">Magazines</option>
                   		</select>          
 	                 	<label for="access"><span class="label label-default">Accessible by:</span></label>
-	                    <select name="access">
+	                    <select name="access"> 
                             <option value="allAccess">---</option>
                             <option value="1">Student</option>
                             <option value="2">Faculty</option>
@@ -204,7 +196,7 @@
 												$availcopy = $q->quantity - $q->borrowedcopy;
 												echo "<td><center>" . $availcopy ."/" .$q->quantity. "</center></td>";
 												echo "<td align='center'>";
-												echo "<form method='post' name='update' action='update_material'>";
+												echo "<form method='post' name='update' action='" . site_url() ."/admin/update_material'>";
 												echo "<input type='hidden' name='materialid' value='" . $q->materialid . "'/>";
 												echo "<button type='submit' class='updateButton btn btn-default' name='update'><span class='glyphicon glyphicon-edit'></button></form>";
 												echo "<button onclick = 'deleteBook($(this))' class='deleteButton btn btn-danger' name='return'><span class='glyphicon glyphicon-remove'></button>";
@@ -214,23 +206,43 @@
                                     }
                                 echo "</table>";   
                          ?>
-						<?php include 'includes/pager.php'; ?>
+						<div class="pager">
+							<!--<img src="../addons/pager/icons/first.png" class="first" alt="First" />
+							<img src="../addons/pager/icons/prev.png" class="prev" alt="Prev" />-->
+							<span class="first" style="cursor:pointer">First</span>
+							<span class="prev" style="cursor:pointer">Prev</span>
+							<strong> <span class="pagedisplay"></span></strong> <!--this can be any element, including an input-->
+							<span class="next" style="cursor:pointer">Next</span>
+							<span class="last" style="cursor:pointer">Last</span>
+							<br/>
+							<span>Page size: </span>
+							<select class="pagesize" title="Select page size">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+							</select>
+							<span>Go to: </span>
+							<select class="gotoPage" title="Select page number"></select>
+						</div>
                     </div><!-- main content -->
                 </div><!-- main page -->
         </div><!-- left -->
 
-         <!-- Footer -->
+        <!-- Footer -->
 		<?php include 'includes/footer.php'; ?>
 
 		<?php include 'includes/pagination.php'; ?>	
+		
+		
 	<script>
 		//document.getElementById("success_update").style.display='none';
 		//document.getElementById("success_added").style.display='none';
 	
-	$('#view-nav').addClass('active');
 	$(document).ready(function(){
 				//for tooltip
 				$("a.tooltipLink").tooltip();
 	});
+			$('#view-nav').addClass('active');
     </script>
 </body></html>

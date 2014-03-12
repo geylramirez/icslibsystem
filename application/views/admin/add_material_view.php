@@ -19,28 +19,31 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         <?php include 'includes/header.php'; ?>
         <div class="mainBody">
             <!-- Nav tabs -->
-            <?php include 'includes/sidebar.php'; ?> 
+            <?php include 'includes/sidebar.php'; ?>   
 
         <div class="leftMain">
         	<div id="main-page">
         		<div id = "main-content">
 					<div id="container">
 						<form name="add" id="add" method="post" class="form-horizontal">
+
 							<br />
 							<h2> Add New Material </h2>
 							<ol class="breadcrumb">
-								<li><a href="<?php echo base_url()?>admin/home">Home</a></li>
+								<li><a href="<?php echo site_url();?>/admin/home">Home</a></li>
 								<li class="active"> Add New Material </li>
 							</ol>
-							<h3 class="form-signin-heading">Fill up the necessary info: </h3>
+							<div class="alert-container" style = 'height: 40px; margin-bottom: 19px;'>
+									<div style="display:none" id="success_add" class = "alert alert-success"></div>
+									<div style="display:none" id="fail_add" class = "alert alert-danger"></div>
+							</div> 
 							<div class="form-group">
 								<label class="col-sm-2 control-label">Library Material ID</label>
-								<label id="preclass" class="col-sm-1 control-label">CS1-</label>
+								<label id="preclass" name="preclass" class="col-sm-1 control-label">CS1-</label>
 								<div class="col-sm-1">
-									<input type="text" class="form-control" id="material" placeholder="A1" name="material" pattern="[A-Za-z0-9]+" required>
+									<input type="text" maxlength="10" class="form-control" id="materialid" placeholder="A1" name="materialid" pattern="[A-Za-z0-9]+" required>
 								</div>
-								<input type="hidden" id="matID" name="materialid" />
-								<span style="color: red;" name="helpmaterialid"></span>
+								<span style="color: red;" id="helpmaterialid" name="helpmaterialid"></span>
 							</div>
 							<div class="form-group">
 								<label for="type" class="col-sm-2 control-label">Type</label>
@@ -109,7 +112,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 							<div class="form-group"><br />
 								<label for="year" class="col-sm-2 control-label">Year of Publication</label>
 								<div class="form-inline col-sm-2">
-									<input type="number" name="year" class="form-control" id="year" placeholder="YYYY" min="1950" max="2014" pattern="/^[0-9][0-9][0-9][0-9]$/" required>
+									<input type="number" name="year" class="form-control" id="year" value="2014" placeholder="YYYY" min="1950" max="2014" pattern="/^[0-9][0-9][0-9][0-9]$/" required>
 								</div>
 								<span style="color: red;" name="helpyear">
 							</div>
@@ -165,7 +168,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 							<div class="form-group"><br />
 								<div class="col-sm-offset-2 col-sm-10">
 									<button onclick="addDetails()" class="btn btn-primary" id="addButton" name="add">Add</button>
-									<a href="<?php echo base_url();?>admin/add_multiple"><button type="button" class="btn btn-default">Add Multiple Material</button></a>
+									<a href="<?php echo site_url();?>/admin/add_multiple"><button type="button" class="btn btn-default">Add Multiple Material</button></a>
 								</div>
 							</div>
 						<br>		
@@ -174,12 +177,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 			</div>
 		</div>
 
-		<!-- FOOTER -->
 		<?php include 'includes/footer.php'; ?>
-			
+	
 		<script>
-			$('#add-nav').addClass('active');
-			
+		$('#add-nav').addClass('active');
 			function finalcheckofadd() {
 				if (validateName() && validateEdition() && disableFeatures() && validateAuthors())
 				bootbox.dialog({
@@ -229,7 +230,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 															
 								$.ajax({
 									type: "POST",
-									url: "<?php echo base_url();?>admin/add_execution",
+									url: "<?php echo site_url();?>/admin/add_execution",
 									data: { materialid : materialid,
 											type : type,
 											isbn : isbn,
@@ -261,7 +262,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 											$("#success_add").fadeIn('slow');
 											document.body.scrollTop = document.documentElement.scrollTop = 0;
 											setTimeout(function() { $("#success_add").html("Redirecting to View All Library Materials...");
-																	window.location.href = "<?php echo base_url();?>admin/admin_search"; }, 2000);	
+																	window.location.href = "<?php echo site_url();?>/admin/show_recent/"+materialid; }, 2000);	
 										}
 									}
 								});
@@ -291,7 +292,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 				type = add.type.value;
 
 				$.ajax({
-					url: "<?php echo base_url();?>admin/check_materialid",
+					url: "<?php echo site_url();?>/admin/check_materialid",
 					type: "POST",
 					data: { preclass: preclass, materialid : materialid },
 					success: function (result){
@@ -305,7 +306,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 								type = add.type.value;
 								
 								$.ajax({
-									url: "<?php echo base_url();?>admin/check_isbn",
+									url: "<?php echo site_url();?>/admin/check_isbn",
 									type: "POST",
 									data: { isbn : isbn , type : type },
 									success: function (result){
@@ -415,7 +416,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 					materialid = add.materialid.value;
 				
 					$.ajax({
-						url: "<?php echo base_url();?>admin/check_materialid",
+						url: "<?php echo site_url();?>/admin/check_materialid",
 						type: "POST",
 						data: { preclass: preclass, materialid : materialid },
 						success: function (result){
@@ -533,7 +534,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 					type = add.type.value;
 					
 					$.ajax({
-						url: "<?php echo base_url();?>admin/check_isbn",
+						url: "<?php echo site_url();?>/admin/check_isbn",
 						type: "POST",
 						data: { isbn : isbn , type : type },
 						success: function (result){

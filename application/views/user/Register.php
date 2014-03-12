@@ -10,7 +10,7 @@
        <div class="col-xs-6 col-md-4"><br/><br/><br/>
           <legend><center><a href="#"><i class="glyphicon glyphicon-globe"></i></a> Sign up!</center></legend>
 
-          <form action="<?php echo base_url()?>registration" method="post" class="form" role="form">
+          <form action="<?php echo site_url()?>/registration" method="post" class="form" role="form">
 
           <div class="row"><br/>
             <div class="col-xs-4 col-md-12">
@@ -125,7 +125,7 @@
       var password = $('#password').val();
 
       $.ajax({
-        url: "<?php echo base_url();?>borrower/checkpassword",
+        url: "<?php echo site_url();?>/borrower/checkpassword",
         type: "POST",
         data: { password : password},
 
@@ -146,7 +146,7 @@
     function check_email(){
       var value = $('#emailid').val();
         $.ajax({
-          url: "<?php echo base_url();?>borrower/checkemail",
+          url: "<?php echo site_url();?>/borrower/checkemail",
           type: "POST",
           data: { email : value},
           success: function(result){
@@ -169,7 +169,7 @@
     function check_idnumber(){
         var value = $('#idnumber').val();
         $.ajax({
-          url: "<?php echo base_url();?>borrower/checkidnumber",
+          url: "<?php echo site_url();?>/borrower/checkidnumber",
           type: "POST",
           data: { idnumber : value},
           success: function(result){
@@ -205,7 +205,7 @@
           var email = $('#emailid').val();
 
         $.ajax({
-          url: "<?php echo base_url();?>borrower/registration",
+          url: "<?php echo site_url();?>/borrower/registration",
           type: "POST",
           data: { idnumber : idnumber, password : password, email : email },
 

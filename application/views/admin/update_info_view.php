@@ -1,76 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	
-	<link rel="shortcut icon" href="<?php echo base_url();?>dist/images/fav.png">
+<?php include 'includes/head.php'; ?>
 
-	<title>ICS-iLS</title>
-
-	<link href="<?php echo base_url();?>dist/css/bootstrap.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/carousel.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/signin.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/style2.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/date_picker.css" rel="stylesheet">
-	<link href="<?php echo base_url();?>dist/css/styles.css" rel="stylesheet" /> <!--for chart -->
-
-	<style type="text/css" id="holderjs-style"></style></head>
-	
 	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand"><img src="<?php echo base_url();?>dist/images/logo4.png" height="30px"></a>
-                </div>
-                <form class="navbar-form navbar-right" role="form">
-                    <!-- Split button -->
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-cog"></span>
-				  </button>
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="<?php echo base_url();?>admin/settings">Settings</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li class="divider"></li>
-                    <li><a href="<?php echo base_url();?>admin/logout">Log-out</a></li>
-                  </ul>
-                </div>
-                </form>
-            </div>
-        </div>
+		 <?php include 'includes/header.php'; ?>
         <div class="mainBody">
             <!-- Nav tabs -->
-            <div class="affix sidebarMain">
-				<ul class="nav nav-pills nav-stacked">
-					<li id = "reserved-nav" ><br />
-						<a href="<?php echo base_url();?>admin/reservation"><span class="glyphicon glyphicon-import"></span> &nbsp;Reserved Books</a>
-					</li>
-					<li id = "borrowed-nav">
-						<a href="<?php echo base_url();?>admin/borrowed_books"><span class="glyphicon glyphicon-export"></span> &nbsp;Borrowed Books</a>
-					</li>
-					<li id = "view-nav" >
-						<a href="<?php echo base_url();?>admin/admin_search"><span class="glyphicon glyphicon-search"></span> &nbsp;View All Materials</a>
-					</li>
-					<li id = "add-nav" >
-						<a href="<?php echo base_url();?>admin/add_material"><span class="glyphicon glyphicon-plus"></span> &nbsp;Add A New Material&nbsp;&nbsp;&nbsp;</a>
-					</li>
-					<li id = "overview-nav">
-						<a href="<?php echo base_url();?>admin/home"><span class="glyphicon glyphicon-dashboard"></span> &nbsp;Overview</a>
-					</li>	
-				</ul>
-			</div>
+           <?php include 'includes/sidebar.php'; ?> 
 
         	<div class="leftMain">
 		        <div id="main-page">
+		        	<br />
+					<h2> Update Library Material </h2>
+					<ol class="breadcrumb">
+						<li><a href="<?php echo site_url()?>/admin/home">Home</a></li>
+						<li><a href="<?php echo site_url()?>/admin/update_material">View All Material</a></li>
+						<li class="active"> Update Library Material </li>
+					</ol>
 			        <div id = "main-content">
 						<div id="container">
 							<form name="update" id="update" class="form-horizontal">
@@ -229,7 +175,7 @@
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10"><br />
 									<button onclick="updateDetails()" class="btn btn-default" id="updateButton" name="update">Update</button>
-									<a href="<?php echo base_url();?>admin/admin_search"><button type="button" class="btn btn-danger">Cancel</button></a>
+									<a href="<?php echo site_url()?>/admin/admin_search"><button type="button" class="btn btn-danger">Cancel</button></a>
 								</div>
 							</div>
 							<br>
@@ -238,15 +184,7 @@
 				</div>	
 			</div>
 
-		<!-- FOOTER -->
-		<footer>
-			<a href="#" class="back-to-top"><span class='glyphicon glyphicon-chevron-up'></span></a>
-		</footer>
-			
-		<script src="<?php echo base_url();?>dist/js/jquery.js"></script>
-		<script src="<?php echo base_url();?>dist/js/bootstrap.js"></script>
-		<script src="<?php echo base_url();?>dist/js/bootbox.min.js"></script>			
-    	<script src="<?php echo base_url();?>dist/js/holder.js"></script>
+		<?php include 'includes/footer.php'; ?>
 
 		<script>
 
@@ -301,7 +239,7 @@
 															
 								$.ajax({
 									type: "POST",
-									url: "<?php echo base_url();?>admin/update_execution",
+									url: "<?php echo site_url()?>/admin/update_execution",
 									data: { previous_matID : previous_matID, 
 											previous_isbn : previous_isbn,
 											materialid : materialid,
@@ -335,7 +273,7 @@
 											$("#success_update").fadeIn('slow');
 											document.body.scrollTop = document.documentElement.scrollTop = 0;
 											setTimeout(function() { $("#success_update").html("Redirecting to View All Library Materials...");
-																	window.location.href = "<?php echo base_url();?>admin/admin_search"; }, 2000);	
+																	window.location.href = "<?php echo site_url()?>/admin/show_recent/"+materialid; }, 2000);	
 										}
 									}
 								});
@@ -366,7 +304,7 @@
 				type = update.type.value;
 
 				$.ajax({
-					url: "<?php echo base_url();?>admin/check_new_materialid",
+					url: "<?php echo site_url()?>/admin/check_new_materialid",
 					type: "POST",
 					data: { preclass: preclass, materialid : materialid, previous_matID : previous_matID},
 					success: function (result){
@@ -381,7 +319,7 @@
 								previous_isbn = update.previous_isbn.value;
 
 								$.ajax({
-									url: "<?php echo base_url();?>admin/check_new_isbn",
+									url: "<?php echo site_url()?>/admin/check_new_isbn",
 									type: "POST",
 									data: { isbn : isbn , type : type , previous_isbn : previous_isbn},
 									success: function (result){
@@ -492,7 +430,7 @@
 					previous_matID = update.previous_matID.value;
 
 					$.ajax({
-						url: "<?php echo base_url();?>admin/check_new_materialid",
+						url: "<?php echo site_url()?>/admin/check_new_materialid",
 						type: "POST",
 						data: { preclass: preclass, materialid : materialid, previous_matID : previous_matID},
 						success: function (result){
@@ -603,7 +541,7 @@
 					previous_isbn = update.previous_isbn.value;
 
 					$.ajax({
-						url: "<?php echo base_url();?>admin/check_new_isbn",
+						url: "<?php echo site_url()?>/admin/check_new_isbn",
 						type: "POST",
 						data: { isbn : isbn , type : type , previous_isbn : previous_isbn},
 						success: function (result){

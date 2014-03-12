@@ -76,7 +76,6 @@ $route['about_us'] = 'borrower/about';
 $route['borrower/about_us'] = 'borrower/about';
 
 
-
 $route['borrower/try_search'] = 'borrower/try_search';
 $route['forgot_pword/(:any)'] = 'borrower/login/$1';
 

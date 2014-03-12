@@ -191,7 +191,7 @@ public function logout()
 
 	public function register(){
 		$this->load->helper('url');
-		$this->load->view('user/Register.php');
+		$this->load->view('user/register.php');
 	}
 
 	public function borrowed_materials() { 
@@ -465,20 +465,20 @@ public function forgot_password()
 						'protocol' => 'smtp',
 						'smtp_host' => 'ssl://smtp.googlemail.com',
 						'smtp_port' => 465,
-						//'smtp_user' => 'icslibsystem@gmail.com',
-						//'smtp_pass' => 'computerscience128'
-						'smtp_user' => 'icslibsystem.dummy@gmail.com',
-						'smtp_pass' => 'codeigniter'
+						'smtp_user' => 'icslibsystem.noreply@gmail.com',
+						'smtp_pass' => 'computerscience128'
+						//'smtp_user' => 'icslibsystem.dummy@gmail.com',
+						//'smtp_pass' => 'codeigniter'
 					);
 					$this->load->library('email',$config);
 					$this->email->set_newline("\r\n");
 
-					$this->email->from('icslibsystem@gmail.com', 'ICS Library');
+					$this->email->from('icslibsystem.noreply@gmail.com', 'ICS Library');
 					$this->email->to($verfied_email); 
 	
 	
-					$this->email->subject('[iLS] Password reset for you, {$name}');
-					$this->email->message("It looks like you forgot your password in your iLS account. Do not panic! We have provided you a code below for resetting your password. <br/><br/><br/> {$verification_code} <br/><br/>P.S. Please try not to forget your new password once you are successful in resetting it.<br/>P.P.S. Please ignore this email if you did not ask for a password reset.");
+					$this->email->subject('[iLS] Password reset for you, '. $name);
+					$this->email->message("It looks like you forgot your password in your iLS account. Do not panic! We have provided you a code below for resetting your password. {$verification_code} P.S. Please try not to forget your new password once you are successful in resetting it. P.P.S. Please ignore this email if you did not ask for a password reset.");
 	
 						if($this->email->send())
 						{

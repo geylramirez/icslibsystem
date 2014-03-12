@@ -28,13 +28,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>dist/images/logo4.png" height="40px"></a>
+          <a class="navbar-brand" href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>dist/images/logo.png" height="70px"></a>
         </div>
        <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo base_url();?>borrower/profile" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-home" ></span></a></li>
+            <li><a href="<?php echo Site_url();?>/borrower/profile" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-home" id="glyphcolor"></span></a></li>
             <li class="dropdown">
-              <a  id = "message" class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" ></span></a>
+              <a  id = "message" class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" id="glyphcolor"></span></a>
                 <?php
                  // if($overdue || $res || $readytoclaim){ echo "<span class='glyphicon glyphicon-exclamation-sign'></span>"; }
                 ?>
@@ -86,12 +86,12 @@
               </ul> <!--notifs-->
             </li>
             <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-cog" ></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-cog" id="glyphcolor" ></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="<?php echo base_url();?>dist/pdf/user/ILS Manual.pdf" target="_blank">Operations Manual</a></li>
+                    <li><a href="<?php echo base_url();?>dist/pdf/user/ILS MANUAL.pdf" target="_blank">Operations Manual</a></li>
                     <li><a href="<?php echo base_url();?>dist/pdf/user/ILS FAQ.pdf" target="_blank">FAQs</a></li>
                     <li class="divider"></li>
-                    <li><a href="<?php echo base_url();?>logout?">Logout</a></li>
+                    <li><a href="<?php echo site_url();?>/logout?">Logout</a></li>
                   </ul>
                  </li>
           </ul> <!--buong menu-->
@@ -105,7 +105,7 @@
     
     $('#message').click(function(){
       $.ajax({
-        url: "<?php echo base_url();?>borrower/get_message",
+        url: "<?php echo site_url();?>/borrower/get_message",
         dataType : "json",
         beforeSend: function() {
           //$("#con").html('<img src="/function-demos/functions/ajax/images/loading.gif" />');

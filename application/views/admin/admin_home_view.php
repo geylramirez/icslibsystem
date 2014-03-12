@@ -44,11 +44,11 @@
 					</div>	
 					<div class="col-sm-5" style = "text-align: center" >
 						<div class="btn_container col-md-8 col-sm-offset-2 ">
-							<a href="<?php echo base_url();?>admin/"><button type="button" class="btn btn-success">Generate System Log</button></a>
+							<!--a href="<?php echo base_url();?>admin/"><button type="button" class="btn btn-success">Generate System Log</button></a-->
 						</div>	
 					</div>	
 					<div class="btn_container" style = "text-align: center; padding-right: 100px;" >
-						<a href="<?php echo base_url();?>admin/print_inventory"><button type="button" class="btn btn-primary">Generate Report</button></a>
+						<a target = "_blank" href="<?php echo site_url();?>/admin/print_inventory"><button type="button" class="btn btn-primary">Generate Report</button></a>
 					</div>			
 			</div>
 		</div>

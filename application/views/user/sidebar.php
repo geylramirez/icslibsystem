@@ -1,12 +1,15 @@
 <div id = "userInfo">
 <center>
 <?php 
-	base_url();
 	if($this->session->userdata('sex') == 'F'){
-		echo "<img src='/icslibsystem/dist/images/female.png' alt='' class='img-rounded img-responsive' />";
+		echo "<img src='";
+		echo base_url();
+		echo "dist/images/female.png' alt='' class='img-rounded img-responsive' />";
 	}
 	else{
-		echo "<img src='/icslibsystem/dist/images/male.png' alt='' class='img-rounded img-responsive' />";
+		echo "<img src='";
+		echo base_url();
+		echo "dist/images/male.png' alt='' class='img-rounded img-responsive' />";
 	}
 
 ?></center>
@@ -64,7 +67,7 @@
 </div>
 
 <center>
-<button class="btn collapse-data-btn btn-default" id="manageBtn">Manage account</button>
+<button class="btn collapse-data-btn " id="manageBtn" class="button-color">Manage account</button>
 </center>
 
 <div id="update" >
@@ -145,7 +148,7 @@ var flagMail = false;
 	var id = "<?php echo $this->session->userdata('idnumber');?>";
 	var password;
 		$.ajax({
-			url: "<?php echo base_url(); ?>borrower/getPassword",
+			url: "<?php echo site_url(); ?>/borrower/getPassword",
 			type: "POST",
 			data: {idnumber: id,
 					opassword: opassword
@@ -180,7 +183,7 @@ var flagMail = false;
 	var id = "<?php echo $this->session->userdata('idnumber');?>";
 	var password;
 		$.ajax({
-			url: "<?php echo base_url(); ?>borrower/getPasswordForEmail",
+			url: "<?php echo site_url(); ?>/borrower/getPasswordForEmail",
 			type: "POST",
 			data: {idnumber: id,
 					epassword: epassword
@@ -220,7 +223,7 @@ var flagMail = false;
 	$('#npassword').blur(function(){
 		var value_pword = $('#npassword').val();
 		$.ajax({
-			url: "<?php echo base_url(); ?>borrower/checkUpdatePassword",
+			url: "<?php echo site_url(); ?>/borrower/checkUpdatePassword",
 			type: "POST",
 			data: {password : value_pword},
 			success: function(result){
@@ -244,7 +247,7 @@ var flagMail = false;
 		var value_pword = $('#npassword').val();
 		var value_re_pword = $('#re-npassword').val();
 		$.ajax({
-			url: "<?php echo base_url(); ?>borrower/checkUpdateRe_Password",
+			url: "<?php echo site_url(); ?>/borrower/checkUpdateRe_Password",
 			type: "POST",
 			data: {re_password : value_re_pword,
 					password: value_pword},
@@ -371,7 +374,7 @@ $('#set-password').click(function(){
 	
 if(npassword == re_password){
 	$.ajax({
-			url: "<?php echo base_url(); ?>borrower/getPassword",
+			url: "<?php echo site_url(); ?>/borrower/getPassword",
 			type: "POST",
 			data: {idnumber: id,
 					opassword: opassword
@@ -395,7 +398,7 @@ if(npassword == re_password){
 					$('#npassword').hide();
 					$('#re-npassword').hide();
 						$.ajax({
-							url: "<?php echo base_url(); ?>borrower/updatePassword",
+							url: "<?php echo site_url(); ?>/borrower/updatePassword",
 							type: "POST",
 							data: {password: npassword},
 							success: function()
@@ -476,7 +479,7 @@ $('#cancel-password').click(function(){
 	$('#email').blur(function(){
 		var value = $('#email').val();
         $.ajax({
-          url: "<?php echo base_url();?>borrower/checkUpdateEmail",
+          url: "<?php echo site_url();?>/borrower/checkUpdateEmail",
           type: "POST",
           data: { email : value},
           success: function(result){
@@ -518,7 +521,7 @@ $('#cancel-password').click(function(){
 	function update_email(){
 		var value = $('#email').val();
         $.ajax({
-          url: "<?php echo base_url();?>borrower/checkUpdateEmail",
+          url: "<?php echo site_url();?>/borrower/checkUpdateEmail",
           type: "POST",
           data: { email : value},
           success: function(result){
@@ -536,7 +539,7 @@ $('#cancel-password').click(function(){
               }
               else{
                    $.ajax({
-			          url: "<?php echo base_url();?>borrower/updateEmail",
+			          url: "<?php echo site_url();?>/borrower/updateEmail",
 			          type: "POST",
 			          data: { email : value },
 			          success: function(result){

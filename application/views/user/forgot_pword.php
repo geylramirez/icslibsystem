@@ -50,7 +50,7 @@
           <input id ="password" type="password" class="form-control" placeholder="Password" name = "password"required> -->
 
         <form id = "login_form" class="form-signin" role="form">
-        <input type="text" placeholder="Email" value="<?php echo $this->session->userdata('forgot');?>"  class="form-control"  name="uname" required autofocus>
+        <input type="text" placeholder="Email/ID Number" value="<?php echo $this->session->userdata('forgot');?>"  class="form-control"  name="uname" required autofocus>
         <input type="password" placeholder="Password" class="form-control" name="pword" required>
 		<a href="#forgot" id="forgotText" data-toggle="modal"> Forgot password? </a>
         <button class="btn btn-lg btn-primary btn-block" type="button" id = "sign_in">Sign in</button>
@@ -100,7 +100,7 @@
 		  password = $("#login_form").find("input[name='pword']").val();
 
 		  $.ajax({
-			  url: "<?php echo base_url();?>borrower/check_user",
+			  url: "<?php echo site_url();?>/borrower/check_user",
 			  type: "POST",
 			  dataType: "html",
 			  data: { email: username, pword: password },
@@ -396,7 +396,7 @@
  });
 </script>
 	<?php
-		if($message != 'null'){
+		if($message != 'null' || !isset($message)){
 			if($message == 'verified'){
 				echo "<script type='text/javascript'>displayError(";
 				echo "'verified'";

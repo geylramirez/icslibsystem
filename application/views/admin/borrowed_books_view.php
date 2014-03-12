@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php include 'includes/head.php'; ?>
-
+<?php include 'includes/head.php'; ?>		
 	<script>
 		function returnBook( thisDiv ){
 					bootbox.dialog({
@@ -21,7 +20,7 @@
 							
 									$.ajax({
 										type: "POST",
-										url: "<?php echo base_url();?>admin/material_returned",
+										url: "<?php echo site_url();?>/admin/material_returned",
 										data: { isbn : isbn, materialid : materialid, fine : fine }, 
 
 										beforeSend: function() {
@@ -65,22 +64,20 @@
 	</script>
 		
 	<body>
-		<?php include 'includes/header.php'; ?>
+		 <?php include 'includes/header.php'; ?>
         <div class="mainBody">
             <?php include 'includes/sidebar.php'; ?>
 
 			<div class="leftMain">
 				<div id="main-page">
 					<div id = "main-content">
-						<div id = "main-content">
 						<br />
 						<h2> Borrowed View </h2>
 						<h5> <i> You are currently viewing the borrowed material that can be provided with a library material copy. </i> </h5>
 						<ol class="breadcrumb">
-							<li><a href="<?php echo base_url()?>admin/home">Home</a></li>
+							<li><a href="<?php echo site_url()?>/admin/home">Home</a></li>
 							<li class="active"> Borrowed </li>
 						</ol>
-						
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3 ">
 								<div class="alert-container" style = 'height: 40px; padding-top: 10px; margin-bottom:10px;'>
@@ -88,26 +85,18 @@
 								</div>
 							</div>
 						</div>
-						<br /><br /><br />
-						<form method="post" role="form" align="center">
-							 <div class="row">
-								<div class="col-md-6 col-md-offset-3 ">
-									<div class="input-group">
-                            			<input type="text" name="search" class="form-control"/>
-                            			<span class="input-group-btn"> 
-	                           				<input class = "btn btn-default" type="submit" value="Search" name="search_borrowed_books"/> 
-	                           			</span>
-									</div><!-- /input-group -->  
-								</div><!-- /.col-lg-6 -->
-							</div><!-- /.row -->
-                        </form>
-                        <br />
+						<br />
+						<form method="post"  style="width: 800px ; margin-left: auto; margin-right: auto;" role="form" align="center">
+                            <input type="text" name="search"  size="80"/>
+                            <input class = "btn btn-primary" type="submit" value="Search" name="search_borrowed_books"/> 
+                           <div class="alert-container" style = 'height: 40px; margin: 30px;'>
+								<div style="display:none" id = "success_return" class = "alert alert-success">  </div>
+							</div>   
+                        </form>	
 
 						<?php
-						  if($this->input->post('returnButton') != ''){
-							echo "wew";
-						  }
-						  	echo"<table id='myTable' class='table table-hover table-bordered'>
+
+						  	echo"<table border = '1' id='myTable' class='table table-hover' tablesorter>
 								<thead>
 									<tr>
 										<th width='10%'><center>ISBN/ISSN</center></th>
@@ -126,7 +115,7 @@
 								<tfoot>
 								</tfoot>";
 							echo "<tbody>";
-                         	if($flag->num_rows ==0){		
+                         	if(count($flag) ==0){		
                                     echo "<td colspan = '9' style='background-color:rgba(0,0,0,0.1); color: black;'><center>No search results found.</center></td>";
                                     
                          	}else{
@@ -135,7 +124,7 @@
 							    $date = strtotime(date('Y-m-d'));
 								//echo count($borrowed_books->result());
 								//$i=0;
-								foreach($borrowed_books->result() as $row){	
+								foreach($borrowed_books as $row){	
 									$date2 = strtotime($row->expectedreturn);
 									$days = $date-$date2;
 									$finalfine = floor($days/(60*60*24))*$fine;
@@ -180,41 +169,47 @@
 							echo "</tbody>";
 							echo "</table>";
 						?>
-						<div class="pager">
-							<!--<img src="../addons/pager/icons/first.png" class="first" alt="First" />
-							<img src="../addons/pager/icons/prev.png" class="prev" alt="Prev" />-->
-							<span class="first" style="cursor:pointer">First</span>
-							<span class="prev" style="cursor:pointer">Prev</span>
-							<strong> <span class="pagedisplay"></span></strong> <!--this can be any element, including an input-->
-							<span class="next" style="cursor:pointer">Next</span>
-							<span class="last" style="cursor:pointer">Last</span>
-							<br/>
-							<span>Page size: </span>
-							<select class="pagesize" title="Select page size">
-								<option value="10">10</option>
-								<option value="20">20</option>
-								<option value="30">30</option>
-								<option value="40">40</option>
-							</select>
-							<span>Go to: </span>
-							<select class="gotoPage" title="Select page number"></select>
-						</div>
+						
 					</div>
+					<?php include "includes/pager.php"; ?>
 				</div>
 				<div id = "error"> </div>
 			</div>
-		<!-- Footer -->
-		<?php include 'includes/footer.php'; ?>
+		<!-- FOOTER -->
+		<footer>
+			<a href="#" class="back-to-top"><span class='glyphicon glyphicon-chevron-up'></span></a>
+		</footer>
+		
+		<?php include "includes/pagination.php"; ?>
 
-		<?php include 'includes/pagination.php'; ?>	
-
-		<script>
-	
-			$('#borrowed-nav').addClass('active');
-			$("a.tooltipLink").tooltip();
-			function submitForm(){
-				$("#return").submit();
-			}
+	<script>
+		//For back to top javascript//
+			$("#logout").click(function(){
+				window.location.href = "<?php echo site_url('admin/logout'); ?>";
+				
+				});
+					$("a.tooltipLink").tooltip();
+					//back to top code
+					var offset = 220;
+	                var duration = 500;
+	                jQuery(window).scroll(function() {
+	                    if (jQuery(this).scrollTop() > offset) {
+	                        jQuery('.back-to-top').fadeIn(duration);
+	                    } else {
+	                        jQuery('.back-to-top').fadeOut(duration);
+	                    }
+	                });
+	                
+	                jQuery('.back-to-top').click(function(event) {
+	                    event.preventDefault();
+	                    jQuery('html, body').animate({scrollTop: 0}, duration);
+	                    return false;
+	                });
+	                //end code of back to top
+			
+		function submitForm(){
+			$("#return").submit();
+		}
 			
 		</script>
 

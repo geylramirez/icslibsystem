@@ -20,7 +20,7 @@ class Reservation_queue_model extends CI_Model{
 	*/
 	public function get_reservations( $search = "" ) {
 		
-		/*
+	/*
 		*	get all the id, store it in an array
 		*	while( array is not empty ){
 		*		count = get the value of quantity - borrowed copy for array[i] // that is the available copy		

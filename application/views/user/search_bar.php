@@ -7,10 +7,17 @@
 					<tr>
 						<?php
 							$email = $this->session->userdata('email');
-							if($email)
-								echo "<form method='post' action='/icslibsystem/borrower/search_all'>";
-							else
-								echo "<form method='post' action='/icslibsystem/borrower/outside_search'>";
+							
+							if($email){
+								echo "<form method='post' action='";
+								echo site_url();
+								echo "/borrower/search_all'>";
+							}
+							else{
+								echo "<form method='post' action='";
+								echo site_url();
+								echo "/borrower/outside_search'>";
+							}
 						?>
 						<table bgcolor="#ffffff" cellspacing="0" cellpadding="2" border="0" style="width: 100%; border-collapse: collapse; bordercolor: #111111">
 
@@ -25,7 +32,7 @@
 									</select>
 								</td>					
 							<td align="left">	
-								<input type= "textbox" name="searchbox" value="<?php if(isset($input)) echo $input; ?>"  size="50" style="width: 360px" />
+								<input type= "textbox" name="searchbox" size="50" style="width: 360px" value="<?php if(isset($input)) echo $input; ?>" />
 								<input type="submit" value="Search" name="bsc_search_btn" id="bsc_search_btn" />
 								<input type="submit" value="Search" name="adv_search_btn" id="adv_search_btn" />
 								<a class="btn collapse-data-btn" id="s_advance" href="#update">Advanced Search</a>

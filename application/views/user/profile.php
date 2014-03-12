@@ -32,7 +32,7 @@
 
 				<div class="col-md-9 section">
 					<ol class="breadcrumb">
-					  <li class="active"><a href="<?php echo base_url();?>">Home</a></li>
+					  <li class="active"><a href="<?php echo site_url();?>">Home</a></li>
 					</ol>
 					<!--search bar-->
 					<?php include 'search_bar.php';?>
@@ -132,7 +132,7 @@
 							}
 
 							else{
-								echo "<div>No borrowed books.</div>";
+								echo "<center><div class='alertfont'>No borrowed books.</div></center>";
 
 							}
 						?>
@@ -160,7 +160,7 @@
 							</thead>
 						<?php
 							foreach($reserved as $row){
-								echo "<tr>";
+								echo "<tr id='" . $row['materialid'] . "''>";
 								echo "<td>";
 									$tmp = $row['isbn'];
 									if (preg_match('/^[+]/', $tmp)) {
@@ -214,7 +214,7 @@
 						}
 						
 						else{
-							echo "<div>No reserved books!</div>";
+							echo "<center><div class='alertfont'>No reserved books!</div></center>";
 						}
 					?>			  
 					</table>
@@ -286,8 +286,9 @@
 								$("#success_cancel").fadeIn('slow');
 								$("#success_cancel").show();
 								$("#success_cancel").html("You have successfully <strong>cancelled</strong> your reservation for "+ materialid+".");
+								thisButton.parent().parent().hide();
 								document.body.scrollTop = document.documentElement.scrollTop = 0;
-								setTimeout(function() { $('#success_cancel').fadeOut('slow') }, 3000);	
+								setTimeout(function() { $('#success_cancel').fadeOut('slow'); $("#"+materialid).html(""); }, 3000);	
 							},
 							error: function()
 							{
