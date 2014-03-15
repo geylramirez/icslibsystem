@@ -111,7 +111,6 @@
               alert('Invalid input for email/idnumber');
               //window.location.href = "<?php echo site_url('forgot_pword/dne'); ?>";
               /*END OF EDITED*/
-
             }
             //username exists, but pword does not match
             else if(result ==2){

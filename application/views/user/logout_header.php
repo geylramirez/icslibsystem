@@ -18,7 +18,6 @@
       <link href="<?php echo base_url(); ?>dist/css/modulestyle.css" rel="stylesheet">
       <style type="text/css" id="holderjs-style"></style>
   </head>
-
 <!-- NAVBAR
 ==================================================-->
   <body>
@@ -34,7 +33,6 @@
           <a class="navbar-brand" href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>dist/images/logo.png" height="70px"></a>
         </div>
        <div class="navbar-collapse collapse">
-
           <!--Navigation Bar on the right-->
           <ul class="nav navbar-nav navbar-right">
             <li><a href="<?php echo Site_url();?>/borrower/search_all" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-search" id="glyphcolor"></span></a></li>
@@ -120,7 +118,6 @@
     /*
     * Ajax for notifications (envelope/message icon)
     */
-
     $('#message').click(function(){
       $.ajax({
         url: "<?php echo site_url();?>/borrower/get_message",
@@ -171,13 +168,13 @@
                   else{
                       //Prints all the reserved books
                       for( var i = 0; i < reserved.length; i++){
-
                         str += "<li><a>" + reserved[i].name + "</a> </li>";
                      } 
                   }
 
                   $('#reserved').html( str );
                   
+
                  var readytoclaim = result['readytoclaim'];
                   str="";
                   //Checks if the user has reserved books that are ready to be claimed, none will be printed if there are no ready to be claimed books.
@@ -186,7 +183,6 @@
                       //Prints all the reserved books that are ready to be claimed.
                       for( var i = 0; i < readytoclaim.length; i++){
                         str += "<li><a>" + readytoclaim[i].materialid + " until <b>" + readytoclaim[i].claimdate + " </b></a> </li>";
-
                      } 
                   }
 

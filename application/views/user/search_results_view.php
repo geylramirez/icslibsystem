@@ -207,7 +207,6 @@
 
 												echo "</select></td>";
 											}
-
 											$t_q = 0;
 											foreach($total as $t_queue){
 												if($t_queue['materialid']==$row['materialid']){
@@ -271,6 +270,7 @@
 												$total_count = $borrowed_count+$reserved_count;
 												//echo "<span id='total' value='{$total_count}'></span>";
 															
+
 												$reserve= "reserve_button";
 
 											//	echo $row['requirement'];
@@ -287,6 +287,7 @@
 								}//if(value!=NULL)
 
 								else{
+
 									echo "<div>No results found for '";
 									echo $input. "'!</div>";
 
@@ -499,6 +500,37 @@ $(document).ready(function()
 						type: "POST",
 						url: "<?php echo site_url('borrower/reserve');?>",
 						data: {materialid: materialid},
+						dataType: "JSON",
+						success: function(data)
+						{
+							if(data.val == 'fail')
+							{
+
+								$("#failed").attr('class', 'alert alert-danger');
+								$("#failed").fadeIn('slow');
+								$("#failed").show();
+								$("#failed").html("Reservation <strong>failed</strong>. You can only have atmost 3 reserved and borrowed materials.");
+								document.body.scrollTop = document.documentElement.scrollTop = 0;
+								setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
+							}
+
+							else
+							{
+								reserved = reserved+1;
+								$('#reservedCount').html(reserved);
+								sibling = sibling+1;
+								parent.siblings('.queue').html("<center>" + sibling + "</center>");
+								//$('.reserve_button').parent().parent().parent().sibling('.queue').html(sibling);
+								thisButton.hide();
+								thisButton.next().show();
+								$("#success").html("You have successfully placed your <strong>reservation</strong> for this material.");		
+								$("#success").attr('class', 'alert alert-success');
+								$("#success").fadeIn('slow');
+								$("#success").show();
+															//$(".cancel_button")[].show();	
+							document.body.scrollTop = document.documentElement.scrollTop = 0;
+							setTimeout(function() { $('#success').fadeOut('slow') }, 3000);
+							}
 
 						},
 						error: function()
