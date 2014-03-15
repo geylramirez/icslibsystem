@@ -3,7 +3,11 @@
 	if($email)
 		include 'logout_header.php'; 
 	else
+<<<<<<< Updated upstream
 		include 'home_header.php';
+=======
+		include 'home_header.php'
+>>>>>>> Stashed changes
 
 ?>
 
@@ -150,6 +154,7 @@
 										
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 										if($email){
+<<<<<<< Updated upstream
 											echo "<br />Ratings: <select class = 'btn btn-default btn-sm rating'>";
 											if(isset($row['rating'])){ 
 												if($row['rating']==1){
@@ -206,6 +211,65 @@
 
 											echo "</select></td>";
 
+=======
+											if(($this->session->userdata('classification') == 'F' && $row['access']!=1) || $this->session->userdata('classification') == 'S' && $row['access']!=2){
+												echo "<br />Ratings: <select class = 'btn btn-default btn-sm rating'>";
+												if(isset($row['rating'])){ 
+													if($row['rating']==1){
+													  echo "<option value='0'>0</option>
+													  <option value='1' SELECTED>1</option>
+													  <option value='2'>2</option>
+													  <option value='3'>3</option>
+													  <option value='4'>4</option>
+													  <option value='5'>5</option>";
+													}
+													else if($row['rating']==2){
+													  echo "<option value='0'>0</option>
+													  <option value='1'>1</option>
+													  <option value='2' SELECTED>2</option>
+													  <option value='3'>3</option>
+													  <option value='4'>4</option>
+													  <option value='5'>5</option>";
+													}
+													else if($row['rating']==3){
+													  echo "<option value='0'>0</option>
+													  <option value='1'>1</option>
+													  <option value='2'>2</option>
+													  <option value='3' SELECTED>3</option>
+													  <option value='4'>4</option>
+													  <option value='5'>5</option>";
+													}
+													else if($row['rating']==4){
+													  echo "<option value='0'>0</option>
+													  <option value='1'>1</option>
+													  <option value='2'>2</option>
+													  <option value='3'>3</option>
+													  <option value='4' SELECTED>4</option>
+													  <option value='5'>5</option>";
+													}
+													else if($row['rating']==5){
+													  echo "<option value='0'>0</option>
+													  <option value='1'>1</option>
+													  <option value='2'>2</option>
+													  <option value='3'>3</option>
+													  <option value='4'>4</option>
+													  <option value='5' SELECTED>5</option>";
+													}
+
+
+												}
+												else {
+													echo "<option value='0' SELECTED>0</option>
+													  <option value='1'>1</option>
+													  <option value='2'>2</option>
+													  <option value='3'>3</option>
+													  <option value='4'>4</option>
+													  <option value='5'>5</option>";
+												}
+
+												echo "</select></td>";
+											}
+>>>>>>> Stashed changes
 											$t_q = 0;
 											foreach($total as $t_queue){
 												if($t_queue['materialid']==$row['materialid']){
@@ -269,9 +333,13 @@
 												$total_count = $borrowed_count+$reserved_count;
 												//echo "<span id='total' value='{$total_count}'></span>";
 															
+<<<<<<< Updated upstream
 												if($total_count>=$limit)
 													$reserve = "cannot_reserve";
 												else $reserve= "reserve_button";
+=======
+												$reserve= "reserve_button";
+>>>>>>> Stashed changes
 											//	echo $row['requirement'];
 												echo "<span><button class='btn btn-primary ". $reserve. "' name='reserve'  value='".$materialid. "|". $requirement."'><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
 												echo "<button class='btn btn-danger cancel_button' style='display:none;'  name='reserve' value='".$materialid. "|". $requirement."' onclick = \"sendRow(".$rowNum.")\"><span class = 'glyphicon glyphicon-remove'></span></button></span>";
@@ -286,7 +354,12 @@
 								}//if(value!=NULL)
 
 								else{
+<<<<<<< Updated upstream
 									echo "<div>No results found!</div>";
+=======
+									echo "<div>No results found for '";
+									echo $input. "'!</div>";
+>>>>>>> Stashed changes
 								}
 								//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 								
@@ -496,6 +569,7 @@ $(document).ready(function()
 						type: "POST",
 						url: "<?php echo site_url('borrower/reserve');?>",
 						data: {materialid: materialid},
+<<<<<<< Updated upstream
 						
 						success: function(data)
 						{
@@ -514,6 +588,41 @@ $(document).ready(function()
 														//$(".cancel_button")[].show();	
 							document.body.scrollTop = document.documentElement.scrollTop = 0;
 							setTimeout(function() { $('#success').fadeOut('slow') }, 3000);
+=======
+						dataType: "JSON",
+						success: function(data)
+						{
+							if(data.val == 'fail')
+							{
+
+								$("#failed").attr('class', 'alert alert-danger');
+								$("#failed").fadeIn('slow');
+								$("#failed").show();
+								$("#failed").html("Reservation <strong>failed</strong>. You can only have atmost 3 reserved and borrowed materials.");
+								document.body.scrollTop = document.documentElement.scrollTop = 0;
+								setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
+							}
+
+							else
+							{
+								reserved = reserved+1;
+								$('#reservedCount').html(reserved);
+								sibling = sibling+1;
+								parent.siblings('.queue').html("<center>" + sibling + "</center>");
+								//$('.reserve_button').parent().parent().parent().sibling('.queue').html(sibling);
+								thisButton.hide();
+								thisButton.next().show();
+								$("#success").html("You have successfully placed your <strong>reservation</strong> for this material.");		
+								$("#success").attr('class', 'alert alert-success');
+								$("#success").fadeIn('slow');
+								$("#success").show();
+															//$(".cancel_button")[].show();	
+							document.body.scrollTop = document.documentElement.scrollTop = 0;
+							setTimeout(function() { $('#success').fadeOut('slow') }, 3000);
+							}
+																	
+							
+>>>>>>> Stashed changes
 
 						},
 						error: function()
@@ -536,6 +645,7 @@ $(document).ready(function()
 			});
 	});
 		
+<<<<<<< Updated upstream
 	$(".cannot_reserve").click( function(){
 		bootbox.dialog({
 			message: "Maximum number of borrowed books reached.",
@@ -548,6 +658,8 @@ $(document).ready(function()
 			}
 		});
 	});
+=======
+>>>>>>> Stashed changes
 
 	$(".cancel_button").click( function(){
 		var materialid = $(this).val();

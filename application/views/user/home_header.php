@@ -10,6 +10,7 @@
 
     <title>ICS-iLS</title>
 
+<<<<<<< Updated upstream
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url(); ?>dist/css/bootstrap.css" rel="stylesheet">
 
@@ -23,6 +24,9 @@
     <![endif]-->
 
     <!-- Custom styles for this template -->
+=======
+    <link href="<?php echo base_url(); ?>dist/css/bootstrap.css" rel="stylesheet">
+>>>>>>> Stashed changes
     <link href="<?php echo base_url(); ?>dist/css/carousel.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>dist/css/modulestyle.css" rel="stylesheet">
     
@@ -116,7 +120,12 @@
             success: function( result ){
             //if username DNE
             if(result == 0 ){
+<<<<<<< Updated upstream
               window.location.href = "<?php echo site_url('borrower/login/dne'); ?>";
+=======
+              alert('Invalid input for email/idnumber');
+              //window.location.href = "<?php echo site_url('borrower/login/dne'); ?>";
+>>>>>>> Stashed changes
             }
             //username exists, but pword does not match
             else if(result ==2){
@@ -125,10 +134,17 @@
             //username is deactivated
             else if(result == 3){
               //  window.location.href = "<?php echo site_url('borrower/login/urlencode(" +username+ ")');?>";
+<<<<<<< Updated upstream
 				  window.location.href = "<?php echo site_url('borrower/login/"+username+"'); ?>";
               }
             //if username and password exists
             else {
+=======
+				      window.location.href = "<?php echo site_url('borrower/login/"+username+"'); ?>";
+            }
+            //if username and password exists
+            else{
+>>>>>>> Stashed changes
               window.location.href = "<?php echo site_url('borrower/home'); ?>";
             }
           }

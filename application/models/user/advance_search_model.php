@@ -73,6 +73,7 @@
 
 				if(count($cond)!=0){
 					$stmt = "SELECT DISTINCT r.rating,l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
+<<<<<<< Updated upstream
 						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid INNER JOIN rating r ON r.idnumber = '${id}' AND l.materialid = r.materialid WHERE ( "
 							. implode(' AND ', $conditions) . ") AND " . implode(' OR ', $cond) . " ORDER BY l.name";
 				}
@@ -83,6 +84,17 @@
 				}
 				$query = $this->db->query($stmt);
 				//echo $stmt;
+=======
+						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid LEFT JOIN rating r ON r.idnumber = '${id}' AND l.materialid = r.materialid WHERE ( "
+							. implode(' AND ', $conditions) . ") AND (" . implode(' OR ', $cond) . ") ORDER BY l.name";
+				}
+				else{
+					$stmt = "SELECT DISTINCT r.rating, l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
+						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid LEFT JOIN rating r ON r.idnumber = '${id}' AND l.materialid = r.materialid WHERE ( "
+							. implode(' AND ', $conditions)  . " ORDER BY l.name";	
+				}
+				$query = $this->db->query($stmt);
+>>>>>>> Stashed changes
 				$query = $query->result();
 				echo "<br/><br/><br/><br/><br/><br/>".$stmt;
 				foreach ($query as $tuple){

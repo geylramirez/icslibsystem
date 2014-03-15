@@ -39,6 +39,14 @@ class Borrower extends CI_Controller {
 		return $this->session->userdata('email');
 	}
 
+<<<<<<< Updated upstream
+=======
+	/**
+	*reserve function
+	*reserves a material
+	*returns fail or success
+	*/
+>>>>>>> Stashed changes
 	
 	public function reserve(){
 		$this->load->library("session");
@@ -47,8 +55,33 @@ class Borrower extends CI_Controller {
 		$materialid = $this->input->post('materialid');
 		$userid = $this->session->userdata('email');
 
+<<<<<<< Updated upstream
 		$this->load->model('user/reservation_model');
 		$this->reservation_model->get_book($materialid, $userid);	
+=======
+		$this->load->model('user/borrowed_model');
+		$reservedCount = $this->borrowed_model->get_reserved_material_count();
+		$borrowedCount = $this->borrowed_model->get_borrowed_material_count();
+		foreach($borrowedCount as $row)
+			$borrowed_count = $row['COUNT(librarymaterial.materialid)'];
+		foreach($reservedCount as $row)
+			$reserved_count = $row['resCount'];
+		if($reserved_count+$borrowed_count >= 3)
+		{
+			$ret_val = array('val'=> 'fail');
+			echo json_encode($ret_val);
+		}
+
+		else
+		{
+		$this->load->model('user/reservation_model');
+		$ret_val = array('val'=> 'success');
+			echo json_encode($ret_val);
+		$this->reservation_model->get_book($materialid, $userid);
+		}
+
+			
+>>>>>>> Stashed changes
 	}
 	
 
@@ -58,7 +91,10 @@ public function cancel_reservation(){
 		$matid = $this->input->post('materialid');
 		$this->load->model('user/reservation_model');
 		$this->reservation_model->cancel_res($matid);
+<<<<<<< Updated upstream
 //		$this->reserved_materials_view();
+=======
+>>>>>>> Stashed changes
 	}	
 
 
@@ -111,7 +147,18 @@ public function home(){
 		if( $is_logged_in ){
 			redirect('/borrower/home', 'refresh');
 		} else {
+<<<<<<< Updated upstream
 		
+=======
+		/*
+		$message = $this->db->escape_like_str($message);
+		$message = trim($message);
+		$message = mysql_real_escape_string($message);
+		$message = htmlspecialchars($message);
+		$message = str_replace("'", '', $message);
+		$message = str_replace("\"", '', $message);
+		*/
+>>>>>>> Stashed changes
 		$data['message'] = $message;
 		$data['idnumber'] =null;
 		$data['password'] =null;
@@ -554,7 +601,11 @@ public function checkUpdateEmail(){
 		}
 		else {
 			$this->load->model('user/update_model');
+<<<<<<< Updated upstream
 			$in_borrower = $this->update_model->update_email_exist($email);
+=======
+			$in_borrower = $this->update_model->check_email_borrower($email);
+>>>>>>> Stashed changes
 			if($in_borrower[0]->count == 1){
 				echo '2';
 			}
@@ -773,6 +824,10 @@ public function new_search(){
 
 		$this->rating_model->check_rating(trim($materialid), trim($idnumber), trim($isbn),$rating);
 	}
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	
 }
 
