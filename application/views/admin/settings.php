@@ -305,7 +305,6 @@
 		$('#saveMax').click(function(){
 			if(max_check()){ 
 				confirmUpdateSettings('maxDiv'); 
-				hideMax(); 
 			};
 		});
 		
@@ -342,12 +341,29 @@
 
 		$('#savePass').click(function(){
 			if(valPword() && reNewPassInput_check()){ 
+
+				alert(1);
+				var newpw = document.getElementById('newPassInput').value;
+				$.ajax({
+					type: "POST",
+					url: "<?php echo site_url()?>/admin/settings_for_password",
+					data: { newpw: newpw },
+					success : function( result ){
+						if( result == "" ){
+							console.log("Updated");
+						}
+	
+						$('table').trigger('update');
+				}
+				});
+
 				$('#newPassInput').val('');
 				$('#passInput').val('');			
 				$('#reNewPassInput').val('');
 				hidePassword(); 
-			};	
-		});
+				
+		}
+	});
 
 		function reNewPassInput_check(){
 			var newPassInput = document.getElementById('newPassInput').value;
@@ -543,6 +559,7 @@
 					success : function( result ){
 						if( result == "" ){
 							console.log("Updated");
+							//hideFine();
 						}
 	
 						$('table').trigger('update');
@@ -559,6 +576,7 @@
 					success : function( result ){
 						if( result == "" ){
 							console.log("Updated");
+							hideMax(); 
 						}
 	
 						$('table').trigger('update');
@@ -567,23 +585,9 @@
 			}
 		}
 		
-		function checkDays(){
-			var end_sem = document.getElementById('endDateInput').value;
-			var end_sem_date = new Date(end_sem);
-			var current_date = new Date();
-			var diff =  Math.floor(( Date.parse(end_sem_date) - Date.parse(current_date) ) / 86400000);
-				
-			if(diff > 10){
-				alert("Invalid number of days.");
-				return false;
-			}else return true;
-				
-		}
 
-		$("#clear").click(function(){
-			if(checkDays()){ 
-				confirmClearReserv('clearDiv'); 
-			};		
+		$("#clear").click(function(){		
+				confirmClearReserv('clearDiv'); 	
 		});
 		
 		function confirmClearReserv( thisDiv ){
