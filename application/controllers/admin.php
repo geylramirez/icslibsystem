@@ -172,9 +172,18 @@ class Admin extends CI_Controller {
 	}
 
 	public function is_logged_in(){
-		$this->update_reservations();
+		$this->load->model("admin/check_admin_model");
 		$user = $this->session->userdata('user');
-		return $user;
+		$is_valid = $this->check_admin_model->check_session_validity($user);
+		
+		if($is_valid){
+			$this->update_reservations();
+			return true;
+		}
+		else{
+			$this->session->sess_destroy();
+			return false;
+		}
 	}
 
 	/*
@@ -771,9 +780,15 @@ class Admin extends CI_Controller {
 
 
 	public function settings(){
-		$this->load->model('admin/settings_model');	
-		$data['info'] = $this->settings_model->get_data();
-		$this->load->view('admin/settings', $data);
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){
+			redirect('/admin/login', 'refresh');
+		}
+		else{
+			$this->load->model('admin/settings_model');	
+			$data['info'] = $this->settings_model->get_data();
+			$this->load->view('admin/settings', $data);
+		}
 	}
 
 	public function settings_for_enable(){	

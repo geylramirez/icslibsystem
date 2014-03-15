@@ -26,11 +26,11 @@ class Reservation_queue_model extends CI_Model{
 		*		count = get the value of quantity - borrowed copy for array[i] // that is the available copy		
 		*		get all the reservation for the array[i] and limit the result from 1 to count
 		*		store it into the return array
-		*	}
 		*
 		*/
 
 		$search = trim($search);
+		$search = filter_var($search, FILTER_SANITIZE_STRING);
 		$search = mysql_real_escape_string($search);
 		$search = htmlspecialchars($search);
 		$return_array = array();
@@ -43,8 +43,6 @@ class Reservation_queue_model extends CI_Model{
 										( SELECT materialid 
 											FROM borrowedmaterial
 											WHERE status LIKE 'BORROWED'
-											GROUP BY idnumber
-											HAVING COUNT(idnumber) > 3
 										) ");
 		
 		$result = $query->result();
@@ -183,14 +181,18 @@ class Reservation_queue_model extends CI_Model{
 		$this->db->query($query);
 	}
 
-
+	//Get all the author from the database
 	public function get_author(){
 		$query = $this->db->query("SELECT fname, mname, lname FROM author WHERE materialid LIKE '${materialid}'");
 		return $query->result();
 	}
-
+	
 	public function search_reservations(){
 		$search = $this->input->post('search');
+		$search = trim($search);
+		$search = filter_var($search, FILTER_SANITIZE_STRING);
+		$search = mysql_real_escape_string($search);
+		$search = htmlspecialchars($search);
 		return $this->get_reservations( $search );
 	}
 

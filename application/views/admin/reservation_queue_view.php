@@ -5,14 +5,20 @@
 		<?php include 'includes/header.php'; ?>
 		<div class="mainBody">
 			<script>
+			
+				//Call for the bootbox model when button claim clicked
 				function claim( thisDiv ){
 					claimBootbox(thisDiv);		
 				}
-				
+				//Call for the bootbox model when button notify clicked
 				function notify( thisDiv ){
 					notifyBootbox( thisDiv );
 				}
-
+				/*This function passes the input from the form into the controller
+				*The input that was passed from the controller will be used by the function claim_reservation
+				*If success: remove the row that includes the button that was clicked. Else: alert error_message
+				* @param thisDiv - the div under consideration
+				*/
 				function claimBootbox( thisDiv ){
 					bootbox.dialog({
 						message: "Are you sure that this material will now be claimed?",
@@ -73,6 +79,11 @@
 						}
 					});
 				}
+				/*This function passes the input from the form into the controller.
+				*The input that was passed from the controller will be used by the function notification
+				*If success: print the current date on Start Date column. Else: print error_message
+				* @param thisDiv - the div under consideration
+				*/
 				function notifyBootbox( thisDiv ){
 					bootbox.dialog({
 						message: "Are you sure that this material will now be claimed?",
@@ -284,7 +295,8 @@
         location = "<?php echo site_url(); ?>";
     });
 			});
-	
+		
+		//Format the name into this form ( Surname, Firstname M.I.)
 			$(document).ready(function(){		
 				function printAuthor( data ){
 					var ret = "";
@@ -298,7 +310,7 @@
 
 					return ret;
 				}
-
+			//If edition = 1 , print 1st Edition; if edition = 2, print 2nd Edition; if edition = 3, print 3rd Edition; if edition > 3 , print (num)th Edition
 				function printEdition( data ){
 					if( data != null ){
 						if( data % 10 == 1 )
@@ -314,14 +326,14 @@
 						return "";
 					}
 				}
-
+			//Print ISBN except for SP, Thesis and CD's
 				function printISBN( data, type ){
 					if(type == 'Book' || type == 'References' || type == 'Magazines' || type == 'Journals'){											
 						return data;
 					}
 					else return "---";
 				}
-
+			//Print date (current date) if the button notify was clicked
 				function printDate( data, date ){
 					if( data == 0 ){
 						return "<td><center><span class='table-text'>Not yet notified </span></center></td>";
@@ -329,7 +341,7 @@
 						return "<td><center><span class='table-text'>" + date + "</span></center></td>";
 					}
 				}
-				
+			//if start = 1 disable notify button, enable claim button otherwise enable notify button and disable claim button
 				function printButton( condition ){
 					if( condition == 0 ){
 						return "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify'><span class='glyphicon glyphicon-bullhorn'></button><button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled><span class='glyphicon glyphicon-download'></button></td>";
@@ -337,7 +349,7 @@
 						return "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' disabled><span class='glyphicon glyphicon-bullhorn'></button><button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim'><span class='glyphicon glyphicon-download'></button></td>";
 					}					
 				}
-				
+			//Print icon depending on type
 				function printType( type ){
 					if( type == 'Book')
 						type = "<center><span class='glyphicon glyphicon-book'></span></center>";
@@ -356,17 +368,23 @@
 						
 					return type;
 				}
-
+				
+			//add key listener to enter key
 				$("#searchReservedBooks").keypress(function(event){
 					if(event.keyCode == 13){
 						event.preventDefault();
 						$("#searchReservedButton").click();
 					}
 				});
-		
+			/*This function passes the search input from the form into the controller.
+			* The input that was passed from the controller will be used by the function search_reservation
+			* If success: display the result. Else: display "No results found"
+			* @param thisDiv - the div under consideration
+			*/
 				$("#searchReservedButton").click(function(){
 
-					var search = $("#searchReservedBooks").val();	
+					var search = $("#searchReservedBooks").val();
+
 					$.ajax({
 						type: "POST",
 						url: "<?php echo site_url()?>/admin/search_reservations",

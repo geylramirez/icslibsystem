@@ -64,7 +64,6 @@ class Settings_model extends CI_Model{
 		$this->db->query($query);	
 		$this->db->query("INSERT INTO log(action, time, idnumber) VALUES('changed max', NOW(), 'Admin')");
 	}
-
 }//end of class
 
 ?>
