@@ -39,6 +39,11 @@ class Borrower extends CI_Controller {
 		return $this->session->userdata('email');
 	}
 
+	/**
+	*reserve function
+	*reserves a material
+	*returns fail or success
+	*/
 	
 	public function reserve(){
 		$this->load->library("session");
@@ -47,8 +52,28 @@ class Borrower extends CI_Controller {
 		$materialid = $this->input->post('materialid');
 		$userid = $this->session->userdata('email');
 
+		$this->load->model('user/borrowed_model');
+		$reservedCount = $this->borrowed_model->get_reserved_material_count();
+		$borrowedCount = $this->borrowed_model->get_borrowed_material_count();
+		foreach($borrowedCount as $row)
+			$borrowed_count = $row['COUNT(librarymaterial.materialid)'];
+		foreach($reservedCount as $row)
+			$reserved_count = $row['resCount'];
+		if($reserved_count+$borrowed_count >= 3)
+		{
+			$ret_val = array('val'=> 'fail');
+			echo json_encode($ret_val);
+		}
+
+		else
+		{
 		$this->load->model('user/reservation_model');
-		$this->reservation_model->get_book($materialid, $userid);	
+		$ret_val = array('val'=> 'success');
+			echo json_encode($ret_val);
+		$this->reservation_model->get_book($materialid, $userid);
+		}
+
+			
 	}
 	
 
@@ -58,7 +83,6 @@ public function cancel_reservation(){
 		$matid = $this->input->post('materialid');
 		$this->load->model('user/reservation_model');
 		$this->reservation_model->cancel_res($matid);
-//		$this->reserved_materials_view();
 	}	
 
 
@@ -111,7 +135,14 @@ public function home(){
 		if( $is_logged_in ){
 			redirect('/borrower/home', 'refresh');
 		} else {
-		
+		/*
+		$message = $this->db->escape_like_str($message);
+		$message = trim($message);
+		$message = mysql_real_escape_string($message);
+		$message = htmlspecialchars($message);
+		$message = str_replace("'", '', $message);
+		$message = str_replace("\"", '', $message);
+		*/
 		$data['message'] = $message;
 		$data['idnumber'] =null;
 		$data['password'] =null;
@@ -554,7 +585,7 @@ public function checkUpdateEmail(){
 		}
 		else {
 			$this->load->model('user/update_model');
-			$in_borrower = $this->update_model->update_email_exist($email);
+			$in_borrower = $this->update_model->check_email_borrower($email);
 			if($in_borrower[0]->count == 1){
 				echo '2';
 			}
@@ -773,6 +804,7 @@ public function new_search(){
 
 		$this->rating_model->check_rating(trim($materialid), trim($idnumber), trim($isbn),$rating);
 	}
+
 	
 }
 

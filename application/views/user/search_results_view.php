@@ -269,9 +269,7 @@
 												$total_count = $borrowed_count+$reserved_count;
 												//echo "<span id='total' value='{$total_count}'></span>";
 															
-												if($total_count>=$limit)
-													$reserve = "cannot_reserve";
-												else $reserve= "reserve_button";
+												$reserve= "reserve_button";
 											//	echo $row['requirement'];
 												echo "<span><button class='btn btn-primary ". $reserve. "' name='reserve'  value='".$materialid. "|". $requirement."'><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
 												echo "<button class='btn btn-danger cancel_button' style='display:none;'  name='reserve' value='".$materialid. "|". $requirement."' onclick = \"sendRow(".$rowNum.")\"><span class = 'glyphicon glyphicon-remove'></span></button></span>";
@@ -496,24 +494,39 @@ $(document).ready(function()
 						type: "POST",
 						url: "<?php echo site_url('borrower/reserve');?>",
 						data: {materialid: materialid},
-						
+						dataType: "JSON",
 						success: function(data)
 						{
-							reserved = reserved+1;
-							$('#reservedCount').html(reserved);
-							sibling = sibling+1;
-							parent.siblings('.queue').html("<center>" + sibling + "</center>");
-							//$('.reserve_button').parent().parent().parent().sibling('.queue').html(sibling);
-							thisButton.hide();
-							thisButton.next().show();
-							$("#success").html("You have successfully placed your <strong>reservation</strong> for this material.");		
-							$("#success").attr('class', 'alert alert-success');
-							$("#success").fadeIn('slow');
-							$("#success").show();
-																	
-														//$(".cancel_button")[].show();	
+							if(data.val == 'fail')
+							{
+
+								$("#failed").attr('class', 'alert alert-danger');
+								$("#failed").fadeIn('slow');
+								$("#failed").show();
+								$("#failed").html("Reservation <strong>failed</strong>. You can only have atmost 3 reserved and borrowed materials.");
+								document.body.scrollTop = document.documentElement.scrollTop = 0;
+								setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
+							}
+
+							else
+							{
+								reserved = reserved+1;
+								$('#reservedCount').html(reserved);
+								sibling = sibling+1;
+								parent.siblings('.queue').html("<center>" + sibling + "</center>");
+								//$('.reserve_button').parent().parent().parent().sibling('.queue').html(sibling);
+								thisButton.hide();
+								thisButton.next().show();
+								$("#success").html("You have successfully placed your <strong>reservation</strong> for this material.");		
+								$("#success").attr('class', 'alert alert-success');
+								$("#success").fadeIn('slow');
+								$("#success").show();
+															//$(".cancel_button")[].show();	
 							document.body.scrollTop = document.documentElement.scrollTop = 0;
 							setTimeout(function() { $('#success').fadeOut('slow') }, 3000);
+							}
+																	
+							
 
 						},
 						error: function()
@@ -536,18 +549,6 @@ $(document).ready(function()
 			});
 	});
 		
-	$(".cannot_reserve").click( function(){
-		bootbox.dialog({
-			message: "Maximum number of borrowed books reached.",
-			title: "Reservation Failed",
-			buttons:{
-				no: {
-					label: "Ok",
-					className: "btn-default"
-				}
-			}
-		});
-	});
 
 	$(".cancel_button").click( function(){
 		var materialid = $(this).val();
