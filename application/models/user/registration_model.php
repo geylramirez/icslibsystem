@@ -1,7 +1,6 @@
 <?php
 
-<<<<<<< Updated upstream
-=======
+
 /*
 *	Filename: registration_model.php
 *	Project Name: ICS Library System
@@ -9,7 +8,7 @@
 *
 */
 
->>>>>>> Stashed changes
+
 if(! defined('BASEPATH')) exit ('No direct script access allowed');
 
 class Registration_model extends CI_Model{
@@ -18,13 +17,10 @@ class Registration_model extends CI_Model{
 		parent :: _construct();
 	}
 	
-<<<<<<< Updated upstream
-
-=======
 	/**
 	*	function that checks if the input idnumber exists in the database
 	*/
->>>>>>> Stashed changes
+
 	public function checkidnum($idnumber)
 	{
 		$this->load->database();
@@ -33,12 +29,11 @@ class Registration_model extends CI_Model{
 		return $result;
 	}
 
-<<<<<<< Updated upstream
-=======
+
 	/**
 	*	function that checks if the input idnumber exists in the database
 	*/
->>>>>>> Stashed changes
+
 	public function checkidnum_sample($idnumber)
 	{
 		$this->load->database();
@@ -47,12 +42,11 @@ class Registration_model extends CI_Model{
 		return $result;
 	}
 
-<<<<<<< Updated upstream
-=======
+
 	/**
 	*	function that checks if the input email exists in the database
 	*/
->>>>>>> Stashed changes
+
 	public function check_email_borrower($email)
 	{
 		$this->load->database();
@@ -61,12 +55,11 @@ class Registration_model extends CI_Model{
 		return $result;
 	}
 
-<<<<<<< Updated upstream
-=======
+
 	/**
 	*	function that ckecks if the input email exists in the database and user's status is DEACTIVATED
 	*/
->>>>>>> Stashed changes
+
 	public function resend_email_verification($email){
 		$this->load->database();
 		$query = $this->db->query("SELECT count(email) as count FROM borrower WHERE email LIKE '$email' AND status LIKE 'DEACTIVATED'");//title
@@ -75,12 +68,10 @@ class Registration_model extends CI_Model{
 	}
 
 
-<<<<<<< Updated upstream
-=======
 	/**
 	*	function that checks if the input idnumber exists in the sample table
 	*/
->>>>>>> Stashed changes
+
 	public function idnumber_exist_check($idnumber)
 			{
 				$query = $this->db->get_where('sample', array('idnumber' => $idnumber));
@@ -92,12 +83,11 @@ class Registration_model extends CI_Model{
 				return TRUE;
 			}	
 
-<<<<<<< Updated upstream
-=======
+
 	/**
 	*	function that checks if the input idnumber exists in the borrower table
 	*/
->>>>>>> Stashed changes
+
 	public function idnumber_borrower_check($idnumber)
 			{
 				$query = $this->db->get_where('borrower', array('idnumber' => $idnumber));
@@ -110,12 +100,11 @@ class Registration_model extends CI_Model{
 				return FALSE;
 			}
 
-<<<<<<< Updated upstream
-=======
+
 	/**
 	*	function that checks if the input email exists in the borrower table
 	*/
->>>>>>> Stashed changes
+
 	public function email_exist($email)
 		{
 			$query = $this->db->get_where('borrower', array('email' => $email));
@@ -130,11 +119,8 @@ class Registration_model extends CI_Model{
 
 }
 
-<<<<<<< Updated upstream
-	/* 	End of fileregistration_model.php
-=======
+
 	/* 	End of registration_model.php
->>>>>>> Stashed changes
 	* 	Location: ./application/models/user/registration_model.php 
 	*/
 ?>

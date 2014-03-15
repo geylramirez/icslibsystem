@@ -1,23 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< Updated upstream
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" type="image/png" href="<?php echo base_url(); ?>dist/images/fav.png">
-
-    <title>ICS-iLS</title>
-
-    <link href="<?php echo base_url(); ?>dist/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="<?php echo base_url(); ?>dist/css/carousel.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>dist/css/modulestyle.css" rel="stylesheet">
-  <style type="text/css" id="holderjs-style"></style></head>
-=======
 <html lang="en">
   <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -37,7 +18,7 @@
       <link href="<?php echo base_url(); ?>dist/css/modulestyle.css" rel="stylesheet">
       <style type="text/css" id="holderjs-style"></style>
   </head>
->>>>>>> Stashed changes
+
 <!-- NAVBAR
 ==================================================-->
   <body>
@@ -53,36 +34,25 @@
           <a class="navbar-brand" href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>dist/images/logo.png" height="70px"></a>
         </div>
        <div class="navbar-collapse collapse">
-<<<<<<< Updated upstream
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo Site_url();?>/borrower/profile" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-home" id="glyphcolor"></span></a></li>
-            <li class="dropdown">
-              <a  id = "message" class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" id="glyphcolor"></span></a>
-                <?php
-                 // if($overdue || $res || $readytoclaim){ echo "<span class='glyphicon glyphicon-exclamation-sign'></span>"; }
-                ?>
-=======
+
           <!--Navigation Bar on the right-->
           <ul class="nav navbar-nav navbar-right">
             <li><a href="<?php echo Site_url();?>/borrower/search_all" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-search" id="glyphcolor"></span></a></li>
             <li><a href="<?php echo Site_url();?>/borrower/profile" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-home" id="glyphcolor"></span></a></li>
             <li class="dropdown">
               <a  id = "message" class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" id="glyphcolor"></span></a>
->>>>>>> Stashed changes
+
               <ul class="dropdown-menu">
                 <li class="dropdown-header">Overdue Books</li>
                 <li><a>
                 <div  id = "overdue">
                 <?php
-<<<<<<< Updated upstream
-                    if(!$overdue){  echo "<i> None </i>"; }
-                    else{
-=======
+
                     /*Checks if the Overdue books of the logged-in user is not NULL.*/
                     if(!$overdue){  echo "<i> None </i>"; }
                     else{
                       /*Outputs the name of all the books that are overdue.*/
->>>>>>> Stashed changes
+
                       foreach ($overdue as $temps) {
                         echo $temps['name']; 
                         echo "<br/>";
@@ -96,15 +66,12 @@
                  <li><a>
                     <div id = "reserved" >
                       <?php
-<<<<<<< Updated upstream
-                        if(!$res){ echo "<i> None </i>"; }
-                        else{
-=======
+
                         /*Checks if the reserved books of the logged-in user is not NULL.*/
                         if(!$res){ echo "<i> None </i>"; }
                         else{
                           /*Outputs the name of all the books that are reserved by the logged-in user.*/
->>>>>>> Stashed changes
+
                           foreach ($res as $temps) {
                             echo $temps['name'];
                           } 
@@ -118,20 +85,13 @@
                  <li><a>
                   <div id="ready">
                     <?php
-<<<<<<< Updated upstream
-                      
-                      if(!$readytoclaim){  echo "<i> None </i>"; }
-                      else{
-                        foreach ($readytoclaim as $temps) {
-                          echo $temps['materialid'];  echo " until "; echo"<b>"; echo $temps['claimdate'];  echo"</b>";
-=======
+
                       /*Checks if the reserved books that are ready to be claimed by the logged-in user is not NULL.*/
                       if(!$readytoclaim){  echo "<i> None </i>"; }
                       else{
                         /*Outputs the material id of all the books that are ready to be claimed by the logged-in user.*/
                         foreach ($readytoclaim as $temp) {
                           echo $temp['materialid'];  echo " until "; echo"<b>"; echo $temp['claimdate'];  echo"</b>";
->>>>>>> Stashed changes
                         } 
                       }
                     ?>
@@ -157,12 +117,10 @@
     <script type="text/javascript">
     //$("a.tooltipLink").tooltip();
     
-<<<<<<< Updated upstream
-=======
     /*
     * Ajax for notifications (envelope/message icon)
     */
->>>>>>> Stashed changes
+
     $('#message').click(function(){
       $.ajax({
         url: "<?php echo site_url();?>/borrower/get_message",
@@ -177,32 +135,7 @@
         },
 
         success: function( result ){
-<<<<<<< Updated upstream
-          var overdue = result['overdue'];
-          var fne = result['fineenable'];
-          var str = "";
-          
-          if( overdue.length == 0 ){  str += "<li><a><i> None </i></a></li>"; }
-                  else{
-                     for( var i = 0; i < overdue.length; i++){
-                        //str += "<li><a>" + overdue[i].name + " <br /> Fine: Php " + overdue[i].user_fine + "</a> </li>";
-                        if(fne[0].fineenable == 1){
-                          str += "<li><a>" + overdue[i].name + " <br /> Fine: Php " + overdue[i].user_fine + "</a> </li>";
-                        }
-                        else{
-                          str += "<li><a>" + overdue[i].name + "<br/> </a> </li>";
-                        }
 
-                     } 
-                  }
-          
-          $('#overdue').html( str );
-                  str="";
-                  var reserved = result['reserved'];
-                  if( reserved.length == 0 ){  str += "<li><a><i> None </i></a></li>"; }
-                  else{
-                     for( var i = 0; i < reserved.length; i++){
-=======
           //Variable declarations
           var overdue = result['overdue'];  
           var fne = result['fineenable'];
@@ -238,21 +171,13 @@
                   else{
                       //Prints all the reserved books
                       for( var i = 0; i < reserved.length; i++){
->>>>>>> Stashed changes
+
                         str += "<li><a>" + reserved[i].name + "</a> </li>";
                      } 
                   }
 
                   $('#reserved').html( str );
                   
-<<<<<<< Updated upstream
-          var readytoclaim = result['readytoclaim'];
-                  str="";
-                  if( readytoclaim.length == 0 ){  str += "<li><a><i> None </i></a></li>"; }
-                  else{
-                     for( var i = 0; i < readytoclaim.length; i++){
-                        str += "<li><a>" + readytoclaim[i].name + " until <b>" + readytoclaim[i].claimdate + " </b></a> </li>";
-=======
                  var readytoclaim = result['readytoclaim'];
                   str="";
                   //Checks if the user has reserved books that are ready to be claimed, none will be printed if there are no ready to be claimed books.
@@ -261,7 +186,7 @@
                       //Prints all the reserved books that are ready to be claimed.
                       for( var i = 0; i < readytoclaim.length; i++){
                         str += "<li><a>" + readytoclaim[i].materialid + " until <b>" + readytoclaim[i].claimdate + " </b></a> </li>";
->>>>>>> Stashed changes
+
                      } 
                   }
 

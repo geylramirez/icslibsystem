@@ -34,17 +34,19 @@ class Admin extends CI_Controller {
 	}
 
 	public function search_reservations(){
+		
 		$this->load->model('admin/reservation_queue_model'); 
 		header('Content-Type: application/json', true);
 		$array = $this->reservation_queue_model->search_reservations();
-
 		echo json_encode($array);			
+		
 	}
 
 	/*
 	*	Controls the view of notification in the system
 	*/
 	public function notification(){
+		
 		// loads the model php file which will interact with the database
         $this->load->model('admin/notification_model'); 
 		//calls function save(), to save or to insert the data that has been processed
@@ -55,16 +57,20 @@ class Admin extends CI_Controller {
 		$isbn = $this->input->post('isbn');
 
 		$this->notification_model->notify( $materialid, $idnumber, $isbn );
+	
     }
 
 	
 	public function print_inventory(){
-		// loads the model php file which will interact with the database
-		$this->load->model('admin/print_inventory_model'); 
-		// calls the function get_reservation_array(), and store it to the data array
-		$data['libinventory'] = $this->print_inventory_model->get_inventory_array();
-		// views the result by passing the data to the view php file
-		$this->load->view('admin/print_inventory_view', $data);	
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){
+			// loads the model php file which will interact with the database
+			$this->load->model('admin/print_inventory_model'); 
+			// calls the function get_reservation_array(), and store it to the data array
+			$data['libinventory'] = $this->print_inventory_model->get_inventory_array();
+			// views the result by passing the data to the view php file
+			$this->load->view('admin/print_inventory_view', $data);	
+		}
 	}
 
 	/**
@@ -111,6 +117,7 @@ class Admin extends CI_Controller {
 	*/
 
 	public function check_admin(){
+		
 		$this->load->model('admin/check_admin_model');
 		
 		$user_count = $this->check_admin_model->check_username();
@@ -186,74 +193,10 @@ class Admin extends CI_Controller {
 			return false;
 		}
 	}
-	/*
-	*	function verification for displaying input text for:
-	*		1. email
-	*		2. password
-	*	input text for email will be required and must be valid email
-	*	input text for password will be required as well
-	*	then it will call the function verify()
-	*/
-
-	public function verification(){
-		$this->load->helper('form');
-		$this->load->helper('html');
-		$this->load->library('form_validation');
-
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|sha1');
-		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-		$this->load->model('admin/verification_model');
-		$this->load->view('admin/verification_view');
-		
-		$this->verify();
-	}
-	/*
-	*	function verify() responsible for email sending using Email class
-	*/
-	public function verify(){
-	// loads the model php file to allow the access of the function verifying()
-        $this->load->model('admin/verification_model'); 
-	//if submit, process the data
-        if($this->input->post('submit')){
-			$email = $this->input->post('email');
-			$inputPw = sha1($this->input->post('password'));
-			$password = $inputPw;
-
-			/*
-			* 	the array $config is the set of configuration for the email
-			*	system.icslibrary@gmail.com is the sender
-			*	icslibraryadmin is the password of the send
-			*/
-			$config = Array(
-				'protocol' => 'smtp',
-				'smtp_host' => 'ssl://smtp.googlemail.com',
-				'smtp_port' => 465,
-				'smtp_user' => 'system.icslibrary@gmail.com',  		
-				'smtp_pass' => 'icslibraryadmin',		
-				'mailtype'  => 'html', 
-				'charset'   => 'iso-8859-1'
-			);
-			$this->load->library('email', $config);
-			$this->email->set_newline("\r\n");
-
-			/*
-			*	email->from('The sender's email', 'Name of the sender')
-			*	email->to('email to be sent to')
-			*	email->subject('The subject')
-			*	email->message('Your message')
-			*	*After the email attributes are set, then the email is ready to be sent*
-			*	email->send()
-			*/
-			$this->email->from('System.ICSLibrary@gmail.com', 'ICSLibrary Admin');
-			$this->email->to($email);
-			$this->email->subject('Email Verification');
-			$this->email->message('Hi this is your verification code: '.$password.' Good day!');
-			$this->email->send();		
-        }
-     }
+	
 
 	public function index(){
-		$this->login();
+		redirect('/' );
 	}
 
 		public function borrowed_books() { 

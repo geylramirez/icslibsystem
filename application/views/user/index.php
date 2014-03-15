@@ -107,15 +107,11 @@
 
           success: function( result ){
             //if username DNE
-<<<<<<< Updated upstream
-            if(result == 0 ){
-              window.location.href = "<?php echo site_url('forgot_pword/dne'); ?>";
-=======
             if(result == 0 ){/*EDITED*/
               alert('Invalid input for email/idnumber');
               //window.location.href = "<?php echo site_url('forgot_pword/dne'); ?>";
               /*END OF EDITED*/
->>>>>>> Stashed changes
+
             }
             //username exists, but pword does not match
             else if(result ==2){

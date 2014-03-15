@@ -73,13 +73,8 @@ class Rating_model extends CI_Model{
 			$this->update_rating($materialid, $idnumber, $isbn, $rating);			
 		}			
 	}
-<<<<<<< Updated upstream
-}//end of class
 
-=======
 	
 }//end of class
 
-
->>>>>>> Stashed changes
 ?>

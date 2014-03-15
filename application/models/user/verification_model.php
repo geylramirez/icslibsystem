@@ -1,10 +1,5 @@
 <?php
 	
-<<<<<<< Updated upstream
-	class Verification_model extends CI_Model{
-	
-	
-=======
 	/**	Filename: verification_model.php
 	*	Project Name: ICS Library System
 	*	Created by: Borrower's Team
@@ -16,18 +11,17 @@
 		/**
 		*	function that loads the database
 		*/
->>>>>>> Stashed changes
+
 		public function __construct(){
 			$this->load->database();
 			$this->load->helper('url');
 		}
 		
-<<<<<<< Updated upstream
-=======
+
 		/**
 		*	function that inserts a user into the borrower table
 		*/
->>>>>>> Stashed changes
+
 		public function insert_user($email, $idnumber, $password){
 
 				$data=array(
@@ -39,12 +33,11 @@
 			$this->db->insert('borrower',$data);
 		}
 		
-<<<<<<< Updated upstream
-=======
+
 		/**
 		*	function that sends a verification email to the user
 		*/
->>>>>>> Stashed changes
+
 		public function send_verification_email($idnumber, $email, $password){
 		 	
 		 	$sql = "SELECT fname FROM sample WHERE idnumber LIKE '{$idnumber}'";
@@ -83,12 +76,10 @@
 			else return false;
         }
 		
-<<<<<<< Updated upstream
-=======
 		/**
 		*	function which calls the function activate_account that activates an account
 		*/
->>>>>>> Stashed changes
+
 		public function validate_email($idnumber, $verification_code){
 			
 			//$sql = "SELECT idnumber, password FROM borrower WHERE idnumber = '{$idnumber}'";
@@ -104,12 +95,11 @@
 			/* AFTER THIS FUNCTION BABALIK NA SIYA SA REGISTER->validate_email() */
 		}
 		
-<<<<<<< Updated upstream
-=======
+
 		/**
 		*	function that updates the borrower's status into ACTIVATED
 		*/
->>>>>>> Stashed changes
+
 		public function activate_account($idnumber){
 			
 			$sql = "UPDATE borrower SET status = 'ACTIVATED' WHERE idnumber = '{$idnumber}'";
@@ -126,12 +116,10 @@
 		
 	}
 
-<<<<<<< Updated upstream
-?>
-=======
+
 	/* 	End of verification_model.php
 	* 	Location: ./application/models/user/verification_model.php 
 	*/
 
 ?>
->>>>>>> Stashed changes
+
