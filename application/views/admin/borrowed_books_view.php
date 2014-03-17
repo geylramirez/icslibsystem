@@ -22,6 +22,7 @@
 									var materialid = $.trim(parent.siblings('.materialid').text());
 									var isbn = $.trim(parent.siblings('.isbn').text());
 									var idnumber = $.trim(parent.siblings('.idnumber').text());
+									var title = parent.siblings().find('.title').text().trim();
 							
 									$.ajax({
 										type: "POST",
@@ -29,25 +30,39 @@
 										data: { isbn : isbn, materialid : materialid, fine : fine }, 
 
 										beforeSend: function() {
-											//$("#con").html('<img src="/function-demos/functions/ajax/images/loading.gif" />');
-											$("#error_message").html("loading...");
+											$("#alert").removeClass("alert alert-success");
+											$("#alert").html("<center><img src='<?php echo base_url();?>dist/images/ajax-loader.gif' /></center>");
 										},
 
 										error: function(xhr, textStatus, errorThrown) {
-												$('#error_message').html(textStatus);
+											$("#alert").addClass("alert alert-success");
+											$("#alert").html( "<strong>" + xhr.status + " " + xhr.statusText + "</strong>");
+											$("#alert").fadeIn('slow');
 										},
 
 										success: function( result ){
 
 											if( result != "1" ){
-												$("#success_return").show();
-												$("#success_return").html("Successfully returned!");
-												$("#success_return").fadeIn('slow');
-												$("#"+materialid+"-"+idnumber).html("");
-												document.body.scrollTop = document.documentElement.scrollTop = 0;
-												setTimeout(function() { $('#success_return').fadeOut('slow') }, 5000);	
+												$("#alert").fadeOut('slow', function( ){
+													thisButton.attr('disabled', true);
+													thisButton.next().removeAttr('disabled');
+
+													$('#alert').addClass("alert alert-success");
+													$("#alert").html( "<strong>" + title + "</strong> was now returned mainBody <strong>" + idnumber + "</strong>" );
+													$("#alert").fadeIn('slow');
+													
+													document.body.scrollTop = document.documentElement.scrollTop = 0;
+													setTimeout(function() { $('#alert').fadeOut('slow') }, 10000);
+												});
 											} else {
-												//alert("Failed to notify");
+												$("#alert").fadeOut('slow', function( ){
+													$('#alert').addClass("alert alert-success");
+													$("#alert").html( "<strong> Error while returning the material. </strong>" );
+													$("#alert").fadeIn('slow');
+													
+													document.body.scrollTop = document.documentElement.scrollTop = 0;
+													setTimeout(function() { $('#alert').fadeOut('slow') }, 5000);	
+												});
 											}
 										}
 									});
@@ -71,25 +86,11 @@
 							<li><a href="<?php echo site_url()?>/admin/home">Home</a></li>
 							<li class="active"> Borrowed </li>
 						</ol>
-
 						<div class="col-md-6 col-md-offset-3 " style = 'height: 50px; margin-bottom : 40px;'>
 							<div style="text-align: center;" id = "alert"> </div>
 						</div>
 						<br />
-						
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3 ">
-								<div class="input-group">
-									<input type="text" id = "searchBorrowedBooks" class="form-control">
-									<span class="input-group-btn">
-										<button class="btn btn-default" id = "searchBorrowedButton" type="button"> Search</button>
-									</span>
-								</div><!-- /input-group -->
-							</div><!-- /.col-lg-6 -->
-						</div><!-- /.row -->
 						<br />
-
-						<!--
 							<div class="row">
 								<div class="col-md-6 col-md-offset-3 ">
 									<div class="alert-container" style = 'height: 40px; padding-top: 10px; margin-bottom:10px;'>
@@ -98,16 +99,23 @@
 								</div>
 							</div>
 					
-
 						<br />
 
-						<form method="post"  style="width: 800px ; margin-left: auto; margin-right: auto;" role="form" >
-                            <input type="text" name="search"/>
-                            <input class = "btn btn-primary" type="submit" value="Search" name="search_borrowed_books"/> 
-                           	<div class="alert-container" style = 'height: 40px; margin: 30px;'>
-								<div style="display:none" id = "success_return" class = "alert alert-success">  </div>
-							</div>   
-                        </form>-->
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3 ">
+								<div class="input-group">
+								<form method="post"  style="width: 500px ; margin-left: auto; margin-right: auto;" role="form" >
+		                            <input type="text" name="search" class="form-control"/>
+		                            <span class="input-group-btn">
+		                            <input class = "btn btn-default" type="submit" value="Search" name="search_borrowed_books"/> 
+		                        	</span>
+		                           	<div class="alert-container" style = 'height: 40px; margin: 30px;'>
+										<div style="display:none" id = "success_return" class = "alert alert-success">  </div>
+									</div>   
+		                        </form>
+                       			</div><!-- /input-group -->
+							</div><!-- /.col-lg-6 -->
+						</div><!-- /.row -->
 
 						<?php
 						  	echo"<table class='table table-hover'>
@@ -126,9 +134,9 @@
 										
 							echo "<th width='5%'><center>Action</center></th> </tr></thead>";
 							echo "<tbody>";
-							if( !$this->input->post('search_borrowed_books') )
-								echo "<span><center>No borrowed books to be claimed.</center></td>";  
-							else {
+							//if( !$this->input->post('search_borrowed_books') )
+							//	echo "<span><center>No borrowed books to be claimed.</center></td>";  
+							//else {
 	                         	if(count($flag) ==0){		
 	                                echo "<td colspan = '9'><center>No search results found.</center></td>";                                    
 	                         	}else{
@@ -181,7 +189,7 @@
 									}//for	
 									
 								}
-							}
+							//}
 							echo "</tbody>";
 							echo "</table>";
 						?>
