@@ -4,7 +4,7 @@
 *	Filename: borrower.php
 *	Project Name: ICS Library System
 *	Date Created: 23 January 2014
-*	Created by: 
+*	Created by: Borrower team
 *
 */
 
@@ -53,15 +53,19 @@ class Borrower extends CI_Controller {
 		$materialid = $this->input->post('materialid');
 		$userid = $this->session->userdata('email');
 
+		$this->load->model('user/reservation_model');
+		$max = $this->reservation_model->get_max();
+		$max = $max[0]->max;
 
 		$this->load->model('user/borrowed_model');
 		$reservedCount = $this->borrowed_model->get_reserved_material_count();
 		$borrowedCount = $this->borrowed_model->get_borrowed_material_count();
+
 		foreach($borrowedCount as $row)
 			$borrowed_count = $row['COUNT(librarymaterial.materialid)'];
 		foreach($reservedCount as $row)
 			$reserved_count = $row['resCount'];
-		if($reserved_count+$borrowed_count >= 3)
+		if($reserved_count+$borrowed_count >= $max)
 		{
 			$ret_val = array('val'=> 'fail');
 			echo json_encode($ret_val);
@@ -73,9 +77,7 @@ class Borrower extends CI_Controller {
 		$ret_val = array('val'=> 'success');
 			echo json_encode($ret_val);
 		$this->reservation_model->get_book($materialid, $userid);
-		}
-
-			
+		}	
 	}
 	
 
@@ -83,9 +85,11 @@ public function cancel_reservation(){
 		$this->load->library("session");
 		$this->load->helper('url');
 		$matid = $this->input->post('materialid');
+		$this->load->model('user/log_model');
+		$isbn = $this->log_model->get_isbn($matid);
+		$isbn = $isbn[0]->isbn;
 		$this->load->model('user/reservation_model');
-		$this->reservation_model->cancel_res($matid);
-
+		$this->reservation_model->cancel_res($matid, $isbn);
 	}	
 
 
@@ -826,7 +830,6 @@ public function new_search(){
 
 		echo $result;
 	}
-
 	
 }
 

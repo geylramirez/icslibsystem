@@ -77,7 +77,7 @@
 													<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Material ID</th>
 													<th width="1%" abbr="Type" scope="col" title="Type">Type</th>
 													<th width="58%" abbr="Library Information" scope="col" title="Description">Library Information</th>
-													<th width='10%' abbr='copies' scope='col' title='copies'>Number of Available Copies</th>
+													<th width='10%' abbr='copies' scope='col' title='copies'>Available Copies</th>
 															
 													<?php
 														if($email){
@@ -141,7 +141,8 @@
 										/*echo "<td><span class='table-text'><b> ${row['name']} </b></span> <br/>
 
 										<span class='author'> ${row['authorname']}</span><br /></td>";*/
-										echo "<td><b><span class ='title'>${row['name']}.</b></span><br />";									
+										echo "<td><b><span class ='title'>${row['name']}.</b></span><br />";
+
 										foreach ($row['author'] as $name) {
 											$name = (array)$name;
 											echo "<span class ='author'> ${name['lname']}, ${name['fname']} ${name['mname']}.</span>";
@@ -497,7 +498,7 @@ $(document).ready(function()
 				},
 				error: function()
 				{
-					alert('Reservation failed. Try again.');
+					//alert('Reservation failed. Try again.');
 				}
 			});
 		});

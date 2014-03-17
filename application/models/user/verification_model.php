@@ -47,9 +47,6 @@
 				'protocol' => 'smtp',
 				'smtp_host' => 'ssl://smtp.googlemail.com',
 				'smtp_port' => 465,
-				//'smtp_user' => 'system.icslibrary@gmail.com',  //ADMIN EMAIL
-				//'smtp_pass' => 'icslibraryadmin',			   //ADMIN PW
-				//dummy account
 				'smtp_user' => 'icslibsystem.noreply@gmail.com', 
 				'smtp_pass' => 'computerscience128',			   
 				'mailtype'  => 'html', 
@@ -71,6 +68,8 @@
 			$this->email->message($message);
 			
 			if($this->email->send()){
+				$stmt = "INSERT INTO log( `action`, `time`, `idnumber`) VALUES ('v-email sent', NOW(), '$idnumber')";
+				$query = $this->db->query($stmt);
 				return true;
 			}
 			else return false;
@@ -82,17 +81,13 @@
 
 		public function validate_email($idnumber, $verification_code){
 			
-			//$sql = "SELECT idnumber, password FROM borrower WHERE idnumber = '{$idnumber}'";
-			//$result = $this->db->query($sql);
 			
 			$validation = $this->activate_account($idnumber);
 			if($validation === true){
 				return true;
 			}else{
-				//echo 'verification_model/validate_email error';
 				return false;
 			}
-			/* AFTER THIS FUNCTION BABALIK NA SIYA SA REGISTER->validate_email() */
 		}
 		
 
@@ -106,9 +101,10 @@
 			$result = $this->db->query($sql);
 			
 			if($this->db->affected_rows() === 1){
+				$stmt = "INSERT INTO log( `action`, `time`, `idnumber`) VALUES ('account activated', NOW(), '$idnumber')";
+				$query = $this->db->query($stmt);
 				return true;
 			}else{
-				//echo 'activate_account error';
 				return false;
 			}
 			

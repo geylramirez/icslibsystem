@@ -1,5 +1,14 @@
 <?php
 
+
+/*
+*	Filename: update_model.php
+*	Project Name: ICS Library System
+*	Created by: Borrower's Team
+*
+*/
+
+
 if(! defined('BASEPATH')) exit ('No direct script access allowed');
 
 class Update_model extends CI_Model{
@@ -13,7 +22,6 @@ class Update_model extends CI_Model{
 	/*
 	*	Updates the email of current user
 	*/
-
 	public function update_email($email)
 	{
 
@@ -29,25 +37,41 @@ class Update_model extends CI_Model{
 		//update selected row
 		$this->db->update('borrower',$data);
 
+		$username = $this->session->userdata('idnumber');
+
+		//insert into log
+		$stmt = "INSERT INTO log( `action`, `time`, `idnumber`) 
+				 VALUES ('changed email', NOW(), '$username')";
+
+		$query = $this->db->query($stmt);
+
 	}
 	
 	
 	/*
 	*	Updates the password of current user
 	*/
-
 	public function update_password($password)
 	{
 		
 		//save password of current user to userdata
-		$data=array(
+		$data = array(
 				'password' => SHA1($password)
-			);
+		);
 		
 		//select row to be updated using idnumber of current user		
 		$this->db->where('idnumber', $this->session->userdata('idnumber'));
 		//update selected row
 		$this->db->update('borrower',$data);
+
+		//save idnumber of current user to a variable
+		$username = $this->session->userdata('idnumber');
+
+		//insert into log
+		$stmt = "INSERT INTO log( `action`, `time`, `idnumber`) 
+				 VALUES ('changed password', NOW(), '$username')";
+
+		$query = $this->db->query($stmt);
 
 	}
 
@@ -57,18 +81,21 @@ class Update_model extends CI_Model{
 	*	
 	*	Return true if email exist	
 	*/
-
 	public function email_exist($email)
 	{
-		
 		$this->load->database();
 		$temp = $this->session->userdata('email');
-		$query = $this->db->query("SELECT * FROM `borrower` WHERE `email` LIKE '$email' AND `email` NOT LIKE '$temp'");
+
+		$query = $this->db->query( "SELECT * FROM `borrower` 
+									WHERE `email` LIKE '$email' 
+									AND `email` NOT LIKE '$temp'" );
+
 		if($query->num_rows() > 0)
 		{
 			$query->free_result();
 			return true;
 		}
+
 		$query->free_result();
 		return false;
 
@@ -81,10 +108,14 @@ class Update_model extends CI_Model{
 
 	public function check_email_borrower($email)
 	{
-		
 		$this->load->database();
 		$temp = $this->session->userdata('email');
-		$query = $this->db->query("SELECT count(email) as count FROM borrower WHERE email LIKE '$email' AND `email` NOT LIKE '$temp'");//title
+
+		//select count
+		$query = $this->db->query( "SELECT count(email) AS count FROM borrower 
+									WHERE email LIKE '$email' 
+									AND `email` NOT LIKE '$temp'" );
+
 		$result = $query->result();
 		return $result;
 	}
@@ -93,13 +124,14 @@ class Update_model extends CI_Model{
 	/*
 	*	return password
 	*/
-
 	public function get_password($idnumber)
 	{
-		
 		$this->load->database();
+
 		//select password of current user
-		$stmt = "SELECT password FROM `borrower` WHERE idnumber LIKE '{$idnumber}'";
+		$stmt = "SELECT password FROM `borrower` 
+				 WHERE idnumber LIKE '{$idnumber}'";
+
 		$query = $this->db->query($stmt);
 		$result = $query->result();
 		return $result;
