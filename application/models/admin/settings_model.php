@@ -1,7 +1,7 @@
 <?php
 
 /*
-*	Filename: notification_model.php
+*	Filename: settings_model.php
 *	Project Name: ICS Library System
 *	Date Created: 26 January 2014
 *	Created by: Charlene C. Canedo
@@ -38,13 +38,13 @@ class Settings_model extends CI_Model{
 	public function set_enable(){
 		$query = "UPDATE settings SET fineenable = 1 WHERE id LIKE 1";
 		$this->db->query($query);
-		$this->db->query("INSERT INTO log(action, time, idnumber) VALUES('changed fine', NOW(), 'Admin')");
+		$this->db->query("INSERT INTO log(action, time, idnumber) VALUES('enabled fine', NOW(), 'Admin')");
 	}
 	
 	public function set_disable(){
 		$query = "UPDATE settings SET fineenable = 0 WHERE id LIKE 1";
 		$this->db->query($query);
-		$this->db->query("INSERT INTO log(action, time, idnumber) VALUES('changed fine settings', NOW(), 'Admin')");
+		$this->db->query("INSERT INTO log(action, time, idnumber) VALUES('disabled fine', NOW(), 'Admin')");
 	}
 
 	public function get_data(){

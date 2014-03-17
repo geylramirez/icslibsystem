@@ -39,6 +39,13 @@ class Notification_model extends CI_Model{
 		$query = "UPDATE reservation SET started = 1, startdate = '${time}', claimdate = '${claimdate}' WHERE materialid LIKE '${materialid}' AND idnumber LIKE '${idnumber}' AND isbn LIKE '${isbn}'";
 		echo $query;
 		$this->db->query($query);
+
+		// insert in log
+		// Admin notified a user	
+		$stmt = "INSERT INTO log( `action`, `time`, `idnumber`) 
+						  VALUES( 'Notified a user', NOW(), 'Admin')";
+		$this->db->query($stmt);
+
 	}
 }//end of class
 
