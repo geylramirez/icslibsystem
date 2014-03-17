@@ -35,10 +35,26 @@
        <div class="navbar-collapse collapse">
           <!--Navigation Bar on the right-->
           <ul class="nav navbar-nav navbar-right">
+            <?php
+              $i = 0;
+              foreach($overdueCount as $row)
+                //$i++;
+                $i = $i + $row['COUNT(librarymaterial.materialid)']; 
+              foreach($readytoclaimCount as $row)
+                $i = $i + $row['COUNT(librarymaterial.materialid)'];
+                //$i++;
+            ?>
             <li><a href="<?php echo Site_url();?>/borrower/search_all" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-search" id="glyphcolor"></span></a></li>
             <li><a href="<?php echo Site_url();?>/borrower/profile" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-home" id="glyphcolor"></span></a></li>
             <li class="dropdown">
-              <a  id = "message" class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" id="glyphcolor"></span></a>
+              
+              <a  id = "message" class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" id="glyphcolor"></span>
+                <?php if($i!=0){?>
+                  <span class="badge">
+                
+                  <?php echo $i?>
+                  </span></a>
+            <?php }?>
               <ul class="dropdown-menu">
                 <li class="dropdown-header">Overdue Books</li>
                 <li><a>

@@ -117,7 +117,7 @@ public function home(){
 			$data['borrowedCount'] = $this->borrowed_model->get_borrowed_material_count();
 			$data['reservedCount'] = $this->borrowed_model->get_reserved_material_count();
 			$data['overdueCount'] = $this->borrowed_model->get_overdue_material_count();
-
+			$data['readytoclaimCount'] = $this->borrowed_model->get_ready_to_claim_count();
 			//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			$data['enable_fine'] = $this->borrowed_model->get_fine_enable();
 			//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -251,7 +251,7 @@ public function logout()
 		$data['borrowedCount'] = $this->borrowed_model->get_borrowed_material_count();
 		$data['reservedCount'] = $this->borrowed_model->get_reserved_material_count();
 		$data['overdueCount'] = $this->borrowed_model->get_overdue_material_count();
-
+		$data['readytoclaimCount'] = $this->borrowed_model->get_ready_to_claim_count();
 		//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		$data['enable_fine'] = $this->borrowed_model->get_fine_enable();
 		//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -278,7 +278,7 @@ public function logout()
 		$data['overdue'] = $this->borrowed_model->get_overdue();
 		$data['res'] = $this->borrowed_model->get_reservations();
 		$data['readytoclaim'] = $this->borrowed_model->get_ready_to_claim();
-
+		$data['readytoclaimCount'] = $this->borrowed_model->get_ready_to_claim_count();
 		//update
 		$this->load->model('user/reservation_model');
 		$data['list'] = $this->reservation_model->waitlisted_matid($userid);
@@ -440,7 +440,7 @@ public function checkpassword(){
 		//field name, error message, validation rules
 		
 		$this->form_validation->set_rules('password', 'Password',
-			'trim|required|min_length[6]|max_length[32]');
+			'trim|alpha_numeric|required|min_length[6]|max_length[32]');
 		
 		if($this->form_validation->run() == FALSE){
 			echo "1";
@@ -613,7 +613,7 @@ public function checkUpdatePassword(){
 		$password = $this->input->post('password');
 		//$re_password = $this->input->post('re_password');
 		$this->form_validation->set_rules('password', 'Password',
-			'trim|required|min_length[6]|max_length[32]');
+			'trim|alpha_numeric|required|min_length[6]|max_length[32]');
 		
 		if($this->form_validation->run() == FALSE){
 			echo '1';
@@ -630,7 +630,7 @@ public function checkUpdateRe_Password(){
 		$password = $this->input->post('password');
 		$re_password = $this->input->post('re_password');
 		$this->form_validation->set_rules('re_password', 'Password',
-			'trim|required|min_length[6]|max_length[32]|required|matches[password]');
+			'trim|alpha_numeric|required|min_length[6]|max_length[32]|required|matches[password]');
 		
 		if($this->form_validation->run() == FALSE){
 			echo '1';
@@ -788,7 +788,7 @@ public function new_search(){
 			$result_info['res'] = $this->borrowed_model->get_reservations();
 			$result_info['overdue'] = $this->borrowed_model->get_overdue();
 			$result_info['readytoclaim'] = $this->borrowed_model->get_ready_to_claim();
-			
+			$result_info['readytoclaimCount'] = $this->borrowed_model->get_ready_to_claim_count();
 		
 			$result_info['reserved'] = $this->borrowed_model->get_reserved_books();
 				
@@ -814,6 +814,17 @@ public function new_search(){
 		$rating = $this->input->post('rating');
 
 		$this->rating_model->check_rating(trim($materialid), trim($idnumber), trim($isbn),$rating);
+		
+		$result = $this->rating_model->getRating($materialid);
+
+		echo $result[0]->avg;
+	}
+
+	public function get_rating($materialid){
+		$this->load->model('user/rating_model');
+		$result = $this->rating_model->getRating($materialid);
+
+		echo $result;
 	}
 
 	

@@ -77,10 +77,11 @@
 													<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Material ID</th>
 													<th width="1%" abbr="Type" scope="col" title="Type">Type</th>
 													<th width="58%" abbr="Library Information" scope="col" title="Description">Library Information</th>
+													<th width='10%' abbr='copies' scope='col' title='copies'>Number of Available Copies</th>
+															
 													<?php
 														if($email){
 															echo "<th width='10%' abbr='Queue' scope='col' title='Rank'>Rank</th>";
-															echo "<th width='10%' abbr='copies' scope='col' title='copies'>Number of Available Copies</th>";
 															echo "<th width='10%' abbr='Act' scope='col' title='Action'>Action</th>";
 														}
 													?>
@@ -93,10 +94,11 @@
 													<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Material ID</th>
 													<th width="1%" abbr="Type" scope="col" title="Type">Type</th>
 													<th width="58%" abbr="Library Information" scope="col" title="Description">Library Information</th>
+													<th width='10%' abbr='copies' scope='col' title='copies'>Number of Available Copies</th>
+															
 													<?php
 														if($email){
 															echo "<th width='10%' abbr='Queue' scope='col' title='Rank'>Rank</th>";
-															echo "<th width='10%' abbr='copies' scope='col' title='copies'>Number of Available Copies</th>";
 															echo "<th width='10%' abbr='Act' scope='col' title='Action'>Action</th>";
 														}
 													?>
@@ -104,7 +106,7 @@
 											</tfoot>
 											
 									<?php
-												
+									$count = 0;				
 									foreach($value as $row){
 										//var_dump($row);
 										//var_dump($row['author']);
@@ -144,18 +146,12 @@
 											$name = (array)$name;
 											echo "<span class ='author'> ${name['lname']}, ${name['fname']} ${name['mname']}.</span>";
 										}
-										/*echo "<div class = 'rating'>
-											<img style='float:left;cursor:pointer;height:15px;width:15px;' src='<?php echo base_url();?>dist/images/emptystar.jpg' name='${row['materialid']}' value='1' id='1' onclick='fillstar(this)' />&nbsp;
-											<img style='float:left;cursor:pointer;height:15px;width:15px;' src='<?php echo base_url();?>dist/images/emptystar.jpg' name='${row['materialid']}' value='2' id='2' onclick='fillstar(this)' />&nbsp;
-											<img style='float:left;cursor:pointer;height:15px;width:15px;' src='<?php echo base_url();?>dist/images/emptystar.jpg' name='${row['materialid']}' value='3' id='3' onclick='fillstar(this)' />&nbsp;
-											<img style='float:left;cursor:pointer;height:15px;width:15px;' src='<?php echo base_url();?>dist/images/emptystar.jpg' name='${row['materialid']}' value='4' id='4' onclick='fillstar(this)' />&nbsp;
-											<img style='float:left;cursor:pointer;height:15px;width:15px;' src='<?php echo base_url();?>dist/images/emptystar.jpg' name='${row['materialid']}' value='5' id='5' onclick='fillstar(this)' />&nbsp;
-										</div></td>";*/
-										
+
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+										
 										if($email){
 											if(($this->session->userdata('classification') == 'F' && $row['access']!=1) || $this->session->userdata('classification') == 'S' && $row['access']!=2){
-												echo "<br />Ratings: <select class = 'btn btn-default btn-sm rating'>";
+												echo "<br />Ratings: <select class = 'btn btn-default btn-sm rating' name='$count'>";
 												if(isset($row['rating'])){ 
 													if($row['rating']==1){
 													  echo "<option value='0'>0</option>
@@ -196,6 +192,13 @@
 													  <option value='3'>3</option>
 													  <option value='4'>4</option>
 													  <option value='5' SELECTED>5</option>";
+													}else{
+														echo "<option value='0' SELECTED>0</option>
+													  <option value='1'>1</option>
+													  <option value='2'>2</option>
+													  <option value='3'>3</option>
+													  <option value='4'>4</option>
+													  <option value='5'>5</option>";
 													}
 
 
@@ -209,8 +212,15 @@
 													  <option value='5'>5</option>";
 												}
 
-												echo "</select></td>";
+												echo "</select><span id='$count'>";
+												if($row['avg']==null) echo " Average: 0"; 
+												else echo "  Average: ".($row['avg']);
+												echo "</span></td>";
 											}
+										}
+										$available = $row['quantity'] - $row['borrowedcopy'];
+										echo "<td><span class='table-text'><center>".$available." of " .$row['quantity']."</center></span></td>";
+										if($email){
 											$t_q = 0;
 											$rrank = 0;
 											foreach($rank as $q_rank){
@@ -232,8 +242,6 @@
 												echo "<td class='queue'><span class='table-text'><center> ${rrank} of ${t_q} </center></span></td>";
 											else
 												echo "<td class='queue'><span class='table-text'><center>".$rrank."</center></span></td>";
-											$available = $row['quantity'] - $row['borrowedcopy'];
-											echo "<td><span class='table-text'><center>".$available."/" .$row['quantity']."</center></span></td>";
 											if($material!=NULL){
 												foreach ($material as $here){ 
 													if($row['materialid']==$here['materialid']){
@@ -299,11 +307,12 @@
 												echo "</center></td></tr>";
 												$rowNum++;
 											}
-
+											$count++;
 											$reserved_flag=0;
 											$waitlist_flag=0;
 										}
 									}
+										
 								}//if(value!=NULL)
 
 								else{
@@ -405,14 +414,14 @@
 			size: 10,
 
 			// Save pager page & size if the storage script is loaded (requires $.tablesorter.storage in jquery.tablesorter.widgets.js)
-			savePages : true,
+			savePages : false,
 
 			//defines custom storage key
 			storageKey:'tablesorter-pager',
 
 			// if true, the table will remain the same height no matter how many records are displayed. The space is made up by an empty
 			// table row set to a height to compensate; default is false
-			fixedHeight: true,
+			fixedHeight: false,
 
 			// remove rows from the table to speed up the sort of large tables.
 			// setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
@@ -474,6 +483,7 @@ $(document).ready(function()
 			var rating = $(this).val();
 			var materialid = $(this).parent().siblings('.matID').text().trim();
 			var isbn = $(this).parent().siblings('.isbn').text().trim();
+			var index = $(this).attr('name');
 			if( isbn == "---" ) isbn = "+" + materialid.trim();	
 					
 			$.ajax({
@@ -481,7 +491,9 @@ $(document).ready(function()
 				url: "<?php echo site_url();?>/borrower/insert_rating",
 				data: { materialid: materialid, isbn: isbn, rating: rating },
 				success: function(data){
+					//alert(data);
 
+					$("#"+index+"").text(" Average: "+data);
 				},
 				error: function()
 				{
@@ -518,7 +530,7 @@ $(document).ready(function()
 					callback: function() {
 						$.ajax({
 						type: "POST",
-						url: "<?php echo site_url('borrower/reserve');?>",
+						url: "<?php echo site_url('/borrower/reserve');?>",
 						data: {materialid: materialid},
 						dataType: "JSON",
 						success: function(data)
@@ -539,8 +551,8 @@ $(document).ready(function()
 								reserved = reserved+1;
 								$('#reservedCount').html(reserved);
 								sibling = sibling+1;
-								parent.siblings('.queue').html("<center>" + sibling + "</center>");
-								//$('.reserve_button').parent().parent().parent().sibling('.queue').html(sibling);
+								parent.siblings('.queue').html("<center>" + sibling +" of "+sibling+ "</center>");
+								
 								thisButton.hide();
 								thisButton.next().show();
 								$("#success").html("You have successfully placed your <strong>reservation</strong> for this material.");		
@@ -591,7 +603,7 @@ $(document).ready(function()
 					callback: function() {
 						$.ajax({
 							type: "POST",
-							url: "<?php echo site_url('borrower/cancel_reservation');?>",
+							url: "<?php echo site_url('/borrower/cancel_reservation');?>",
 							data: {materialid: materialid},
 							success: function()
 							{

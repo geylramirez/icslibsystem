@@ -16,7 +16,7 @@
             <div class="col-xs-4 col-md-12">
                <div class="form-group">
                     <div class="col-sm-4">
-                      <label for="idnumber"> ID Number </label> 
+                      <label for="idnumber"> ID Number </label>
                     </div>
                   <div class="col-sm-8">
                     <input class="form-control" name="idnumber" id="idnumber" value="<?php echo set_value('idnumber');?>" type="text" required />
@@ -131,7 +131,7 @@
 
         success: function(result){
           if($.trim(result)=="1"){
-         $('#error_message2').html("Password length must be atleast 6 characters");
+         $('#error_message2').html("Password length must be atleast 6 alphanumeric characters");
                flagPass =  false;
          validatePassword();
             }
@@ -155,7 +155,7 @@
                 flagEmail =  false;
               }
               else if($.trim(result)=="1"){
-                $('#error_message1').html("Invalid email");
+                $('#error_message1').html("Email must be in xxxx@domain format<br/>ex. xxxxx@gmail.com");
                 flagEmail =  false;
               }
               else if($.trim(result)=="0"){
@@ -178,11 +178,11 @@
                 flagId =  false;
             }
             else if($.trim(result)=="2"){
-               $('#error_message').html("Not in sample table");
+               $('#error_message').html("Not a registered UPLB constituent");
                  flagId =  false;
             }
             else if($.trim(result)=="3"){
-               $('#error_message').html("Invalid idnumber");
+               $('#error_message').html("Invalid idnumber<br/> xxxx-xxxxx or xxxxxxxxxx");
                flagId =  false;
             }
             else if($.trim(result)=="0"){

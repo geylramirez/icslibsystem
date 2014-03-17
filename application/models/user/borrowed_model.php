@@ -230,6 +230,29 @@ class Borrowed_model extends CI_Model{
 		return $return_array;						//Returns the resulting array.
 	}
 
+	public function get_ready_to_claim_count(){
+
+		$return_array = array();					//Create a new array that will hold the result.
+		$this->load->database();					//Load the database to be used, the databse where the data will be fetched.
+		$idnum=$this->session->userdata('idnumber');//Assign the session data to varible $idnum.
+		// Books on Hand
+
+		$query = "SELECT COUNT(librarymaterial.materialid)
+									FROM librarymaterial
+									JOIN reservation
+										ON librarymaterial.materialid = reservation.materialid
+									WHERE reservation.idnumber = '$idnum' AND reservation.claimdate IS NOT NULL";
+
+		$res = $this->db->query($query);	
+		$query = $res->result();					//Executes the SQL query
+
+		/*Stores the resulting tuples into the array $return_array.*/
+		foreach ($query as $tuple)
+			$return_array[count($return_array)] = (array)$tuple;
+
+		return $return_array;						//Returns the resulting array.
+	}
+
 	/*
 	*	Function that counts the number of uverdued materials in the system.
 	*/

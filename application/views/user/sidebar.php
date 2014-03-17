@@ -336,6 +336,7 @@ $('#edit-email').click( function(){
 	$('#error_update').html("");
 	$("#epass-label").show();
 	$('#epassword').show();
+	$('#email').focus();
 });
 
 $('#edit-password').click( function(){

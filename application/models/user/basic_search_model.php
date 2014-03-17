@@ -42,12 +42,12 @@
 
 				if(count($conditions)!=0){			
 
-					$stmt = "SELECT DISTINCT r.rating,  l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
-						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid LEFT JOIN rating r ON r.idnumber = '${id}' AND l.materialid = r.materialid WHERE ". implode(' OR ', $conditions) . "ORDER BY l.name";
+					$stmt = "SELECT DISTINCT (SELECT AVG(rating) FROM rating WHERE materialid = l.materialid) AS avg , l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
+						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid WHERE ". implode(' OR ', $conditions) . "ORDER BY l.name";
 				}
 				else{
-					$stmt = "SELECT DISTINCT l.materialid as materialid, r.rating, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
-						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid LEFT JOIN rating r ON r.idnumber = '${id}' AND l.materialid = r.materialid ORDER BY l.name";	
+					$stmt = "SELECT DISTINCT (SELECT AVG(rating) FROM rating WHERE materialid = l.materialid) AS avg , l.materialid as materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
+						FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid ORDER BY l.name";	
 				}
 				$query = $this->db->query($stmt);
 				$query = $query->result();
@@ -58,23 +58,31 @@
 						//$tuple->materialid = 
 					}
 					else
-						$id = $tuple->materialid;
+						$mid = $tuple->materialid;
 					
-					$isbn = $tuple->isbn;
+						$isbn = $tuple->isbn;
 						
-					$query = $this->db->query("SELECT fname, mname, lname 
-												FROM author
-												WHERE materialid LIKE '${id}' AND isbn LIKE '${isbn}'");
-					$result = $query->result();
+						$query = $this->db->query("SELECT fname, mname, lname 
+													FROM author
+													WHERE materialid LIKE '${id}' AND isbn LIKE '${isbn}'");
 						
-					$tuple->author = (array)$result;
+						$query1 = $this->db->query("SELECT rating 
+													FROM rating
+													WHERE materialid LIKE '${mid}' AND idnumber LIKE '${id}'");
+						
+						$result = $query->result();
+						$result1 = $query1->row();
 
-					// get the author depending on the tuple's library material id and isbn
-					// add it to $query variable
-					$return_array[count($return_array)] = (array)$tuple;
-
-					
-				}
+						$tuple->author = (array)$result;
+						
+						//var_dump($result1);
+						if( !isset($result1->rating) ) $tuple->rating = null;
+						else $tuple->rating = $result1->rating;
+						
+						// get the author depending on the tuple's library material id and isbn
+						// add it to $query variable
+						$return_array[count($return_array)] = (array)$tuple;
+					}
 				return $return_array;
 		}
 
