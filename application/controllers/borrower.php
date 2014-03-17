@@ -209,6 +209,10 @@ public function home(){
 					$this->session->set_userdata('mname',$b_info[0]->mname);
 					$this->session->set_userdata('lname',$b_info[0]->lname);
 					echo "1";
+
+					$this->load->model('user/log_model');
+					$info = $this->log_model->set_last_session($borrower_info[0]->idnumber);
+					$info = $this->log_model->update_log_login($borrower_info[0]->idnumber);
 				}
 			}
 			
@@ -219,7 +223,7 @@ public function home(){
 public function logout()
 	{
 		$this->session->sess_destroy();
-		$this->index();
+		redirect('/', 'refresh');
 	}
 	
 

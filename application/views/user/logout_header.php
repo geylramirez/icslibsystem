@@ -39,18 +39,15 @@
             <li><a href="<?php echo Site_url();?>/borrower/profile" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-home" id="glyphcolor"></span></a></li>
             <li class="dropdown">
               <a  id = "message" class = "notif" href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-size:17px;" onclick = "this.style.color='white';"><span class="glyphicon glyphicon-envelope" id="glyphcolor"></span></a>
-
               <ul class="dropdown-menu">
                 <li class="dropdown-header">Overdue Books</li>
                 <li><a>
                 <div  id = "overdue">
                 <?php
-
                     /*Checks if the Overdue books of the logged-in user is not NULL.*/
                     if(!$overdue){  echo "<i> None </i>"; }
                     else{
                       /*Outputs the name of all the books that are overdue.*/
-
                       foreach ($overdue as $temps) {
                         echo $temps['name']; 
                         echo "<br/>";
@@ -64,14 +61,13 @@
                  <li><a>
                     <div id = "reserved" >
                       <?php
-
                         /*Checks if the reserved books of the logged-in user is not NULL.*/
                         if(!$res){ echo "<i> None </i>"; }
                         else{
                           /*Outputs the name of all the books that are reserved by the logged-in user.*/
-
                           foreach ($res as $temps) {
                             echo $temps['name'];
+                            echo "<br/>";
                           } 
                         }
                       ?>
@@ -83,13 +79,13 @@
                  <li><a>
                   <div id="ready">
                     <?php
-
                       /*Checks if the reserved books that are ready to be claimed by the logged-in user is not NULL.*/
                       if(!$readytoclaim){  echo "<i> None </i>"; }
                       else{
                         /*Outputs the material id of all the books that are ready to be claimed by the logged-in user.*/
                         foreach ($readytoclaim as $temp) {
-                          echo $temp['materialid'];  echo " until "; echo"<b>"; echo $temp['claimdate'];  echo"</b>";
+                          echo $temp['materialid'];  echo " until "; echo"<b>"; echo $temp['claimdate'];
+                          echo"</b>";
                         } 
                       }
                     ?>
@@ -132,7 +128,6 @@
         },
 
         success: function( result ){
-
           //Variable declarations
           var overdue = result['overdue'];  
           var fne = result['fineenable'];
@@ -174,7 +169,6 @@
 
                   $('#reserved').html( str );
                   
-
                  var readytoclaim = result['readytoclaim'];
                   str="";
                   //Checks if the user has reserved books that are ready to be claimed, none will be printed if there are no ready to be claimed books.

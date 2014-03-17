@@ -79,12 +79,14 @@
 													<th width="58%" abbr="Library Information" scope="col" title="Description">Library Information</th>
 													<?php
 														if($email){
-															echo "<th width='1%' abbr='Queue' scope='col' title='Queue'>Queue</th>";
-															echo "<th width='20%' abbr='Act' scope='col' title='Action'>Action</th>";
+															echo "<th width='10%' abbr='Queue' scope='col' title='Rank'>Rank</th>";
+															echo "<th width='10%' abbr='copies' scope='col' title='copies'>Number of Available Copies</th>";
+															echo "<th width='10%' abbr='Act' scope='col' title='Action'>Action</th>";
 														}
 													?>
 												</tr>
 											</thead>
+											
 											<tfoot>
 												<tr>
 													<th width="10%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN</th>
@@ -93,12 +95,14 @@
 													<th width="58%" abbr="Library Information" scope="col" title="Description">Library Information</th>
 													<?php
 														if($email){
-															echo "<th width='1%' abbr='Queue' scope='col' title='Queue'>Queue</th>";
-															echo "<th width='20%' abbr='Act' scope='col' title='Action'>Action</th>";
+															echo "<th width='10%' abbr='Queue' scope='col' title='Rank'>Rank</th>";
+															echo "<th width='10%' abbr='copies' scope='col' title='copies'>Number of Available Copies</th>";
+															echo "<th width='10%' abbr='Act' scope='col' title='Action'>Action</th>";
 														}
 													?>
 												</tr>
 											</tfoot>
+											
 									<?php
 												
 									foreach($value as $row){
@@ -208,12 +212,28 @@
 												echo "</select></td>";
 											}
 											$t_q = 0;
+											$rrank = 0;
+											foreach($rank as $q_rank){
+											
+												if($q_rank['materialid']== $row['materialid']){
+													$rrank=$q_rank['queue'];
+													//echo "<td> ${rrank} of ";
+													//echo "${q_rank['queue']} ";
+												}
+												
+											}
 											foreach($total as $t_queue){
 												if($t_queue['materialid']==$row['materialid']){
-												  $t_q=$t_queue['tq'];
+													 $t_q=$t_queue['tq'];
+													 //echo "${t_q} </td>";
 												}
-											  }
-											echo "<td class='queue'><span class='table-text'><center>".$t_q."</center></span></td>";
+											}
+											if($rrank!=0)
+												echo "<td class='queue'><span class='table-text'><center> ${rrank} of ${t_q} </center></span></td>";
+											else
+												echo "<td class='queue'><span class='table-text'><center>".$rrank."</center></span></td>";
+											$available = $row['quantity'] - $row['borrowedcopy'];
+											echo "<td><span class='table-text'><center>".$available."/" .$row['quantity']."</center></span></td>";
 											if($material!=NULL){
 												foreach ($material as $here){ 
 													if($row['materialid']==$here['materialid']){

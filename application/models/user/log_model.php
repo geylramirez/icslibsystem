@@ -33,6 +33,21 @@ class Log_model extends CI_Model{
 			return $query->result();
 		}
 
+	public function set_last_session($username)
+		{
+			$this->load->database();
+			$stmt = "UPDATE `borrower` SET `lastsession` = NOW() WHERE `idnumber`= '$username'";
+			$query = $this->db->query($stmt);
+			return true;
+		}
+
+	public function update_log_login($username)
+		{
+			$this->load->database();
+			$stmt = "INSERT INTO log( `action`, `time`, `idnumber`) VALUES ('logged in', NOW(), '$username')";
+			$query = $this->db->query($stmt);
+			return true;
+		}
 		
 }
 	/* 	End of file Log_model.php
