@@ -68,6 +68,7 @@ class Check_admin_model extends CI_Model{
 		$query = $this->db->query("SELECT * 
 									FROM administrator 
 									WHERE username LIKE '${user}'");
+
 		if($query->num_rows() == 1) return true;
 		else return false;
 	}

@@ -3,7 +3,6 @@
 	<?php include 'includes/head.php'; ?>
 		
 	<script>
-
 		function deleteBook( thisDiv ){
 			bootbox.dialog({
 				message: "You are about to delete a library material from the database. Continue?",
@@ -132,7 +131,7 @@
 							<div style="display:none" id = "fail_delete" class = "alert alert-danger">  </div>
 						</div> 
                     <?php
-                        echo "<table border = '1' id='myTable' class = 'table table-hover'>
+                        echo "<table class = 'table table-hover table-bordered'>
                             <thead>
                                 <tr>
 									<th style='width:11%;'><b><center>ISBN/ISSN</center></b></th>

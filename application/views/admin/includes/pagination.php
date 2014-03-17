@@ -69,7 +69,7 @@
 
 		$("table")
 			.tablesorter({
-					theme: 'blue',
+					theme: 'bootstrap',
 					widthFixed: true,
 					widgets: ['zebra']
 				})

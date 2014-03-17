@@ -12,6 +12,9 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
+	public function __construct(){
+		parent::__construct();
+	}
 	
 	/*
 	*	Controls the view of reservations in the system
@@ -773,7 +776,9 @@ class Admin extends CI_Controller {
 	public function delete_account(){
 		$this->load->model('admin/delete_account_model');
 		$this->delete_account_model->delete_account();
+		$this->delete_account_model->delete_reservation();
 	}
+
 
 
 	public function settings(){
