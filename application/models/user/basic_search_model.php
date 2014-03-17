@@ -34,7 +34,7 @@
 					$conditions[] = "(l.course LIKE '%{$temp_search[$i]}%' or l.materialid LIKE '%{$temp_search[$i]}%')";
 				}
 				else if($category=='keyword'){ //check if year is checked
-					$conditions[] = "(l.name LIKE '%{$temp_search[$i]}%' OR l.course LIKE '%{$temp_search[$i]}%') 
+					$conditions[] = "(l.name LIKE '%{$temp_search[$i]}%' OR l.course LIKE '%{$temp_search[$i]}%' OR l.materialid LIKE '%{$temp_search[$i]}%') 
 									OR (a.fname LIKE '%{$temp_search[$i]}%' OR a.mname LIKE '%{$temp_search[$i]}%' OR a.lname LIKE '%{$temp_search[$i]}%')";
 				}
 			}
