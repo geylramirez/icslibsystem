@@ -67,6 +67,8 @@ class Admin extends CI_Controller {
 	public function print_inventory(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
+			redirect('/admin/login', 'refresh');
+		} else {
 			// loads the model php file which will interact with the database
 			$this->load->model('admin/print_inventory_model'); 
 			// calls the function get_reservation_array(), and store it to the data array
@@ -429,41 +431,41 @@ class Admin extends CI_Controller {
 		//$this->save();
 		//var_dump($this-post());
 		$materialid = $this->input->post('materialid');
-		$materialid = htmlspecialchars($materialid);
-		$materialid = mysql_real_escape_string($materialid);
-		$materialid = filter_var($materialid, FILTER_SANITIZE_STRING);
+		//$materialid = htmlspecialchars($materialid);
+		//$materialid = mysql_real_escape_string($materialid);
+		//$materialid = filter_var($materialid, FILTER_SANITIZE_STRING);
 		//echo $materialid;
 		$type = $this->input->post('type');
-		$type = filter_var($type, FILTER_SANITIZE_STRING);
+		//$type = filter_var($type, FILTER_SANITIZE_STRING);
 		if ($type == 'Book' || $type == 'References' || $type == 'Journals' || $type == 'Magazines'){
 			$isbn = $this->input->post('isbn');
-			$isbn = htmlspecialchars($isbn);
-			$isbn = filter_var($isbn, FILTER_SANITIZE_NUMBER_INT);
+		//	$isbn = htmlspecialchars($isbn);
+		//	$isbn = filter_var($isbn, FILTER_SANITIZE_NUMBER_INT);
 		}else $isbn = "+".$materialid;
 		if ($type == 'Book' || $type == 'References' || $type == 'CD'){
 			$course = $this->input->post('course');
-			$course = htmlspecialchars($course);
-			$course = filter_var($course, FILTER_SANITIZE_STRING);
+		//	$course = htmlspecialchars($course);
+		//	$course = filter_var($course, FILTER_SANITIZE_STRING);
 		}else $course = null;
 		$name = $this->input->post('name');
-		$name = htmlspecialchars($name);
-		$name = mysql_real_escape_string($name);
-		$name = filter_var($name, FILTER_SANITIZE_STRING);
+		//$name = htmlspecialchars($name);
+		//$name = mysql_real_escape_string($name);
+		//$name = filter_var($name, FILTER_SANITIZE_STRING);
 		$year = $this->input->post('year');
-		$year = filter_var($year, FILTER_SANITIZE_NUMBER_INT);
-		$year = htmlspecialchars($year);
+		//$year = filter_var($year, FILTER_SANITIZE_NUMBER_INT);
+		//$year = htmlspecialchars($year);
 		$edvol = $this->input->post('edvol');
-		$edvol = htmlspecialchars($edvol);
-		$edvol = filter_var($edvol, FILTER_SANITIZE_NUMBER_INT);
+		//$edvol = htmlspecialchars($edvol);
+		//$edvol = filter_var($edvol, FILTER_SANITIZE_NUMBER_INT);
 		$access = $this->input->post('access');
-		$access = htmlspecialchars($access);
-		$access = filter_var($access, FILTER_SANITIZE_NUMBER_INT);
+		//$access = htmlspecialchars($access);
+		//$access = filter_var($access, FILTER_SANITIZE_NUMBER_INT);
 		$available = $this->input->post('available');
-		$available = htmlspecialchars($available);
-		$available = filter_var($available, FILTER_SANITIZE_NUMBER_INT);
+		//$available = htmlspecialchars($available);
+		//$available = filter_var($available, FILTER_SANITIZE_NUMBER_INT);
 		$requirement = $this->input->post('requirement');
-		$requirement = htmlspecialchars($requirement);
-		$requirement = filter_var($requirement, FILTER_SANITIZE_NUMBER_INT);
+		//$requirement = htmlspecialchars($requirement);
+		//$requirement = filter_var($requirement, FILTER_SANITIZE_NUMBER_INT);
 		
 		$library_material_data = array (
 			'materialid' => $materialid,
@@ -479,9 +481,9 @@ class Admin extends CI_Controller {
 		);
 		
 		$authors = $this->input->post('authors');
-		$authors = htmlspecialchars($authors);
-		$authors = mysql_real_escape_string($authors);
-		$authors = filter_var($authors, FILTER_SANITIZE_STRING);
+		//$authors = htmlspecialchars($authors);
+		//$authors = mysql_real_escape_string($authors);
+		//$authors = filter_var($authors, FILTER_SANITIZE_STRING);
 		$all_authors = array ();
 		
 		for ($i=0; $i < count($authors); $i++) {
@@ -511,7 +513,6 @@ class Admin extends CI_Controller {
     }
 	
 	public function show_recent($materialid=""){
-		
 		$this->load->model('admin/admin_model');
 		$filter = "none";
 		$type = "allTypes";
@@ -520,6 +521,7 @@ class Admin extends CI_Controller {
 		$data['sql2'] = array();
 		$query_result = $this->admin_model->search($filter,$type,$materialid,$access,$avail);
 		array_push($data['sql2'], $query_result[0]);
+		//var_dump($query_result);
 		$data['flag'] = $data['sql2'];
 		$this->load->view('admin/show_recent_view',$data);
 	}
@@ -818,20 +820,30 @@ class Admin extends CI_Controller {
 	}
 
 	public function settings_for_fine(){
-	
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
+
 		$this->load->model('admin/settings_model');
 
 		$fine = $this->input->post('fine');
+
+		if( !$this->input->post('fine') ) return;
+
 		$fine = htmlspecialchars($fine);
 		$fine = filter_var($fine, FILTER_SANITIZE_NUMBER_INT);
 		$this->settings_model->set_fine( $fine );	
 	}
 	
 	public function settings_for_password(){
-		
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
+
 		$this->load->model('admin/settings_model');
 		
 		$newpw = $this->input->post('newpw');
+		
+		if( !$this->input->post('newpw') ) return;
+
 		$newpw = htmlspecialchars($newpw);
 		$newpw = mysql_real_escape_string($newpw);
 		$newpw = filter_var($newpw, FILTER_SANITIZE_STRING);
