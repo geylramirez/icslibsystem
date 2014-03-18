@@ -125,11 +125,7 @@
 							<br/>
 						  
                     </form>
-					
-                     <div class="alert-container" style = 'height: 40px; margin: 30px;'>
-							<div style="display:none" id = "success_delete" class = "alert alert-success">  </div>
-							<div style="display:none" id = "fail_delete" class = "alert alert-danger">  </div>
-						</div> 
+                    <br />
                     <?php
                         echo "<table class = 'table table-hover table-bordered'>
                             <thead>

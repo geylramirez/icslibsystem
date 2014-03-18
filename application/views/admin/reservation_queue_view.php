@@ -307,6 +307,8 @@
 		<script>
 			
 			$(document).ready(function( ){
+				//for tooltip
+				$("a.tooltipLink").tooltip();
 
 				//Format the name into this form ( Surname, Firstname M.I.)
 				$('#reserved-nav').addClass('active');

@@ -89,36 +89,21 @@
 						<div class="col-md-6 col-md-offset-3 " style = 'height: 50px; margin-bottom : 40px;'>
 							<div style="text-align: center;" id = "alert"> </div>
 						</div>
-						<br />
-						<br />
-							<div class="row">
-								<div class="col-md-6 col-md-offset-3 ">
-									<div class="alert-container" style = 'height: 40px; padding-top: 10px; margin-bottom:10px;'>
-										<div style="display:none; height: 20px; text-align: center;" id = "success_return">  </div>
-									</div>
-								</div>
-							</div>
-					
-						<br />
-
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3 ">
+							<form method="post"  style="width: 500px ; margin-left: auto; margin-right: auto;" role="form" >
 								<div class="input-group">
-								<form method="post"  style="width: 500px ; margin-left: auto; margin-right: auto;" role="form" >
 		                            <input type="text" name="search" class="form-control"/>
 		                            <span class="input-group-btn">
 		                            <input class = "btn btn-default" type="submit" value="Search" name="search_borrowed_books"/> 
 		                        	</span>
-		                           	<div class="alert-container" style = 'height: 40px; margin: 30px;'>
-										<div style="display:none" id = "success_return" class = "alert alert-success">  </div>
-									</div>   
-		                        </form>
-                       			</div><!-- /input-group -->
+		                   		</div><!-- /input-group -->
+		                    </form>
 							</div><!-- /.col-lg-6 -->
 						</div><!-- /.row -->
-
+						<br />
 						<?php
-						  	echo"<table class='table table-hover'>
+						  	echo"<table class='table table-hover table-bordered'>
 								<thead>
 									<tr>
 										<th width='10%'><center>ISBN/ISSN</center></th>
@@ -204,6 +189,11 @@
 		
 		
 		<script>
+			$('#borrowed-nav').addClass('active');
+			$(document).ready(function(){
+				//for tooltip
+				$("a.tooltipLink").tooltip();
+			});
 			
 			function submitForm(){
 				$("#return").submit();

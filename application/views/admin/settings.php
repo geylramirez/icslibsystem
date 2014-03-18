@@ -56,20 +56,20 @@
 
 						<div id = "passwordDiv" class="form-horizontal" >
 							<div class="form-group">
-								<label class="col-sm-3 control-label"> Current Password : </label>
+								<label class="col-sm-2 control-label"> Current Password : </label>
 								<div class="col-sm-3">
 									<label class = "control-label" id="passText"> *************** </label>
 									<input type="password" class="form-control" id="passInput" value = "" >
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" id = "newPassLabel"> New Password : </label>
+								<label class="col-sm-2 control-label" id = "newPassLabel"> New Password : </label>
 								<div class="col-sm-3">
 									<input type="password" class="form-control" id="newPassInput" value = "" >
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" id = "reNewPassLabel" for = ""> Retype New Password : </label>
+								<label class="col-sm-2 control-label" id = "reNewPassLabel" for = ""> Retype New Password : </label>
 								<div class="col-sm-3">
 									<input type="password" class="form-control" id="reNewPassInput" value = "" >
 								</div>
@@ -82,9 +82,12 @@
 								</div>
 							</div>
 						</div>
-						<legend> Clear </legend>
-						<div id= "clearDiv">
-						<input id = "clear" type = "button" class = "btn btn-default" value = "Clear Reservations" style = 'margin-top: 12px;'/>
+						<br /><br /><br />
+						<div class="form-group">
+							<label class="col-sm-2 control-label"> Clear : </label>
+							<div class="col-sm-3">
+								<input id = "clear" type = "button" class = "btn btn-default" value = "Clear Reservations" style = 'margin-top: 12px;'/>
+							</div>
 						</div>
 					</div>
 					</div>
