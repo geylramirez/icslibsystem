@@ -72,8 +72,8 @@
 	        <div id="main-page">
 	            <div id = "main-content">
 	            	<br />
-					<h2> All Library Materials </h2>
-					<h5> <i> You are viewing all library materials. </i> </h5>
+					<h2> Currenlty Added Material </h2>
+					<h5> <i> You are viewing the recently added material. </i> </h5>
 					<ol class="breadcrumb">
 						<li><a href="<?php echo site_url()?>/admin/home">Home</a></li>
 						<li class="active"> View All Materials </li>
@@ -124,7 +124,7 @@
 							<div style="display:none" id = "fail_delete" class = "alert alert-danger">  </div>
 						</div> 
                     <?php
-                        echo "<table border = '1' id='myTable' class = 'table table-hover'>
+                        echo "<table class = 'table table-hover table-bordered'>
                             <thead>
                                 <tr>
 									<th style='width:11%;'><b><center>ISBN/ISSN</center></b></th>

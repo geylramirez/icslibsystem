@@ -53,7 +53,17 @@
 													if( result == "1" ){
  														deleteAccount(thisDiv);
 													} else {
-														alert( "Wrong password!" );
+														bootbox.dialog({
+															message: "Error in password!",
+															title: "Error Delete Account",
+															onEscape: function() {},
+															buttons: {
+																no: {
+																	label: "Dismiss",
+																	className: "btn-default"
+																}
+															}
+														});
 													}
 												}
 											});								
@@ -79,10 +89,30 @@
 				type : "POST",
 				url : "<?php echo site_url(); ?>/admin/delete_account",
 				data : { idnumber : idnumber },
+				beforeSend: function() {
+					$("#alert").show();
+					$("#alert").removeClass("alert alert-success");
+					$("#alert").html("<center><img src='<?php echo base_url();?>dist/images/ajax-loader.gif' /></center>");
+				},
+
+				error: function(xhr, textStatus, errorThrown) {
+					$("#alert").addClass("alert alert-success");
+					$("#alert").html( "<strong>" + xhr.status + " " + xhr.statusText + "</strong>");
+					$("#alert").fadeIn('slow');
+				},
 				success : function( result ){
 					if( result == "" ){
-						console.log("Deleted");
-						$('#'+idnumber).remove();
+						$("#alert").fadeOut('slow', function( ){
+							
+							$("#alert").addClass( " alert alert-success " );
+							$("#alert").html("<strong>" + idnumber + "</strong> account was removed.");
+							$('#'+idnumber).remove();
+							$("#alert").fadeIn('slow');
+		
+							document.body.scrollTop = document.documentElement.scrollTop = 0;
+							setTimeout(function() { $('#alert').fadeOut('slow') }, 5000);	
+						});
+						
 					}
 
 					$('table').trigger('update');

@@ -197,7 +197,7 @@
 		});
 		
 		$("#clear").click(function(){		
-				confirmUpdateSettings('clearDiv'); 	
+			confirmUpdateSettings('clearDiv'); 	
 		});
 
 		function hideInfoInput(){
@@ -253,7 +253,10 @@
 					data: { fine: fine },
 					success : function( result ){
 						if( result == "" ){
-							console.log("Updated");
+							$('#alert').addClass("alert alert-success");
+							$("#alert").html("Successfully changed the fine");
+							$("#alert").fadeIn('slow');
+							setTimeout(function() { $('#alert').fadeOut('slow') }, 5000);
 						}
 	
 						$('table').trigger('update');
@@ -448,7 +451,17 @@
 																updateSettings(thisDiv);
 																initial_hide();
 															} else {
-																alert( "Wrong password!" );
+																bootbox.dialog({
+																	message: "Error in password!",
+																	title: "Error Settings",
+																	onEscape: function() {},
+																	buttons: {
+																		no: {
+																			label: "Dismiss",
+																			className: "btn-default"
+																		}
+																	}
+																});
 															}
 														}
 
