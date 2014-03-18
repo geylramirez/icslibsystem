@@ -30,27 +30,39 @@
 						label: "Yes, continue.",
 						className: "btn-primary",
 						callback: function() {
-							var password = prompt( "Please enter admin password" ).trim();
-							
-							if(borrowed > 0){
-								alert( "Warning! Please return borrowed books before deleting your account" );
-							}
-							else if( password != "" ){
-								$.ajax({
-									type : "POST",
-									url : "<?php echo site_url(); ?>/admin/check_password",
-									data : { password : password },
-									success : function( result ){
-													console.log( result );
+							bootbox.dialog({
+							  message: "Password: <input type='password' id='pw'></input>",
+							  title: "Update settings",
+							  buttons: {
+								main: {
+								  label: "Confirm",
+								  className: "btn-primary",
+								  callback: function() {
+									console.log("Hi "+ $('#pw').val());
+									password = $('#pw').val();
+									if( password != "" ){
+										if(borrowed > 0){
+											alert( "Warning! Please return borrowed books before deleting your account" );
+										}
+										else if( password != "" ){
+											$.ajax({
+												type : "POST",
+												url : "<?php echo site_url(); ?>/admin/check_password",
+												data : { password : password },
+												success : function( result ){
 													if( result == "1" ){
  														deleteAccount(thisDiv);
 													} else {
 														alert( "Wrong password!" );
 													}
 												}
-
-								});								
-							}
+											});								
+										}								
+									}
+								  }
+								}
+							  }
+							});
 						}
 					},
 					no: {

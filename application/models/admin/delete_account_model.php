@@ -43,8 +43,12 @@ class Delete_account_model extends CI_Model{
 
 	}
 
+<<<<<<< Updated upstream
 	public function DELETE_reservations()
 	{
+=======
+	public function delete_reservations(){
+>>>>>>> Stashed changes
 		$user = trim($this->input->post('idnumber'));
 		$query = $this->db->query("DELETE FROM reservation
 									WHERE idnumber LIKE '${user}'");

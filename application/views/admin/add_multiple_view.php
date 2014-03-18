@@ -43,20 +43,26 @@
 							<li>Authors are included in the end of the file with the format Fist Name, Middle Name, Last Name, [Fist Name, Middle Name, Last Name]</li>
 						</ul>
 					</div>
+					<div class = "well">
+						<h4> Sample Format : </h4> <br />
+						<span> <strong>Title of the material </strong></span> <br />
+						<span> <strong>Material ID,	ISBN/ISSN, Course, Availablity, Accessibility, Type, Year of publication, Edition/volume, Requirement, Quantity, Author's FName, MName, LName </strong></span> <br />
+						<i> Note : All optional and non-applicable fields should be left empty. Multiple authors must be included after the Last Name of the previous author with the required format.</i>
+					</div>
 					<br />
 					<input id="uploadFile" type="file" name = "file[]" accept=".csv" class="col-sm-offset-4" />
 					<br />
+					<div>
+						<div id = "alert" style = "height: 50px; text-align: center;"> </div>
+					</div>
 					
-					<div id = "error" style = "text-align: center;"> </div>
-					<table id = "table-data-area" class = "table table-hover">
+					<table id = "table-data-area" class = "table table-hover tabler-bordered">
 						<thead>
 						</thead>
 						<tbody>
 						</tbody>
 					</table>
 					<input disabled = 'true' class = "btn btn-primary col-md-2 col-sm-offset-4" type = "button" name = "insertButton" id = "insertButton" value = "Insert to Database"/>
-					
-					<span id = "error"> </span>
 				</div>
 			</div>
 		
@@ -81,23 +87,23 @@
                 var fileExtension = $('#uploadFile').val();
                 fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.'));
                 if (validExtension.indexOf(fileExtension) < 0) {
-                    $('#error').html("Invalid file selected, valid files are of " + validExtension.toString() + " types.");
-                    $('#error').addClass('alert alert-danger');
-                    setTimeout(function(){ $('#error').fadeOut('slow'); }, 5000);
-                    setTimeout(function(){ $('#error').removeClass('alert alert-danger'); }, 6000);
+                    $('#alert').html("Invalid file selected, valid files are of " + validExtension.toString() + " types.");
+                    $('#alert').addClass('alert alert-danger');
+                    setTimeout(function(){ $('#alert').fadeOut('slow'); }, 5000);
+                    setTimeout(function(){ $('#alert').removeClass('alert alert-danger'); }, 6000);
                     return false;
                 }
                 else {
                     if (window.File && window.FileReader && window.FileList && window.Blob) {
                       // Great success! All the File APIs are supported.
-	                    $('#error').html("");
+	                    $('#alert').html("");
 	                    readBlob();
 	                    return true;
                     } else {
-                        $('#error').html("The File APIs are not fully supported in this browser.");
-	                    $('#error').addClass('alert alert-danger');
-	                    setTimeout(function(){ $('#error').fadeOut('slow'); }, 5000);
-	                    setTimeout(function(){ $('#error').removeClass('alert alert-danger'); }, 6000);
+                        $('#alert').html("The File APIs are not fully supported in this browser.");
+	                    $('#alert').addClass('alert alert-danger');
+	                    setTimeout(function(){ $('#alert').fadeOut('slow'); }, 5000);
+	                    setTimeout(function(){ $('#alert').removeClass('alert alert-danger'); }, 6000);
                         return false;
                     }
                 }

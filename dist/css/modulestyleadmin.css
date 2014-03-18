@@ -145,11 +145,59 @@ body {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .form-signin input[type="password"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+<<<<<<< Updated upstream
+=======
+
+/* TABLES - STYLE */
+table.tablesorter {
+  font-family:arial;
+  margin:10px 0pt 15px;
+  width: 100%;
+  text-align: left;
+}
+
+/* tablesorter-header tablesorter-headerUnSorted 
+  tablesorter-header tablesorter-headerAsc
+  tablesorter-header tablesorter-headerDesc
+*/
+
+
+table.tablesorter .tablesorter-headerRow .tablesorter-headerAsc {
+  background: url("../images/up.fw.png") no-repeat;
+  background-position: center right;
+  cursor: pointer;
+  padding-right: 30px;  
+}
+
+table.tablesorter .tablesorter-headerRow .tablesorter-headerDesc {
+  background: url("../images/down.fw.png") no-repeat;
+  background-position: center right;
+  cursor: pointer;
+  padding-right: 30px;  
+}
+
+table.tablesorter .tablesorter-headerRow .tablesorter-headerUnSorted {
+  background: url("../images/unsorted.fw.png") no-repeat;
+  background-position: center right;
+  cursor: pointer;
+  padding-right: 30px;  
+}
+
+.title, .table-text{
+  font-size:13px;
+}
+
+.author{
+  font-size:12px;
+}
+
+>>>>>>> Stashed changes
 /*For footer */
 div#page {
     max-width: 900px;

@@ -484,7 +484,7 @@ class Admin extends CI_Controller {
 		$authors = filter_var($authors, FILTER_SANITIZE_STRING);
 		$all_authors = array ();
 		
-		for ($i=0; $i<count($authors); $i++) {
+		for ($i=0; $i < count($authors); $i++) {
 
 			$entry = array (
 				'materialid' => $materialid,
@@ -776,7 +776,7 @@ class Admin extends CI_Controller {
 	public function delete_account(){
 		$this->load->model('admin/delete_account_model');
 		$this->delete_account_model->delete_account();
-		$this->delete_account_model->delete_reservation();
+		$this->delete_account_model->delete_reservations();
 	}
 
 
@@ -838,8 +838,7 @@ class Admin extends CI_Controller {
 		$this->settings_model->set_password( $newpw );		
 	}
 
-	public function settings_for_max(){
-	
+	public function settings_for_max(){	
 		$this->load->model('admin/settings_model');
 
 		$max = $this->input->post('max');

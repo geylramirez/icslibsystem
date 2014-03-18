@@ -69,10 +69,10 @@ class Search_user_model extends CI_Model{
 			$data->borrowed = $query->row()->borrowed;
 			//overdue books
 
-			$where = "DATEDIFF('${date_now}', expectedreturn) < 0 and idnumber LIKE '$idnum'";
+			$where = "status LIKE 'BORROWED' and DATEDIFF('${date_now}', expectedreturn) < 0 and idnumber LIKE '$idnum'";
 			$query = $this->db->query("SELECT IFNULL(COUNT(*), 0) as overdue
-									FROM borrowedmaterial 
-									WHERE ${where}");
+										FROM borrowedmaterial 
+										WHERE ${where}");
 
 			$data->overdue = $query->row()->overdue;
 
