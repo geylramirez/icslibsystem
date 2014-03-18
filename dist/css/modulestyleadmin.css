@@ -151,8 +151,6 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-<<<<<<< Updated upstream
-=======
 
 /* TABLES - STYLE */
 table.tablesorter {
@@ -197,7 +195,7 @@ table.tablesorter .tablesorter-headerRow .tablesorter-headerUnSorted {
   font-size:12px;
 }
 
->>>>>>> Stashed changes
+
 /*For footer */
 div#page {
     max-width: 900px;
