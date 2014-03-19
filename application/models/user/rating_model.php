@@ -91,7 +91,7 @@ class Rating_model extends CI_Model
 
 	}
 
-	public function getRating($materialid
+	public function getRating($materialid)
 	{
 		$stmt = "SELECT AVG(rating)  AS avg FROM rating WHERE materialid = '${materialid}'";
 		

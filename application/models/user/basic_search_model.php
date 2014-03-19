@@ -36,6 +36,7 @@ if(! defined('BASEPATH')) exit ('No direct script access allowed');
 
 			$temp_search = explode(" ", $search);
 
+		
 			for( $i=0; $i<count($temp_search); $i++ )
 			{	
 				//get the queries
@@ -82,7 +83,7 @@ if(! defined('BASEPATH')) exit ('No direct script access allowed');
 
 				$query = $this->db->query($stmt);
 				$query = $query->result();
-				
+		
 				foreach ($query as $tuple)
 				{
 					if(!isset($tuple->materialid))

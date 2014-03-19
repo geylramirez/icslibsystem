@@ -38,7 +38,8 @@
 				?>
 					<ol class="breadcrumb">
 					  <li><a href="<?php echo site_url();?>">Home</a></li>
-					  <?php
+					  <li class="active">Search library</a></li>
+					 <!-- <?php
 					  	if($email){
 					  		echo "<li class='active'><a href='";
 					  		echo site_url();
@@ -49,7 +50,7 @@
 					  		echo site_url();
 					  		echo "/borrower/outside_search'>Search library</a></li>";	
 					  	}
-					  ?>
+					  ?> -->
 					  
 					</ol>
 					<!--search bar-->
@@ -68,7 +69,16 @@
 								$waitlist_flag=0;
 								$rowNum 	 = 0;
 								if($value!=NULL){
-									?>
+									$value_count = count($value);
+									
+									if($input!=''){
+										echo $value_count;
+										if($value_count==1) echo " result ";
+										else echo " results ";
+										echo "found for '".$input."'.<br/>";
+									} 
+						?>
+
 										<div>
 											<table class="table table-hover tablesorter" id="myTable" summary="Results" border="1" cellspacing="5" cellpadding="5" align = "center">
 											<thead>
@@ -88,22 +98,6 @@
 												</tr>
 											</thead>
 											
-											<tfoot>
-												<tr>
-													<th width="10%" abbr="ISBN" scope="col" title="ISBN/ISSN">ISBN</th>
-													<th width="10%" abbr="lmID" scope="col" title="Library Material ID">Material ID</th>
-													<th width="1%" abbr="Type" scope="col" title="Type">Type</th>
-													<th width="58%" abbr="Library Information" scope="col" title="Description">Library Information</th>
-													<th width='10%' abbr='copies' scope='col' title='copies'>Number of Available Copies</th>
-															
-													<?php
-														if($email){
-															echo "<th width='10%' abbr='Queue' scope='col' title='Rank'>Rank</th>";
-															echo "<th width='10%' abbr='Act' scope='col' title='Action'>Action</th>";
-														}
-													?>
-												</tr>
-											</tfoot>
 											
 									<?php
 									$count = 0;				
@@ -127,8 +121,8 @@
 											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='CD'><span class='glyphicon glyphicon-headphones'></span></a>";
 										else if($row['type'] == 'SP')
 											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='SP'><span class='glyphicon glyphicon-file'></span></a>";
-										else if($row['type'] == 'Reference')
-											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Reference'><span class='glyphicon glyphicon-paperclip'></span></a>";
+										else if($row['type'] == 'References')
+											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='References'><span class='glyphicon glyphicon-paperclip'></span></a>";
 										else if($row['type']== 'Journals')
 											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Journal'><span class='glyphicon glyphicon-pencil'></span></a>";
 										else if($row['type']== 'Magazines')
@@ -141,84 +135,82 @@
 										/*echo "<td><span class='table-text'><b> ${row['name']} </b></span> <br/>
 
 										<span class='author'> ${row['authorname']}</span><br /></td>";*/
-										echo "<td><b><span class ='title'>${row['name']}.</b></span><br />";
-
+										echo "<td><b><span class ='title'>${row['name']}.</b></span><br />";									
 										foreach ($row['author'] as $name) {
 											$name = (array)$name;
 											echo "<span class ='author'> ${name['lname']}, ${name['fname']} ${name['mname']}.</span>";
 										}
 
-										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-										
+										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 										if($email){
 											if(($this->session->userdata('classification') == 'F' && $row['access']!=1) || $this->session->userdata('classification') == 'S' && $row['access']!=2){
-												echo "<br />Ratings: <select class = 'btn btn-default btn-sm rating' name='$count'>";
+												echo "<br />Ratings: &nbsp";
 												if(isset($row['rating'])){ 
-													if($row['rating']==1){
-													  echo "<option value='0'>0</option>
-													  <option value='1' SELECTED>1</option>
-													  <option value='2'>2</option>
-													  <option value='3'>3</option>
-													  <option value='4'>4</option>
-													  <option value='5'>5</option>";
-													}
-													else if($row['rating']==2){
-													  echo "<option value='0'>0</option>
-													  <option value='1'>1</option>
-													  <option value='2' SELECTED>2</option>
-													  <option value='3'>3</option>
-													  <option value='4'>4</option>
-													  <option value='5'>5</option>";
-													}
-													else if($row['rating']==3){
-													  echo "<option value='0'>0</option>
-													  <option value='1'>1</option>
-													  <option value='2'>2</option>
-													  <option value='3' SELECTED>3</option>
-													  <option value='4'>4</option>
-													  <option value='5'>5</option>";
-													}
-													else if($row['rating']==4){
-													  echo "<option value='0'>0</option>
-													  <option value='1'>1</option>
-													  <option value='2'>2</option>
-													  <option value='3'>3</option>
-													  <option value='4' SELECTED>4</option>
-													  <option value='5'>5</option>";
-													}
-													else if($row['rating']==5){
-													  echo "<option value='0'>0</option>
-													  <option value='1'>1</option>
-													  <option value='2'>2</option>
-													  <option value='3'>3</option>
-													  <option value='4'>4</option>
-													  <option value='5' SELECTED>5</option>";
-													}else{
-														echo "<option value='0' SELECTED>0</option>
-													  <option value='1'>1</option>
-													  <option value='2'>2</option>
-													  <option value='3'>3</option>
-													  <option value='4'>4</option>
-													  <option value='5'>5</option>";
-													}
-
-
+												if($row['rating']==1){
+												 echo "<div style = 'display:inline-block;' name='$count'>
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}' value='1' id='1' class='rating' onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='2' id='2' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='3' id='3' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='4' id='4' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='5' id='5' class='rating'  onclick='fillstar(this)' />&nbsp;";
 												}
-												else {
-													echo "<option value='0' SELECTED>0</option>
-													  <option value='1'>1</option>
-													  <option value='2'>2</option>
-													  <option value='3'>3</option>
-													  <option value='4'>4</option>
-													  <option value='5'>5</option>";
+												else if($row['rating']==2){
+												 echo "<div style = 'display:inline-block;' name='$count'>
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='1' id='1' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='2' id='2' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='3' id='3' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='4' id='4' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='5' id='5' class='rating'  onclick='fillstar(this)' />&nbsp;</div>";
 												}
+												else if($row['rating']==3){
+												 echo "<div style = 'display:inline-block;' name='$count'>
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='1' id='1' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='2' id='2' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='3' id='3' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='4' id='4' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='5' id='5' class='rating'  onclick='fillstar(this)' />&nbsp;</div>";
+												}
+												else if($row['rating']==4){
+												 echo "<div style = 'display:inline-block;' name='$count'>
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='1' id='1' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='2' id='2' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='3' id='3' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='4' id='4' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='5' id='5' class='rating'  onclick='fillstar(this)' />&nbsp;</div>";
+												}
+												else if($row['rating']==5){
+												  echo "<div style = 'display:inline-block;' name='$count'>
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='1' id='1' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='2' id='2' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='3' id='3' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='4' id='4' class='rating'  onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/fullstar.jpg' name='{$row['materialid']}'value='5' id='5' class='rating'  onclick='fillstar(this)' />&nbsp;";
+												}else{
+													echo "<div style = 'display:inline-block;' name='$count'>
+														<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='1' id='1' class='rating' onclick='fillstar(this)' />&nbsp;
+														<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}  value='2' id='2' class='rating' onclick='fillstar(this)' />&nbsp;
+														<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='3' id='3' class='rating' onclick='fillstar(this)' />&nbsp;
+														<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}  value='4' id='4' class='rating' onclick='fillstar(this)' />&nbsp;
+														<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='5' id='5' class='rating' onclick='fillstar(this)' />&nbsp;";
+												}
+											}
+											else {
+												  echo "<div style = 'display:inline-block;' name='$count'>
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}'value='1' id='1' class='rating' onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}' value='2' id='2' class='rating' onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}' value='3' id='3' class='rating' onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}' value='4' id='4' class='rating' onclick='fillstar(this)' />&nbsp;
+													<img style='float:left;cursor:pointer;height:15px;width:15px;' src='".base_url()."dist/images/emptystar.jpg' name='{$row['materialid']}' value='5' id='5' class='rating' onclick='fillstar(this)' />&nbsp;";
+											}
 
-												echo "</select><span id='$count'>";
-												if($row['avg']==null) echo " Average: 0"; 
-												else echo "  Average: ".($row['avg']);
-												echo "</span></td>";
+												
 											}
 										}
+										echo "<span id='span".$count."'>";
+										if($row['avg']==null) echo " Average Rating: 0"; 
+										else echo "  Average Rating: ".($row['avg']);
+										echo "</div></span></td>";
+
 										$available = $row['quantity'] - $row['borrowedcopy'];
 										echo "<td><span class='table-text'><center>".$available." of " .$row['quantity']."</center></span></td>";
 										if($email){
@@ -355,7 +347,11 @@
 	</div> <!--container-->
 
 	<div class="container marketing">
-		<?php if(!$this->session->userdata('email'))include 'home_footer.php'; ?>
+		<?php if(!$this->session->userdata('email'))
+				include 'home_footer.php'; 
+				else 
+				echo "<a href='#' class='back-to-top'><span class='glyphicon glyphicon-chevron-up'></span></a>";
+		?>
 		
 	<script src="<?php echo base_url(); ?>dist/js/bootstrap.js"></script>
     <script src="<?php echo base_url(); ?>dist/js/holder.js"></script>
@@ -369,6 +365,22 @@
 <script type="text/javascript" language="javascript" src="<?php echo base_url();?>dist/js/widget-pager.js"></script>
 
 <script id="js">
+	var offset = 220;
+	var duration = 500;
+	jQuery(window).scroll(function() {
+		if (jQuery(this).scrollTop() > offset) {
+			jQuery('.back-to-top').fadeIn(duration);
+		} else {
+			jQuery('.back-to-top').fadeOut(duration);
+		}
+	});
+
+	jQuery('.back-to-top').click(function(event) {
+		event.preventDefault();
+		jQuery('html, body').animate({scrollTop: 0}, duration);
+		return false;
+	});
+
 			function fillstar(Obj){
 				var stars=document.getElementsByName(Obj.name);
 				for(i=0;i<stars.length;i++){
@@ -456,7 +468,7 @@
 				$('#display')
 					.append('<li><span class="str">"' + e.type + msg + '</li>')
 					.find('li:first').remove();
-				document.body.scrollTop = document.documentElement.scrollTop = 0;
+					jQuery('html, body').animate({scrollTop: 0}, 100);
 			})
 
 			.tablesorterPager(pagerOptions);
@@ -480,25 +492,25 @@
 	
 $(document).ready(function()
 {		
-		$(".rating").change( function(){
-			var rating = $(this).val();
-			var materialid = $(this).parent().siblings('.matID').text().trim();
-			var isbn = $(this).parent().siblings('.isbn').text().trim();
-			var index = $(this).attr('name');
+		$(".rating").click( function(){
+			var rating = $(this).attr('value');
+			
+			var materialid = $(this).closest('td').siblings('.matID').text().trim();
+			var isbn = $(this).closest('td').siblings('.isbn').text().trim();
+			var index = $(this).closest('div').attr('name');
 			if( isbn == "---" ) isbn = "+" + materialid.trim();	
-					
+
 			$.ajax({
 				type: "post",
 				url: "<?php echo site_url();?>/borrower/insert_rating",
 				data: { materialid: materialid, isbn: isbn, rating: rating },
 				success: function(data){
-					//alert(data);
 
-					$("#"+index+"").text(" Average: "+data);
+					$("#span"+index+"").text(" Average: "+data);
 				},
 				error: function()
 				{
-					//alert('Reservation failed. Try again.');
+					alert('Failed rating the library material.');
 				}
 			});
 		});
@@ -518,7 +530,7 @@ $(document).ready(function()
 		var req="";
 		if(requirement==1)
 			req = "<strong>Requirement:</strong><br/>Consent from the instructor.<br/>";
-	
+			
 		bootbox.dialog({
 			message: req + str,
 			title: "Reserve Material",
@@ -542,7 +554,7 @@ $(document).ready(function()
 								$("#failed").attr('class', 'alert alert-danger');
 								$("#failed").fadeIn('slow');
 								$("#failed").show();
-								$("#failed").html("Reservation <strong>failed</strong>. You can only have atmost 3 reserved and borrowed materials.");
+								$("#failed").html("Reservation for "+materialid+" <strong>failed</strong>. You can only have atmost "+data.max+" reserved and borrowed materials.");
 								document.body.scrollTop = document.documentElement.scrollTop = 0;
 								setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
 							}
@@ -556,7 +568,7 @@ $(document).ready(function()
 								
 								thisButton.hide();
 								thisButton.next().show();
-								$("#success").html("You have successfully placed your <strong>reservation</strong> for this material.");		
+								$("#success").html("You have successfully placed your <strong>reservation</strong> for "+materialid+".");		
 								$("#success").attr('class', 'alert alert-success');
 								$("#success").fadeIn('slow');
 								$("#success").show();
@@ -571,7 +583,7 @@ $(document).ready(function()
 							$("#failed").attr('class', 'alert alert-danger');
 							$("#failed").fadeIn('slow');
 							$("#failed").show();
-							$("#failed").html("Reservation <strong>failed</strong>. Please try again.");
+							$("#failed").html("Reservation for "+materialid+" <strong>failed</strong>. Please try again.");
 							document.body.scrollTop = document.documentElement.scrollTop = 0;
 							setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
 						}
@@ -588,7 +600,8 @@ $(document).ready(function()
 		
 
 	$(".cancel_button").click( function(){
-		var materialid = $(this).val();
+		var a = $(this).val().split("|");
+		var materialid = a[0];
 		var thisButton = $(this);
 		var parent = $(this).parent().parent().parent();
 		var r_queue = $.trim(parent.siblings('.queue').text());
@@ -626,7 +639,7 @@ $(document).ready(function()
 								$("#failed").attr('class', 'alert alert-danger');
 								$("#failed").fadeIn('slow');
 								$("#failed").show();
-								$("#failed").html("Cancellation <strong>failed</strong>. Please try again.");
+								$("#failed").html("Cancellation for "+materialid+" <strong>failed</strong>. Please try again.");
 								document.body.scrollTop = document.documentElement.scrollTop = 0;
 								setTimeout(function() { $('#failed').fadeOut('slow') }, 3000);
 							}

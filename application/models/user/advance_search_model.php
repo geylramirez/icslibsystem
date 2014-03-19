@@ -44,9 +44,11 @@
 				//check accessibility
 				if($s_accessibility == 'student'){
 					$conditions[] = " (l.access != 2 AND l.access !=3) ";
-				} else if($s_accessibility == 'faculty' || $s_accessibility == 'both'){
-					$conditions[] = " (l.access = 4) ";
-				} else if($s_accessibility == 'roomuse'){
+				} else if($s_accessibility == 'faculty'){
+					$conditions[] = " (l.access = 2) ";
+				}else if($s_accessibility == 'both'){
+					$conditions[] = "(l.access = 4)";
+				}else if($s_accessibility == 'roomuse'){
 					$conditions[] = " (l.access = 3) ";
 				}
 
@@ -74,7 +76,7 @@
 							 l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol,
 							 l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
 							 FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid 
-							 WHERE ( ". implode(' AND ', $conditions) . ") AND " . implode(' OR ', $cond) . " ORDER BY l.name";
+							 WHERE ( ". implode(' AND ', $conditions) . ") AND (" . implode(' OR ', $cond) . ") ORDER BY l.name";
 				}
 				else
 				{
@@ -82,7 +84,7 @@
 							 l.materialid, l.isbn, l.name, l.course, l.available, l.access, l.type, l.year, l.edvol, 
 							 l.borrowedcount, l.requirement, l.quantity, l.borrowedcopy
 							 FROM librarymaterial l INNER JOIN author a ON a.materialid = l.materialid 
-							 WHERE ( ". implode(' AND ', $conditions)  . " ORDER BY l.name";	
+							 WHERE ( ". implode(' AND ', $conditions)  . ") ORDER BY l.name";	
 				}
 
 				$query = $this->db->query($stmt);

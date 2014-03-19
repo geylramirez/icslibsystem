@@ -327,4 +327,32 @@ a.tooltipLink { color: inherit; }
 
 .back-to-top:hover {    
     background-color: rgba(135, 135, 135, 0.50);
-}  
+} 
+
+#side-png-background{
+	color:#141414;
+	padding-top:100px;
+	padding-right: 50px;
+	padding-left:10px;
+	width:500px;
+	height:500px;
+	background-image: url(../images/side2.png);
+}
+
+#register-container-margin{
+	margin-top: 18px;
+}
+
+.ul-font{
+	color:#141414;
+	font-size:17px;
+}
+
+#bg{
+	padding:10px;
+	/*background: rgba(211,211,211,0.3);*/
+} 
+
+.badge{
+	background-color:#BC0000;
+}

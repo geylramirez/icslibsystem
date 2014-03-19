@@ -108,7 +108,28 @@ class Borrowed_model extends CI_Model
 		//Returns the resulting array.
 		return $return_array;					
 	}
+	public function get_return_date(){
+		$return_array3 = array();
+		$this->load->database();
 	
+		//Reserved Books
+		$idnum=$this->session->userdata('idnumber');
+		$query = $this->db->query("SELECT borrowedmaterial.expectedreturn as expected_return, author.fname, author.mname, author.materialid, author.lname,librarymaterial.name, librarymaterial.year, librarymaterial.type
+									FROM librarymaterial 
+									JOIN borrowedmaterial 
+										ON librarymaterial.materialid = borrowedmaterial.materialid
+									JOIN author
+										ON author.materialid = borrowedmaterial.materialid
+									JOIN settings
+									WHERE borrowedmaterial.idnumber = '$idnum'
+									AND borrowedmaterial.actualreturn IS NULL
+									ORDER BY expected_return desc");
+					
+		$result = $query->result();
+		foreach ($result as $tuple)
+			$return_array3[count($return_array3)] = (array)$tuple;
+		return $return_array3;
+	}
 
 	/*
 	*	Function that gets the lists of the reserved materials in the system.

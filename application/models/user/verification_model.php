@@ -32,7 +32,14 @@
 
 			$this->db->insert('borrower',$data);
 		}
-		
+		public function check_account($email){
+			$sql = "SELECT email FROM borrower WHERE email = '{$email}'";
+			$result = $this->db->query($sql);
+			//echo "<br/><br/><br/><br/><br/><br/>".count($result);
+			if(count($result)==1) return true;
+			else return false;
+				
+		}
 
 		/**
 		*	function that sends a verification email to the user
