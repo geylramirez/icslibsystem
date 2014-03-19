@@ -1,5 +1,4 @@
 
-
 <?php 
 
 	if($this->session->userdata('email'))
@@ -113,7 +112,7 @@
 									else if($row['type']== 'Magazines')
 										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Magazine'><span class='glyphicon glyphicon-picture'></span></a>";
 									else if($row['type'] == 'Thesis')
-										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Thesi'><span class='glyphicon glyphicon-bookmark'></span></a>";
+										$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Thesis'><span class='glyphicon glyphicon-bookmark'></span></a>";
 																	
 									echo "$type</center></td>";
 									echo "<td><span class='table-text'><b>${row['name']}</b></span><br><span class='author'>${row['authorname']}. ${row['year']}.</span></td>";
@@ -222,7 +221,7 @@
 									}
 								}
 								  echo "<td> ${rrank} of ${t_q} </td>";
-								  echo "<td><button class=\"cancel_button btn btn-danger\" data-dismiss=\"modal\" name = 'materialid' value='${row['materialid']}'><span class='glyphicon glyphicon-remove'></button>" . "</td>";
+								  echo "<td><button class=\"cancel_button btn btn-danger\" data-dismiss=\"modal\" name = 'materialid' value='${row['materialid']}'><a data-toggle='tooltip' class='tooltipLink' data-original-title='Cancel reservation'><span class='glyphicon glyphicon-remove'></span></a></button>" . "</td>";
 								  echo "</tr>";
 							  }
 						}
