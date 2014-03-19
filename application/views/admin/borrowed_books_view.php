@@ -169,7 +169,7 @@
 											if ($finalfine > 0) echo "<td><span class='table-text'>Overdue</span></td>";
 											else echo "<td><span class='table-text'>0.00</span></td>";
 										}
-										echo "<td><button onclick = 'returnBook($(this))' class='returnButton btn btn-primary' name='return'><span class='glyphicon glyphicon-remove-circle'></span></button>";
+										echo "<td><button onclick = 'returnBook($(this))' class='returnButton btn btn-primary' name='return'><a data-toggle='tooltip' class='tooltipLink' data-original-title='Return'><span class='glyphicon glyphicon-remove-circle'></span></a></button>";
 										echo "</td></tr>";
 									}//for	
 									
