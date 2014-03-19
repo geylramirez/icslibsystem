@@ -248,7 +248,22 @@
 					url : "<?php echo site_url(); ?>/admin/search_user",
 					data : { search : search },
 					dataType : "json",
+					beforeSend: function() {
+						$("#alert").show();	
+						$("#alert").removeClass("alert alert-success");
+						$("#alert").html("<center><img src='<?php echo base_url();?>dist/images/ajax-loader.gif' /></center>");
+					},
+
+					error: function(xhr, textStatus, errorThrown) {
+						$("#alert").addClass("alert alert-success");
+						$("#alert").html( "<strong>" + xhr.status + " " + xhr.statusText + "</strong>");
+						$("#alert").fadeIn('slow');
+					},
 					success : function( result ){
+						$("#alert").fadeOut('slow', function(){
+							$("#alert").hide();	
+						});
+
 						if( result.length != 0 ){
 							$('tbody').html("");
 							for( var i = 0; i < result.length; i++ ){
@@ -272,6 +287,12 @@
 			});	
 		</script>
 		<script>
+				$("#searchUser").keypress(function(event){
+					if(event.keyCode == 13){
+						event.preventDefault();
+						$("#searchUserButton").click();
+					}
+				});
 				//back to top code
 				var offset = 220;
 			    var duration = 500;
