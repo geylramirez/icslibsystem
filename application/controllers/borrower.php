@@ -155,7 +155,7 @@ public function home(){
 		}
 	}
 	
-	public function login($message){
+	public function login($message=''){
 		$is_logged_in = $this->is_logged_in();
 		$this->no_cache();
 		if( $is_logged_in ){
@@ -292,7 +292,7 @@ public function logout()
 			$data['total'] = $this->reservation_model->get_total($userid); //end update
 			$data['searchtext']="";
 			
-			$this->load->view('user/profile', $data);
+			redirect('borrower/home', 'refresh');
 		}else redirect('borrower/', 'refresh');
 	}
 
