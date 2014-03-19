@@ -201,8 +201,8 @@
 												echo "<td align='center'>";
 												echo "<form method='post' name='update' action='update_material'>";
 												echo "<input type='hidden' name='materialid' value='" . $q->materialid . "'/>";
-												echo "<button type='submit' class='updateButton btn btn-default' name='update'><span class='glyphicon glyphicon-edit'></button></form>";
-												echo "<button onclick = 'deleteBook($(this))' class='deleteButton btn btn-danger' name='return'><span class='glyphicon glyphicon-remove'></button>";
+												echo "<button type='submit' class='updateButton btn btn-default' name='update'><a data-toggle='tooltip' class='tooltipLink' data-original-title='Edit'><span class='glyphicon glyphicon-edit'></span></a></button></form>";
+												echo "<button onclick = 'deleteBook($(this))' class='deleteButton btn btn-danger' name='return'><a data-toggle='tooltip' class='tooltipLink' data-original-title='Delete'><span class='glyphicon glyphicon-remove'></span></a></button>";
 												echo "</td></tr>";
 											}
                                        	echo "</tbody>";
