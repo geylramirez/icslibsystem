@@ -295,8 +295,8 @@
 												$reserve= "reserve_button";
 
 											//	echo $row['requirement'];
-												echo "<span><button class='btn btn-primary ". $reserve. "' name='reserve'  value='".$materialid. "|". $requirement."'><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
-												echo "<button class='btn btn-danger cancel_button' style='display:none;'  name='reserve' value='".$materialid. "|". $requirement."' onclick = \"sendRow(".$rowNum.")\"><span class = 'glyphicon glyphicon-remove'></span></button></span>";
+												echo "<span><button class='btn btn-primary ". $reserve. "' name='reserve'  value='".$materialid. "|". $requirement."'><a data-toggle='tooltip' class='tooltipLink' data-original-title='Reserve'><span class = 'glyphicon glyphicon-shopping-cart'></span></a></button>";
+												echo "<button class='btn btn-danger cancel_button' style='display:none;'  name='reserve' value='".$materialid. "|". $requirement."' onclick = \"sendRow(".$rowNum.")\"><a data-toggle='tooltip' class='tooltipLink' data-original-title='Cancel reservation'><span class = 'glyphicon glyphicon-remove'></span></a></button></span>";
 												echo "</center></td></tr>";
 												$rowNum++;
 											}
