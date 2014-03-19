@@ -128,7 +128,7 @@
 										else if($row['type']== 'Magazines')
 											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Magazine'><span class='glyphicon glyphicon-picture'></span></a>";
 										else if($row['type'] == 'Thesis')
-											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Thesi'><span class='glyphicon glyphicon-bookmark'></span></a>";
+											$type = "<a data-toggle='tooltip' class='tooltipLink' data-original-title='Thesis'><span class='glyphicon glyphicon-bookmark'></span></a>";
 											
 										echo "<td class = 'type' align='center'>". $type ."</td>";
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -252,8 +252,8 @@
 											if($waitlist_flag==1){
 												$materialid=$row['materialid'];
 												echo "<td><center>";
-												echo "<span><button class='btn btn-primary reserve_button' style='display:none;' name='reserve'  value='".$materialid."'><span class = 'glyphicon glyphicon-shopping-cart'></span></button>";
-												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\"><span class = 'glyphicon glyphicon-remove'></span></button></span></td></tr>";	
+												echo "<span><button class='btn btn-primary reserve_button' style='display:none;' name='reserve'  value='".$materialid."'><a data-toggle='tooltip' class='tooltipLink' data-original-title='Reserve'><span class = 'glyphicon glyphicon-shopping-cart'></span></a></button>";
+												echo "<button class='btn btn-danger cancel_button' name='reserve' value='".$materialid."' onclick = \"sendRow(".$rowNum.")\"><a data-toggle='tooltip' class='tooltipLink' data-original-title='Cancel reservation'><span class = 'glyphicon glyphicon-remove'></span></a></button></span></td></tr>";	
 											}
 											else if($reserved_flag==1){
 												echo "<td><span class='table-text'><center>" . "BORROWED" . "</span></center></td>";
