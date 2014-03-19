@@ -356,3 +356,24 @@ a.tooltipLink { color: inherit; }
 .badge{
 	background-color:#BC0000;
 }
+
+table.tablesorter .tablesorter-headerRow .tablesorter-headerAsc {
+  background: url("../images/up.fw.png") no-repeat;
+  background-position: center right;
+  cursor: pointer;
+  padding-right: 30px;  
+}
+
+table.tablesorter .tablesorter-headerRow .tablesorter-headerDesc {
+  background: url("../images/down.fw.png") no-repeat;
+  background-position: center right;
+  cursor: pointer;
+  padding-right: 30px;  
+}
+
+table.tablesorter .tablesorter-headerRow .tablesorter-headerUnSorted {
+  background: url("../images/unsorted.fw.png") no-repeat;
+  background-position: center right;
+  cursor: pointer;
+  padding-right: 30px;  
+}
