@@ -166,25 +166,29 @@ table.tablesorter {
 */
 
 
-table.tablesorter .tablesorter-headerRow .tablesorter-headerAsc {
+table.tablesorter .tablesorter-headerRow th.tablesorter-headerAsc {
   background: url("../images/up.fw.png") no-repeat;
   background-position: center right;
   cursor: pointer;
   padding-right: 30px;  
 }
 
-table.tablesorter .tablesorter-headerRow .tablesorter-headerDesc {
+table.tablesorter .tablesorter-headerRow th.tablesorter-headerDesc {
   background: url("../images/down.fw.png") no-repeat;
   background-position: center right;
   cursor: pointer;
   padding-right: 30px;  
 }
 
-table.tablesorter .tablesorter-headerRow .tablesorter-headerUnSorted {
+table.tablesorter .tablesorter-headerRow th.tablesorter-headerUnSorted {
   background: url("../images/unsorted.fw.png") no-repeat;
   background-position: center right;
   cursor: pointer;
   padding-right: 30px;  
+}
+
+table.tablesorter .tablesorter-headerRow {
+  font-weight: bold;
 }
 
 .title, .table-text{

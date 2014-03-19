@@ -39,12 +39,22 @@ class Borrower extends CI_Controller {
 		$this->output->set_header('Pragma: no-cache');
 	}
 
+	public function update_reservations(){
+		$this->load->model('admin/reservation_queue_model');
+		$this->reservation_queue_model->update_reservations();		
+	}
+
 	public function is_logged_in(){
+		$this->update_reservations();
+		
 		$this->load->library("session");
 		
 		$this->load->model('user/verification_model');
 		$email = $this->session->userdata('email');
 		$logged_in = $this->verification_model->check_account($email);
+		
+	
+
 		if($logged_in==false) {
 			//$this->logout();
 			$this->sess_destroy();

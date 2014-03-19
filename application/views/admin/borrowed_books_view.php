@@ -117,7 +117,7 @@
 							if ($enable_fine == 0) echo "<th width='5%'><center>Status</center></th>";
 							else echo "<th width='5%'><center>Fine</center></th>";
 										
-							echo "<th width='5%'><center>Action</center></th> </tr></thead>";
+							echo "<td width='5%'><center>Action</center></td> </tr></thead>";
 							echo "<tbody>";
 							//if( !$this->input->post('search_borrowed_books') )
 							//	echo "<span><center>No borrowed books to be claimed.</center></td>";  
@@ -167,7 +167,7 @@
 										}
 										else {
 											if ($finalfine > 0) echo "<td><span class='table-text'>Overdue</span></td>";
-											else echo "<td><span class='table-text'>0.00</span></td>";
+											else echo "<td><span class='table-text'> Borrowed </span></td>";
 										}
 										echo "<td><button onclick = 'returnBook($(this))' class='returnButton btn btn-primary' name='return'><a data-toggle='tooltip' class='tooltipLink' data-original-title='Return'><span class='glyphicon glyphicon-remove-circle'></span></a></button>";
 										echo "</td></tr>";

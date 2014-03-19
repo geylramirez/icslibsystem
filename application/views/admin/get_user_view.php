@@ -164,7 +164,7 @@
 									<th width="10%"><center>Student/Employee Number</center></th>
 									<th width="55%"><center>Borrower Information</center></th>
 									<th width="15%"><center>Status</center></th>
-									<th width="20%"><center>Remove</center></th>
+									<td width="20%"><center>Remove</center></td>
 								</tr>
 							</thead>
 							

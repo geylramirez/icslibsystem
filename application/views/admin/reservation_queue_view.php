@@ -213,7 +213,7 @@
 										<th width="5%"><center>Borrower</center></th>
 										<th width="8%"><center>Claim Date</center></th>
 										<th width="5%"><center>Rank</center></th>
-										<th width="12%"><center>Action</center></th>
+										<td width="12%"><center>Action</center></td>
 									</tr>
 								</thead>
 								<tbody>

@@ -343,8 +343,8 @@ class Admin extends CI_Controller {
 		}else $isbn = "+".$materialid;
 		if ($type == 'Book' || $type == 'References' || $type == 'CD'){
 			$course = $this->input->post('course');
-			$course = htmlspecialchars($course);
-			$course = filter_var($course, FILTER_SANITIZE_STRING);
+		//	$course = htmlspecialchars($course);
+		//	$course = filter_var($course, FILTER_SANITIZE_STRING);
 		}else $course = 0;
 		$name = $this->input->post('name');
 		//$name = htmlspecialchars($name);
@@ -439,13 +439,13 @@ class Admin extends CI_Controller {
 		//$type = filter_var($type, FILTER_SANITIZE_STRING);
 		if ($type == 'Book' || $type == 'References' || $type == 'Journals' || $type == 'Magazines'){
 			$isbn = $this->input->post('isbn');
-		//	$isbn = htmlspecialchars($isbn);
-		//	$isbn = filter_var($isbn, FILTER_SANITIZE_NUMBER_INT);
+			//$isbn = htmlspecialchars($isbn);
+			//$isbn = filter_var($isbn, FILTER_SANITIZE_NUMBER_INT);
 		}else $isbn = "+".$materialid;
 		if ($type == 'Book' || $type == 'References' || $type == 'CD'){
 			$course = $this->input->post('course');
-		//	$course = htmlspecialchars($course);
-		//	$course = filter_var($course, FILTER_SANITIZE_STRING);
+			//$course = htmlspecialchars($course);
+			//$course = filter_var($course, FILTER_SANITIZE_STRING);
 		}else $course = null;
 		$name = $this->input->post('name');
 		//$name = htmlspecialchars($name);
@@ -513,17 +513,21 @@ class Admin extends CI_Controller {
     }
 	
 	public function show_recent($materialid=""){
-		$this->load->model('admin/admin_model');
-		$filter = "none";
-		$type = "allTypes";
-		$access ="allAccess";
-		$avail ="allAvail";
-		$data['sql2'] = array();
-		$query_result = $this->admin_model->search($filter,$type,$materialid,$access,$avail);
-		array_push($data['sql2'], $query_result[0]);
-		//var_dump($query_result);
-		$data['flag'] = $data['sql2'];
-		$this->load->view('admin/show_recent_view',$data);
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){
+			redirect('/admin/login', 'refresh');
+		} else {
+			$this->load->model('admin/admin_model');
+			$filter = "none";
+			$type = "allTypes";
+			$access ="allAccess";
+			$avail ="allAvail";
+			$data['sql2'] = array();
+			$query_result = $this->admin_model->search($filter,$type,$materialid,$access,$avail);
+			array_push($data['sql2'], $query_result[0]);
+			$data['flag'] = $data['sql2'];
+			$this->load->view('admin/show_recent_view',$data);
+		}
 	}
 
 	public function update_material()
@@ -747,6 +751,9 @@ class Admin extends CI_Controller {
 
 	
 	public function insert_multiple(){
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
+		
 		$this->load->model('admin/insert_multiple_model');
 		$this->insert_multiple_model->insert_to_db();	
 			
@@ -765,6 +772,9 @@ class Admin extends CI_Controller {
 	}
 
 	public function clear_reservation(){
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
+		
 		$this->load->model('admin/clear_reservation_model');
 		$this->clear_reservation_model->clear();
 		
@@ -776,6 +786,9 @@ class Admin extends CI_Controller {
 	} 
 
 	public function delete_account(){
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
+		
 		$this->load->model('admin/delete_account_model');
 		$this->delete_account_model->delete_account();
 		$this->delete_account_model->delete_reservations();
@@ -797,12 +810,17 @@ class Admin extends CI_Controller {
 	}
 
 	public function settings_for_enable(){	
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
+		
 		$this->load->model('admin/settings_model');
 		$this->settings_model->set_enable();	
 	
 	}
 	
 	public function settings_for_disable(){
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
 		
 		$this->load->model('admin/settings_model');	
 		$this->settings_model->set_disable();	
@@ -810,7 +828,9 @@ class Admin extends CI_Controller {
 	}
 
 	public function settings_for_info(){
-	
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
+		
 		$this->load->model('admin/settings_model');
 
 		$start_sem_value = $this->input->post('start_sem_value');
@@ -822,13 +842,10 @@ class Admin extends CI_Controller {
 	public function settings_for_fine(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
-
+		
 		$this->load->model('admin/settings_model');
 
 		$fine = $this->input->post('fine');
-
-		if( !$this->input->post('fine') ) return;
-
 		$fine = htmlspecialchars($fine);
 		$fine = filter_var($fine, FILTER_SANITIZE_NUMBER_INT);
 		$this->settings_model->set_fine( $fine );	
@@ -837,13 +854,10 @@ class Admin extends CI_Controller {
 	public function settings_for_password(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
-
+		
 		$this->load->model('admin/settings_model');
 		
 		$newpw = $this->input->post('newpw');
-		
-		if( !$this->input->post('newpw') ) return;
-
 		$newpw = htmlspecialchars($newpw);
 		$newpw = mysql_real_escape_string($newpw);
 		$newpw = filter_var($newpw, FILTER_SANITIZE_STRING);
@@ -851,6 +865,9 @@ class Admin extends CI_Controller {
 	}
 
 	public function settings_for_max(){	
+		$is_logged_in = $this->is_logged_in();
+		if( !$is_logged_in ){ return; }
+
 		$this->load->model('admin/settings_model');
 
 		$max = $this->input->post('max');
