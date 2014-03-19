@@ -43,7 +43,6 @@ class Delete_account_model extends CI_Model{
 
 	}
 
-
 	public function delete_reservations(){
 		$user = trim($this->input->post('idnumber'));
 		$query = $this->db->query("DELETE FROM reservation
