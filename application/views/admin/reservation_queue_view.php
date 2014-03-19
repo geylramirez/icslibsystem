@@ -273,14 +273,14 @@
 											if( $row['started'] == 0 ){
 												echo "<td align='center'><span class='table-text'>Not yet notifed</span></td>";
 												echo "<td align='center'><span class='table-text'> ${row['queue']}/${row['total']}</span> </td>";
-												echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' ><span class='glyphicon glyphicon-bullhorn'></button>";
-												echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled><span class='glyphicon glyphicon-download'></button>";
+												echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' ><a data-toggle='tooltip' class='tooltipLink' data-original-title='Notify user'><span class='glyphicon glyphicon-bullhorn'></span></a></button>";
+												echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim' disabled><a data-toggle='tooltip' class='tooltipLink' data-original-title='Claim'><span class='glyphicon glyphicon-download'></span></a></button>";
 												echo "</td>";
 											} else {
 												echo "<td><span class='table-text'> ${row['startdate']}</span> </td>";
 												echo "<td align='center'><span class='table-text'>${row['queue']}/${row['total']}</span> </td>";
-												echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' disabled><span class='glyphicon glyphicon-bullhorn'></button> ";
-												echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim'><span class='glyphicon glyphicon-download'></button>";
+												echo "<td align='center'><button onclick = 'notify($(this))' class='sendNotif btn btn-primary' name='notify' disabled><a data-toggle='tooltip' class='tooltipLink' data-original-title='Notify user'><span class='glyphicon glyphicon-bullhorn'></span></a></button> ";
+												echo "<button onclick = 'claim($(this))' class='sendClaim btn btn-primary' name='claim'><a data-toggle='tooltip' class='tooltipLink' data-original-title='Claim'><span class='glyphicon glyphicon-download'></span></a></button>";
 												echo "</td>";
 											}
 
