@@ -174,11 +174,20 @@ class Reservation_queue_model extends CI_Model{
 				);
 		
 		$this->db->insert('borrowedmaterial', $data);
-		$query1 = "UPDATE librarymaterial SET borrowedcount = borrowedcount+1, borrowedcopy = borrowedcopy+1, available = 0 WHERE materialid LIKE '${materialid}' AND isbn LIKE '${isbn}'";
-		$query = "DELETE from reservation where idnumber LIKE '${idnumber}' AND materialid LIKE '${materialid}' AND isbn LIKE '${isbn}'";
+		$query1 = "UPDATE librarymaterial 
+					SET borrowedcount = borrowedcount+1, borrowedcopy = borrowedcopy+1
+					WHERE materialid LIKE '${materialid}'
+						AND isbn LIKE '${isbn}'";
+		$query = "DELETE FROM reservation 
+					WHERE idnumber LIKE '${idnumber}' 
+						AND materialid LIKE '${materialid}' 
+						AND isbn LIKE '${isbn}'";
 		//echo "<script> alert(${query1}) </script>";
 		$this->db->query($query1);
 		$this->db->query($query);
+
+		$this->db->query("UPDATE librarymaterial SET available = 0 WHERE quantity-borrowedcopy = 0");
+
 	}
 
 	//Get all the author from the database
