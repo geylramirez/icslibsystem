@@ -68,7 +68,7 @@
 			
 			$message = '<html><head></head><body>';
 			$message .= '<p>Hey hey, we want to verify that you are indeed "'. $result->row()->fname .'".  If that is the case, please follow the link below: <br />';
-			$message .= '<p><a href="'. base_url() .'borrower/validate_email/'. $idnumber .'/'. $password .'">VERIFY MY ILS ACCOUNT</a></p><br />';
+			$message .= '<p><a href="'. base_url() .'index.php/borrower/validate_email/'. $idnumber .'/'. $password .'">VERIFY MY ILS ACCOUNT</a></p><br />';
 			$message .= '<p>If you are not "'. $result->row()->fname .'" or did not request for this verification, you can ignore this email.<br /></p>';
 			$message .= '</body></html>';
 			

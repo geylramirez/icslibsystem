@@ -144,7 +144,7 @@
 										//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 										if($email){
 											if(($this->session->userdata('classification') == 'F' && $row['access']!=1) || $this->session->userdata('classification') == 'S' && $row['access']!=2){
-												echo "<br />Ratings: &nbsp";
+												echo "<br />Ratings: ";
 												if(isset($row['rating'])){ 
 												if($row['rating']==1){
 												 echo "<div style = 'display:inline-block;' name='$count'>

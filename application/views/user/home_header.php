@@ -119,17 +119,17 @@
             }
             //username exists, but pword does not match
             else if(result ==2){
-              window.location.href = "<?php echo site_url('borrower/login/dnm'); ?>";
+              window.location.href = "<?php echo site_url('/borrower/login/dnm'); ?>";
             }
             //username is deactivated
             else if(result == 3){
               //  window.location.href = "<?php echo site_url('borrower/login/urlencode(" +username+ ")');?>";
 
-				      window.location.href = "<?php echo site_url('borrower/login/"+username+"'); ?>";
+				      window.location.href = "<?php echo site_url('/borrower/login/"+username+"'); ?>";
             }
             //if username and password exists
             else{
-              window.location.href = "<?php echo site_url('borrower/home'); ?>";
+              window.location.href = "<?php echo site_url('/borrower/home'); ?>";
             }
           }
           });
@@ -199,7 +199,7 @@ if(flag ==0)
     {  //code verification
       var code_input = $("#code_input").val();
         $.ajax({
-          url:"<?php echo site_url('borrower/forgot_password');?>",
+          url:"<?php echo site_url('/borrower/forgot_password');?>",
           type: "POST",
           data: {'code_input':code_input,
               'verf_code': verf_code,
