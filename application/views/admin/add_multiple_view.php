@@ -245,6 +245,10 @@
 
 						success: function( result ){
 							if( result != "0" ) {
+								$('#alert').html("");
+								$('#alert').removeClass("alert alert-danger");
+								$('#alert').append("Duplicate ISBN<br />");
+								$('#alert').addClass("alert alert-danger");
 								$('.isbn').last().attr('style', 'color : red');
 							} else {
 								$.ajax({
@@ -264,10 +268,13 @@
 
 									success: function( result ){
 										if( result != "0" ) {
+											$('#alert').html("");
+											$('#alert').removeClass("alert alert-danger");
+											$('#alert').append("Duplicate MaterialID<br />");
+											$('#alert').addClass("alert alert-danger");
 											$('.materialid').last().attr('style', 'color : red');
 										
 										} else {
-
 											str = checkISBN( arr[1], arr[5] ) +  checkMatId( arr[0], arr[5], arr[6], arr[3] ) + checkName( arr[2] ) +  checkCourse( arr[3], arr[5] ) + checkAccess( arr[4], arr[5] ) + checkType( arr[5] ) + checkYear( arr[6] ) + checkEdvol( arr[7] ) + checkRequirement( arr[8] ) + checkQuantity( arr[9] );
 											$('#alert').html("");
 											$('#alert').removeClass("alert alert-danger");
@@ -309,6 +316,10 @@
 
 						success: function( result ){
 							if( result != "0" ) {
+								$('#alert').html("");
+								$('#alert').removeClass("alert alert-danger");
+								$('#alert').append("Duplicate MaterialID<br />");
+								$('#alert').addClass("alert alert-danger");
 								$('.materialid').last().attr('style', 'color : red');
 							} else {
 								str = checkMatId( arr[0], arr[5], arr[6], arr[3] ) + checkName( arr[2] ) +  checkCourse( arr[3], arr[5] ) + checkAccess( arr[4], arr[5] ) + checkType( arr[5] ) + checkYear( arr[6] ) + checkEdvol( arr[7] ) + checkRequirement( arr[8] ) + checkQuantity( arr[9] );
@@ -339,7 +350,11 @@
 
 			function checkISBN( isbn, type ){
 				isbn = $.trim(isbn);
-				
+				if ( !checkISBNInFile(isbn) ){
+					$('.isbn').last().attr('style', 'color : red');
+					return "Duplicate ISBN,";
+				} 
+
 				if ( (type == 'Book' || type == 'References') && !( (isbn.match(/^[0-9]{10}$/)) ) ){
 					$('.isbn').last().attr('style', 'color : red')
 					return "Invalid ISBN,";
@@ -352,12 +367,7 @@
 					return "SP/Thesis/CD has no ISBN,";
 				}
 
-				if ( !checkISBNInFile(isbn) ){
-					$('.isbn').last().attr('style', 'color : red');
-					return "Duplicate ISBN,";
-				} else {
-					return "";
-				}
+				
 			}
 			
 			function checkMaterialIdInFile( materialid ){
