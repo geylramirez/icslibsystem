@@ -35,7 +35,9 @@ class Admin extends CI_Controller {
 			
 		}
 	}
-
+	/*
+	*	Function that search library material on the reseravtion table.
+	*/
 	public function search_reservations(){
 		
 		$this->load->model('admin/reservation_queue_model'); 
@@ -63,7 +65,9 @@ class Admin extends CI_Controller {
 	
     }
 
-	
+	/*
+	*	Function that diplays the inevntory report.
+	*/
 	public function print_inventory(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
@@ -183,7 +187,9 @@ class Admin extends CI_Controller {
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
 		$this->output->set_header('Pragma: no-cache');
 	}
-
+	/*
+	*	Function that check if the admin is already logged in.
+	*/
 	public function is_logged_in(){
 		$this->load->model("admin/check_admin_model");
 		$user = $this->session->userdata('user');
@@ -199,12 +205,16 @@ class Admin extends CI_Controller {
 		}
 	}
 	
-
+	/*
+	* Redirect
+	*/
 	public function index(){
 		redirect('/' );
 	}
-
-		public function borrowed_books() { 
+	/*
+	*	Function that displays all the borrowed books in the databse.
+	*/
+	public function borrowed_books() { 
 		// loads the model php file which will interact with the database
 
 		$is_logged_in = $this->is_logged_in();
@@ -249,7 +259,9 @@ class Admin extends CI_Controller {
 			$this->load->view('admin/borrowed_books_view', $array);
 		}
 	}
-
+	/*
+	*	Function that checks if the borrowed material has been returned.
+	*/
 	public function material_returned(){
 		// loads the model php file which will interact with the database
        	$this->load->model('admin/material_returned_model'); 
@@ -268,7 +280,9 @@ class Admin extends CI_Controller {
 		//$message = $this->input->post('message');
     	//$this->notification_model->notify( $materialid, $idnumber, $message );
     }
-
+	/*
+	*	Function that search a library material.
+	*/
 	public function admin_search() {
 
 		$is_logged_in = $this->is_logged_in();
@@ -317,7 +331,9 @@ class Admin extends CI_Controller {
 			}
 		}
 	}
-	
+	/*
+	*	Function that executes the update of a library material.
+	*/
 	public function update_execution(){
 		// loads the model php file which will interact with the database
        	$this->load->model('admin/admin_model'); 
@@ -419,7 +435,9 @@ class Admin extends CI_Controller {
 		//$message = $this->input->post('message');
     	//$this->notification_model->notify( $materialid, $idnumber, $message );
     }
-
+    /*
+    *	Function that execute the addition of a library material.
+    */	
     public function add_execution(){
 		// loads the model php file which will interact with the database
        	$this->load->model('admin/admin_model'); 
@@ -511,7 +529,9 @@ class Admin extends CI_Controller {
 		//$message = $this->input->post('message');
     	//$this->notification_model->notify( $materialid, $idnumber, $message );
     }
-	
+	/*
+	*	Function that shows the recently added / updated library material.
+	*/
 	public function show_recent($materialid=""){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
@@ -529,7 +549,9 @@ class Admin extends CI_Controller {
 			$this->load->view('admin/show_recent_view',$data);
 		}
 	}
-
+	/*
+	*	Function that updates a library material.
+	*/
 	public function update_material()
 	{	
 		$is_logged_in = $this->is_logged_in();
@@ -546,6 +568,9 @@ class Admin extends CI_Controller {
 		}
 			
 	}
+	/*
+	*	Function that deletes a library material.
+	*/
 	public function delete_material(){	
 		
 		$this->load->model('admin/admin_model');
@@ -574,7 +599,9 @@ class Admin extends CI_Controller {
 
 		//$this->admin_search();
 	}
-	
+	/*
+	*	Function that adds a library material.
+	*/
 	public function add_material() {
 	$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
@@ -585,7 +612,9 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/add_material_view');
 		}
 	}
-	
+	/*
+	*	Function that checks the format of the input isbn.
+	*/
 	public function isbn1_check ($str) {
 		if (preg_match('/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/',$str)) {
 			return true;
@@ -594,6 +623,9 @@ class Admin extends CI_Controller {
 			return false;
 		}
 	}
+	/*
+	*	Function that checks the format of the input isbn.
+	*/
 	public function isbn2_check ($str) {
 		if (preg_match('/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/',$str)) {
 			return true;
@@ -602,7 +634,9 @@ class Admin extends CI_Controller {
 			return false;
 		}
 	}
-
+	/*
+	*	Function that check the isbn depending upon the type of the library material.
+	*/
 	public function check_new_isbn( ){
 		$isbn = $this->input->post('isbn');
 		$type = $this->input->post('type');
@@ -627,7 +661,9 @@ class Admin extends CI_Controller {
 			else echo '2';
 		}
 	}
-
+	/*
+	*	Function that checks the input isbn depending upon the type of the library material.
+	*/
 	public function check_isbn( ){
 		$isbn = $this->input->post('isbn');
 		$type = $this->input->post('type');
@@ -653,7 +689,9 @@ class Admin extends CI_Controller {
 		if (preg_match('/^[A-Za-z0-9]+$/',$str)) return true;
 		else return false;
 	}
-
+	/*
+	*	Function that checks the input materialid.
+	*/
 	public function check_materialid(){
 		$materialid = $this->input->post('materialid');
 		$preclass = $this->input->post('preclass');
@@ -675,7 +713,9 @@ class Admin extends CI_Controller {
 			else echo '2';
 		}
 	}
-
+	/*
+	*	Function that checks the new input materialid.
+	*/
 	public function check_new_materialid(){
 		$materialid = $this->input->post('materialid');
 		$preclass = $this->input->post('preclass');
@@ -700,7 +740,9 @@ class Admin extends CI_Controller {
 			else echo '2';
 		}
 	}
-
+	/*
+	*	Function that change claim date of the reserved material.
+	*/
 	public function claim_reservation(){
 		$this->load->model('admin/reservation_queue_model');
 		$materialid = $this->input->post('materialid');
@@ -717,7 +759,9 @@ class Admin extends CI_Controller {
 		Page for admin settings
 	*/
 	
-
+	/*
+	*	Function that search a user.
+	*/
 	public function search_user(){
 		$this->load->model('admin/search_user_model');
 		if ( !$this->input->post('search') ) $search = ""; 
@@ -725,7 +769,9 @@ class Admin extends CI_Controller {
 
 		echo json_encode($this->search_user_model->get_users( $search ));
 	}
-
+	/*
+	*	Function that gets all the necessary info about the user.
+	*/
 	public function get_user(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
@@ -738,7 +784,9 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/get_user_view', $data);
 		}
 	}
-
+	/*
+	*	Function that adds multiplie library materials.
+	*/
 	public function add_multiple(){
 	$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
@@ -748,8 +796,10 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/add_multiple_view');
 	}
 	}
-
 	
+	/*
+	*	Function that inserts multiple library materials.
+	*/
 	public function insert_multiple(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -758,19 +808,25 @@ class Admin extends CI_Controller {
 		$this->insert_multiple_model->insert_to_db();	
 			
 	}
-
+	/*
+	*	Function that checks the input isbn.
+	*/
 	public function check_add_isbn( ){
 		$this->load->model('admin/check_input_model');
 		$isbn = $this->input->post('isbn');
 		echo $this->check_input_model->check_isbn($isbn);
 	}
-
+	/*
+	*	Function that checks the input materialid.
+	*/
 	public function check_add_materialid( ){
 		$this->load->model('admin/check_input_model');
 		$materialid = $this->input->post('materialid');
 		echo $this->check_input_model->check_materialid($materialid);
 	}
-
+	/*
+	*	Function that clears all the reservations.
+	*/
 	public function clear_reservation(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -779,12 +835,16 @@ class Admin extends CI_Controller {
 		$this->clear_reservation_model->clear();
 		
 	}
-
+	/*
+	*	Function that checks the password of the user.
+	*/
 	public function check_password(){
 		$this->load->model('admin/delete_account_model');
 		echo $this->delete_account_model->check_combination();
 	} 
-
+	/*
+	*	Function that deletes account of the user.
+	*/
 	public function delete_account(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -794,8 +854,9 @@ class Admin extends CI_Controller {
 		$this->delete_account_model->delete_reservations();
 	}
 
-
-
+	/*
+	*	Function that controls the setting as a whole.
+	*/
 	public function settings(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){
@@ -808,7 +869,9 @@ class Admin extends CI_Controller {
 			$this->load->view('admin/settings', $data);
 		}
 	}
-
+	/*
+	*	Function that controls the setting for fine enable.
+	*/
 	public function settings_for_enable(){	
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -817,7 +880,9 @@ class Admin extends CI_Controller {
 		$this->settings_model->set_enable();	
 	
 	}
-	
+	/*
+	*	Function that controls the setting for fine disable.
+	*/
 	public function settings_for_disable(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -826,7 +891,9 @@ class Admin extends CI_Controller {
 		$this->settings_model->set_disable();	
 	
 	}
-
+	/*
+	*	Function that controls the setting for semster range.
+	*/
 	public function settings_for_info(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -838,7 +905,9 @@ class Admin extends CI_Controller {
 
 		$this->settings_model->set_info( $start_sem_value, $end_sem_value );		
 	}
-
+	/*
+	*	Function that controls the setting for fine.
+	*/
 	public function settings_for_fine(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -850,7 +919,9 @@ class Admin extends CI_Controller {
 		$fine = filter_var($fine, FILTER_SANITIZE_NUMBER_INT);
 		$this->settings_model->set_fine( $fine );	
 	}
-	
+	/*
+	*	Function that controls the setting for password
+	*/
 	public function settings_for_password(){
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -863,7 +934,10 @@ class Admin extends CI_Controller {
 		$newpw = filter_var($newpw, FILTER_SANITIZE_STRING);
 		$this->settings_model->set_password( $newpw );		
 	}
-
+	
+	/*
+	*	Function that controls the setting for the maximum allowable reservation.
+	*/
 	public function settings_for_max(){	
 		$is_logged_in = $this->is_logged_in();
 		if( !$is_logged_in ){ return; }
@@ -877,11 +951,17 @@ class Admin extends CI_Controller {
 		$this->settings_model->set_max( $max );	
 	}
 	
+	/*
+	*	Function that checks the current tail of reservation queue.
+	*/
 	public function check_reservation(){
 		$this->load->model('admin/reservation_queue_model');
 		echo $this->reservation_queue_model->check_reservation();
 	}
-
+	
+	/*
+	*	Function that updates the reservation queue.
+	*/
 	public function update_reservations(){
 		$this->load->model('admin/reservation_queue_model');
 		$this->reservation_queue_model->update_reservations();		
