@@ -79,6 +79,7 @@
 			$('#display')
 				.append('<li><span class="str">"' + e.type + msg + '</li>')
 				.find('li:first').remove();
+				jQuery('html, body').animate({scrollTop: 0}, 100);
 		})
 
 		.tablesorterPager(pagerOptions);
